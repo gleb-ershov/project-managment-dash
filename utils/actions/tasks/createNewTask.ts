@@ -10,9 +10,12 @@ export const createNewTaskAction = async (
     userId: string,
     membersIds: string[],
     deadlineDate: Date,
+    tags: string[],
+    externalLinks: string[],
     currentState: unknown,
     formState: FormData
 ) => {
+    console.log(formState);
     const isAuthenticated = await checkAuth();
 
     if (!isAuthenticated.ok) {
@@ -35,6 +38,8 @@ export const createNewTaskAction = async (
                 deadline: deadlineDate,
                 userId,
                 projectId,
+                externalLinks,
+                tags,
             },
         });
 

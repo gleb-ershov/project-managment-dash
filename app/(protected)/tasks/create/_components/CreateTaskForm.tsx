@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { ControllerRenderProps, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -20,6 +20,9 @@ import { AddMembersInput } from '@/components/common/AddMemberInput';
 import { AddDeadlineInput } from '@/components/common/AddDeadlineInput';
 import { createNewTaskAction } from '@/utils/actions/tasks/createNewTask';
 import { SelectProjectInput } from '@/components/common/SelectProjectInput';
+import { MultipleInputsField } from '@/components/common/MultipleInputsField';
+import { TagsInput } from '@/components/ui/tags-input';
+import { ICreateTaskFormValues } from '@/utils/types';
 
 export const CreateTaskForm = () => {
     const form = useForm({
@@ -28,10 +31,16 @@ export const CreateTaskForm = () => {
             description: '',
             deadline: new Date(Date.now()),
             members: [] as string[],
+            project: '',
+            links: [] as string[],
+            tags: [] as string[],
         },
     });
 
     const [members, addMembers] = useState<string[]>([]);
+    const [externalLinks, addLinks] = useState<string[]>(['']);
+    const [tags, addTags] = useState<string[]>(['']);
+
     const [deadline, setDeadline] = useState(new Date(Date.now()));
     const [projectId, setProject] = useState('');
 
@@ -43,10 +52,20 @@ export const CreateTaskForm = () => {
             projectId,
             currentUser.id,
             members,
-            deadline
+            deadline,
+            tags,
+            externalLinks
         ),
         undefined
     );
+
+    const createTagHandler = (
+        field: ControllerRenderProps<ICreateTaskFormValues>,
+        val: string[]
+    ) => {
+        field.onChange(val);
+        addTags(val);
+    };
 
     return (
         <Form {...form}>
@@ -131,7 +150,58 @@ export const CreateTaskForm = () => {
                         </FormItem>
                     )}
                 />
-                <SelectProjectInput value={projectId} handler={setProject} />
+
+                <FormField
+                    control={form.control}
+                    name="project"
+                    render={() => (
+                        <FormItem className="flex flex-col">
+                            <FormLabel>Project</FormLabel>
+                            <SelectProjectInput
+                                value={projectId}
+                                handler={setProject}
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Tags</FormLabel>
+                            <FormControl>
+                                <TagsInput
+                                    minItems={0}
+                                    value={field.value ? field.value : []}
+                                    onValueChange={(val: string[]) =>
+                                        createTagHandler(field, val)
+                                    }
+                                    placeholder="Enter your tags"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="links"
+                    render={() => (
+                        <FormItem className="flex flex-col">
+                            <FormLabel>External Links</FormLabel>
+                            <MultipleInputsField
+                                values={externalLinks}
+                                handler={addLinks}
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <Button
                     type="submit"
                     disabled={isPending}

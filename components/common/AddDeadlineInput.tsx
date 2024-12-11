@@ -12,30 +12,16 @@ import { cn } from '@/utils/helpers/cn';
 import { ControllerRenderProps } from 'react-hook-form';
 import { FormControl } from '../ui/form';
 import { Button } from '../ui/button';
-
-interface ICreateTaskFormValues {
-    title: string;
-    description: string;
-    deadline: Date;
-    members: string[];
-}
+import { ICreateTaskFormValues } from '@/utils/types';
 
 interface IAddDeadlineInputProps {
-    formField: ControllerRenderProps<
-        {
-            title: string;
-            description: string;
-            deadline: Date;
-            members: string[];
-        },
-        'deadline'
-    >;
+    formField: ControllerRenderProps<ICreateTaskFormValues, 'deadline'>;
     value: Date;
     handler: (payload: Date) => void;
 }
 
 export const AddDeadlineInput = (props: IAddDeadlineInputProps) => {
-    const { formField: field, value, handler } = props;
+    const { formField: field, handler } = props;
 
     const setDeadlineValueHandler = (
         field: ControllerRenderProps<ICreateTaskFormValues>,
