@@ -12,8 +12,6 @@ export const getLatestOngoingTasks = async () => {
         return createError(401, 'Not Authorized', undefined, true);
     }
 
-    await new Promise((r) => setTimeout(r, 2000));
-
     const currentUser = await getCurrentUser({
         id: true,
         name: false,
@@ -42,8 +40,8 @@ export const getLatestOngoingTasks = async () => {
                     ],
                 },
                 take: 4,
-                include: {
-                    members: true,
+                orderBy: {
+                    createdAt: 'desc',
                 },
             });
 

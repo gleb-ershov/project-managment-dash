@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { LogOut, Mail, Share2 } from 'lucide-react'
-import { useCurrentUser } from '../providers/AuthProvider'
-import Image from 'next/image'
-import { logOutAction } from '@/utils/actions/auth/logOut'
+import { LogOut, Mail, Share2 } from 'lucide-react';
+import { useCurrentUser } from '../providers/AuthProvider';
+import Image from 'next/image';
+import { logOutAction } from '@/utils/actions/auth/logOut';
 
 export const CurrentUserBlock = () => {
-    const { currentUser } = useCurrentUser()
+    const { currentUser } = useCurrentUser();
     return (
         <div className="mx-auto mb-4 mt-4 w-[90%] rounded-lg bg-[#0C0A25] py-3 shadow-sm">
             <div className="mx-auto flex w-[85%] items-center gap-1.5">
@@ -15,7 +15,7 @@ export const CurrentUserBlock = () => {
                     width={34}
                     height={34}
                     src={currentUser.imageUrl}
-                    alt=""
+                    alt="profile picture"
                 />
                 <div className="flex flex-col justify-center">
                     <span className="text-[13px] text-white">
@@ -41,5 +41,5 @@ export const CurrentUserBlock = () => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};

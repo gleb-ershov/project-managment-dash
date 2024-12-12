@@ -12,8 +12,6 @@ export const getTasksByDay = async (date: Date) => {
     if (!isAuthenticated.ok) {
         return createError(401, 'Not Authorized', undefined, true);
     }
-    await new Promise((r) => setTimeout(r, 2000));
-
     const requestOptions = {
         id: true,
         name: false,

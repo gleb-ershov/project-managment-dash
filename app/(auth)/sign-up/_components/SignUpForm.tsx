@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
@@ -8,13 +8,13 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '@/components/ui/form'
+} from '@/components/ui/form';
 
-import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
-import { createNewUserAction } from '@/utils/actions/users/createNewUser'
-import { useActionState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
+import { createNewUserAction } from '@/utils/actions/users/createNewUser';
+import { useActionState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 export const SignUpForm = () => {
     const form = useForm({
@@ -25,14 +25,12 @@ export const SignUpForm = () => {
             password: '',
             repeat_password: '',
         },
-    })
+    });
 
     const [state, action, isPending] = useActionState(
         createNewUserAction.bind(null, undefined, form.getValues()),
         undefined
-    )
-
-    useEffect(() => console.log(state), [state])
+    );
 
     return (
         <Form {...form}>
@@ -122,10 +120,14 @@ export const SignUpForm = () => {
                         </FormItem>
                     )}
                 />
-                <Button disabled={isPending} type="submit">
+                <Button
+                    disabled={isPending}
+                    type="submit"
+                    className="mt-4 w-full"
+                >
                     Sign Up
                 </Button>
             </form>
         </Form>
-    )
-}
+    );
+};

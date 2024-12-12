@@ -5,7 +5,14 @@ import { createError } from '../helpers/createError';
 import { getCurrentUser } from './getCurrentUser';
 import { checkAuth } from '../actions/auth/checkAuth';
 
-export const getProjectsByUser = async () => {
+interface IGetProjectsByUserArgs {
+    searchQuery: string;
+    filterBy: string;
+    sortBy: string;
+}
+
+export const getProjectsByUser = async (args: IGetProjectsByUserArgs) => {
+    const { searchQuery, filterBy, sortBy } = args;
     const isAuthenticated = await checkAuth();
 
     if (!isAuthenticated.ok) {
@@ -24,7 +31,6 @@ export const getProjectsByUser = async () => {
     if (!currentUser.ok) {
         return createError(401, 'Please authorize', undefined, true);
     }
-    await new Promise((r) => setTimeout(r, 2000));
 
     if ('data' in currentUser) {
         const currentUserId = currentUser.data.id;
@@ -42,6 +48,11 @@ export const getProjectsByUser = async () => {
                             },
                         },
                     ],
+                    title: {
+                        contains: searchQuery,
+                    },
+                    ...(filterBy !== 'all' &&
+                        filterBy.length && { status: filterBy }),
                 },
                 include: {
                     members: {
@@ -55,7 +66,11 @@ export const getProjectsByUser = async () => {
                     },
                     createdBy: true,
                 },
+                orderBy: {
+                    createdAt: sortBy === 'newest' ? 'desc' : 'asc',
+                },
             });
+
             return {
                 ok: true,
                 status: 200,

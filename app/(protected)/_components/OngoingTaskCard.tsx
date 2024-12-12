@@ -1,14 +1,10 @@
 import { Badge } from '@/components/ui/badge';
-import { Task, User } from '@prisma/client';
+import { Task } from '@prisma/client';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
-interface IOngoingTaskCardProps extends Task {
-    members: User[];
-}
-
-export const OngoingTaskCard = (props: IOngoingTaskCardProps) => {
-    const { id, tags, description, title, members } = props;
+export const OngoingTaskCard = (props: Task) => {
+    const { id, tags, description, title } = props;
     return (
         <div className="group flex flex-col gap-2 rounded-lg border-[1px] border-[#E5E5E5] p-4 duration-300 hover:bg-[#FFA800] hover:shadow-lg hover:shadow-[#FFF1D6]">
             <div className="flex items-center gap-1">

@@ -55,6 +55,7 @@ export const getMembers = async (searchQuery: string) => {
             data: response,
         };
     } catch (error) {
-        return createError(500, 'An unexpected error occured', undefined, true);
+        return createError(500, 'An unexpected error occured', error);
+
     }
 };

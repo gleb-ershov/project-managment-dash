@@ -18,10 +18,16 @@ import { UserTeamsMembersListCardSkeleton } from './_components/UserTeamsMembers
 export default async function OverviewPage(props: {
     searchParams?: Promise<{
         date?: string;
+        project?: string;
+        filterBy?: string;
+        sortBy?: string;
     }>;
 }) {
     const searchParams = await props.searchParams;
-    const day = searchParams?.date || new Date(Date.now()).getDate();
+    const selectedDay = searchParams?.date || new Date(Date.now()).getDate();
+    const project = searchParams?.project || '';
+    const filterBy = searchParams?.filterBy || '';
+    const sortBy = searchParams?.sortBy || '';
 
     return (
         <div className="flex w-full justify-between">
@@ -37,7 +43,11 @@ export default async function OverviewPage(props: {
                 <main className="flex h-full w-full flex-col">
                     <StatsWrapper />
                     <OngoingTasksBlock />
-                    <ProjectsSection />
+                    <ProjectsSection
+                        searchQuery={project}
+                        sortBy={sortBy}
+                        filterBy={filterBy}
+                    />
                 </main>
             </div>
             <div className="ml-auto w-[22%] border-l-[1px] border-gray-200">
@@ -55,7 +65,7 @@ export default async function OverviewPage(props: {
                             </div>
                         }
                     >
-                        <TasksByDayBlock day={Number(day)} />
+                        <TasksByDayBlock day={Number(selectedDay)} />
                     </Suspense>
                 </section>
                 <Separator className="mx-auto my-4 w-[90%]" />

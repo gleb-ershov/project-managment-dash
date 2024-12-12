@@ -30,7 +30,7 @@ export const getUserRelatedTeamsCount = async () => {
             const response = await db.team.count({
                 where: {
                     users: {
-                        every: {
+                        some: {
                             id: currentUserId,
                         },
                     },

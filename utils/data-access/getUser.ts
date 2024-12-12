@@ -4,13 +4,7 @@ import { db } from '@/prisma/db';
 import { checkAuth } from '../actions/auth/checkAuth';
 import { createError } from '../helpers/createError';
 
-export const getProjects = async (searchQuery: string) => {
-    if (searchQuery === '') {
-        return {
-            data: [],
-        };
-    }
-
+export const getUser = async (userId: string) => {
     const isAuthenticated = await checkAuth();
 
     if (!isAuthenticated.ok) {
@@ -18,16 +12,16 @@ export const getProjects = async (searchQuery: string) => {
     }
 
     try {
-        const response = await db.project.findMany({
+        const response = await db.user.findMany({
             where: {
-                title: {
-                    contains: searchQuery,
-                    mode: 'insensitive',
-                },
+                id: userId,
             },
-            select: {
-                title: true,
-                id: true,
+            include: {
+                _count: {
+                    select: {
+                        teams: true,
+                    },
+                },
             },
         });
 
@@ -38,6 +32,5 @@ export const getProjects = async (searchQuery: string) => {
         };
     } catch (error) {
         return createError(500, 'An unexpected error occured', error);
-
     }
 };

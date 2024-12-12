@@ -7,3 +7,9 @@ export interface ICreateTaskFormValues {
     links: string[];
     tags: string[];
 }
+
+export interface IProjectListProps {
+    searchQuery: string;
+    filterBy: string;
+    sortBy: string;
+}

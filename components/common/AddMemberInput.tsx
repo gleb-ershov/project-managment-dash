@@ -20,11 +20,11 @@ export const AddMembersInput = (props: IAddMembersInputProps) => {
     const { searchParams, pathname, replace } = useUrlParams();
 
     const inputHandler = useDebouncedCallback(
-        (...args) => handleSearch(...args),
+        (...args) => handleSearch('members', ...args),
         300
     );
 
-    const search = searchParams.get('search');
+    const search = searchParams.get('members');
     const { data, isLoading } = useSWR(
         `/api/members?search=${search}`,
         fetcher

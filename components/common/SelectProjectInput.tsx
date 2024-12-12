@@ -26,11 +26,11 @@ export const SelectProjectInput = (props: ISelectProjectInput) => {
     const { searchParams, pathname, replace } = useUrlParams();
 
     const inputHandler = useDebouncedCallback(
-        (...args) => handleSearch(...args),
+        (...args) => handleSearch('project', ...args),
         300
     );
 
-    const search = searchParams.get('search');
+    const search = searchParams.get('project');
     const { data, isLoading } = useSWR(
         `/api/projects?search=${search}`,
         fetcher
@@ -81,7 +81,7 @@ export const SelectProjectInput = (props: ISelectProjectInput) => {
                     <SelectItem
                         value={item.value}
                         key={item.value}
-                        className="cursor-pointer duration-300 py-2"
+                        className="cursor-pointer py-2 duration-300"
                     >
                         {item.label}
                     </SelectItem>

@@ -7,29 +7,14 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useUrlParams } from '@/hooks/useUrlParams';
-import { ArrowDownUp, Check, ListX, SlidersHorizontal } from 'lucide-react';
+import { ArrowDownUp } from 'lucide-react';
 
 export const SortProjectsSelect = () => {
     const { searchParams, pathname, replace } = useUrlParams();
 
     const handleSortSelect = (newSortQuery: string) => {
         const newURLparams = new URLSearchParams(searchParams);
-        const currentSortValue = newURLparams.get('sortBy');
-
-        if (currentSortValue === newSortQuery) {
-            const currentOrder = newURLparams.get('order');
-            newURLparams.set('order', currentOrder === 'desc' ? 'asc' : 'desc');
-            replace(`${pathname}?${newURLparams.toString()}`);
-        }
-
-        if (newSortQuery === 'relevance') {
-            newURLparams.delete('sortBy');
-            replace(`${pathname}?${newURLparams.toString()}`);
-        }
-
         newURLparams.set('sortBy', newSortQuery);
-        newURLparams.set('order', 'desc');
-
         replace(`${pathname}?${newURLparams.toString()}`);
     };
 
@@ -46,18 +31,11 @@ export const SortProjectsSelect = () => {
                 />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="relevance">Relevance</SelectItem>
-                <SelectItem value="completed">
-                    <span className="flex items-center gap-2">
-                        <Check size={16} />
-                        Completed
-                    </span>
+                <SelectItem value="newest">
+                    <span className="flex items-center gap-2">Newest</span>
                 </SelectItem>
-                <SelectItem value="in progress">
-                    <span className="flex items-center gap-2">
-                        <ListX size={16} />
-                        In Progress
-                    </span>
+                <SelectItem value="latest">
+                    <span className="flex items-center gap-2">Latest</span>
                 </SelectItem>
             </SelectContent>
         </Select>

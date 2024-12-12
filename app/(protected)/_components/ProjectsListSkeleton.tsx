@@ -5,8 +5,6 @@ export const ProjectsListSkeleton = () => {
     return (
         <ProjectsListContainer>
             <ProjectCardSkeleton />
-            <ProjectCardSkeleton />
-            <ProjectCardSkeleton />
         </ProjectsListContainer>
     );
 };

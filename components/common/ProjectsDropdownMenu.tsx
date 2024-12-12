@@ -6,7 +6,6 @@ import { FolderKanban } from 'lucide-react';
 
 export const ProjectsDropdownMenu = async () => {
     const currentUserRelatedProjects = await getCurrentUserRelatedProjects();
-    console.log(currentUserRelatedProjects);
 
     if ('data' in currentUserRelatedProjects) {
         return (
@@ -16,7 +15,7 @@ export const ProjectsDropdownMenu = async () => {
                         ({ id, title }: { id: string; title: string }) => (
                             <SidebarMenuSubItem
                                 key={id}
-                                className="my-2 flex h-[32px] w-full cursor-pointer items-center gap-2 rounded-lg text-center font-normal text-black duration-300 hover:bg-[#F0F0EF] text-[15px]"
+                                className="my-2 flex h-[32px] w-full cursor-pointer items-center gap-2 rounded-lg text-center text-[15px] font-normal text-black duration-300 hover:bg-[#F0F0EF]"
                             >
                                 <span className="w-fit rounded-md bg-[#DD4A78] p-1">
                                     <FolderKanban

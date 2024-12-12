@@ -2,8 +2,20 @@ import { getProjectsByUser } from '@/utils/data-access/getProjectsByUser';
 import { ProjectsListContainer } from './ProjectsListContainer';
 import { ProjectCard } from './ProjectCard';
 
-export const ProjectsList = async () => {
-    const projectsData = await getProjectsByUser();
+interface IProjectListProps {
+    searchQuery: string;
+    filterBy: string;
+    sortBy: string;
+}
+
+export const ProjectsList = async (props: IProjectListProps) => {
+    const { searchQuery, filterBy, sortBy } = props;
+    const projectsData = await getProjectsByUser({
+        searchQuery,
+        filterBy,
+        sortBy,
+    });
+    
     if ('data' in projectsData) {
         return (
             <>
