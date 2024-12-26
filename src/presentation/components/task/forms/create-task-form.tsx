@@ -24,7 +24,7 @@ import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
 interface CreateTaskFormInitialState {
 	title: string;
 	description: string;
-	due_date: string;
+	dueDate: string;
 	members: UserViewModel[];
 	status: ProjectStatus;
 	project: ProjectViewModel;
@@ -45,11 +45,6 @@ export const CreateTaskForm = (props: CreateTaskFormProps) => {
 	const { initialState, mode = "create", onSuccess, taskId } = props;
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
-	);
-
 	const boundUpdateAction = useMemo(
 		() => updateTaskAction.bind(null, taskId || ""),
 		[taskId]
@@ -66,8 +61,12 @@ export const CreateTaskForm = (props: CreateTaskFormProps) => {
 	);
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
-
+	const BUTTON_LABEL = useMemo(
+		() => generateButtonLabel(IS_PENDING, mode),
+		[mode]
+	);
 	useEffect(() => {
+		console.log("UPDATE FORM INITIAL:", initialState);
 		const hasResult = updateState?.id || createState?.id;
 		if (hasResult) {
 			onSuccess?.();
@@ -92,7 +91,7 @@ export const CreateTaskForm = (props: CreateTaskFormProps) => {
 			/>
 			<EntityDueDateInput
 				id="create_project_form--due_date"
-				defaultValue={initialState?.due_date}
+				defaultValue={initialState?.dueDate}
 			/>
 			<MemberSearchInput
 				name="members"

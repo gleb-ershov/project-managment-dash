@@ -1,13 +1,9 @@
-// fix router back on modal
 add labels in form
 auto close form after submit
-// toaster
-update actions
 Add task in project page
 add member form
-team forms
 
-//categories form
+action to services
 
 user page
 filters on tasks and proj page

@@ -165,6 +165,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 				where: { id },
 				include: {
 					...this.defaultIncludes,
+					members: true,
 					comments: {
 						include: {
 							author: true,

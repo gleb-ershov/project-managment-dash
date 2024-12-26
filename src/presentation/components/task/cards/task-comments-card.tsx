@@ -1,6 +1,5 @@
 "use client";
 
-import { formatDistanceToNow } from "date-fns";
 import { CreateCommentForm } from "../forms/create-task-comment-form";
 import { LinkedUsersAvatarList } from "../../shared/linked-users-avatar-list";
 import { Pencil } from "lucide-react";

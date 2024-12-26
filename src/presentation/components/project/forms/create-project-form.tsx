@@ -21,7 +21,7 @@ interface CreateProjectFormInitialState {
 	title: string;
 	description: string;
 	status: ProjectStatus;
-	due_date: string;
+	dueDate: string;
 	members: UserViewModel[];
 	categories: ProjectCategoryViewModel[];
 }
@@ -90,7 +90,7 @@ export const CreateProjectForm = (props: CreateProjectFormProps) => {
 			/>
 			<EntityDueDateInput
 				id="create_project_form--due_date"
-				defaultValue={initialState?.due_date}
+				defaultValue={initialState?.dueDate}
 			/>
 			<MemberSearchInput
 				name="members"

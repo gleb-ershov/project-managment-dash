@@ -3,7 +3,7 @@
 import { memo, useCallback, useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { format, isValid, parseISO } from "date-fns";
+import { format, isValid, parse, parseISO } from "date-fns";
 import { cn } from "@/src/presentation/utils/shared/cn";
 
 interface EntityDueDateInputProps {
@@ -51,15 +51,8 @@ export const EntityDueDateInput = memo(
 		const formattedMinDate = formatDate(minDate);
 		const formattedMaxDate = maxDate ? formatDate(maxDate) : undefined;
 		const [inputValue, setValue] = useState<string>(
-			defaultValue ? formatDate(defaultValue) : ""
+			format(parse(defaultValue, "PPP", new Date()), "yyyy-MM-dd")
 		);
-
-		// Update input value when defaultValue changes
-		useEffect(() => {
-			if (defaultValue) {
-				setValue(formatDate(defaultValue));
-			}
-		}, [defaultValue]);
 
 		const handleChange = useCallback(
 			(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -18,13 +18,13 @@ interface CreateCategoryInitialState {
 
 interface CreateCategoryFormProps {
 	initialState?: CreateCategoryInitialState;
-	teamId?: string;
+	categoryId?: string;
 	mode?: "create" | "update";
 	onSuccess?: () => void;
 }
 
 export const CreateCategoryForm = (props: CreateCategoryFormProps) => {
-	const { initialState, mode = "create", onSuccess, teamId } = props;
+	const { initialState, mode = "create", onSuccess, categoryId } = props;
 
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 	const BUTTON_LABEL = useMemo(
@@ -32,8 +32,8 @@ export const CreateCategoryForm = (props: CreateCategoryFormProps) => {
 		[mode]
 	);
 	const boundUpdateAction = useMemo(
-		() => updateProjectCategoryAction.bind(null, teamId || ""),
-		[teamId]
+		() => updateProjectCategoryAction.bind(null, categoryId || ""),
+		[categoryId]
 	);
 
 	const [createState, createAction, isCreatePending] = useActionState(

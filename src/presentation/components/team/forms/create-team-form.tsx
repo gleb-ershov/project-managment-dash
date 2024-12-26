@@ -22,13 +22,13 @@ interface CreateTeamFormProps {
 	initialState?: Partial<CreateTeamFormInitialState>;
 	mode?: "create" | "update";
 	onSuccess?: () => void;
-	projectId?: string;
+	teamId?: string;
 	actionId?: string;
 }
 
 export const CreateTeamForm = (props: CreateTeamFormProps) => {
 	const { user } = useAuth();
-	const { initialState, mode = "create", onSuccess, projectId } = props;
+	const { initialState, mode = "create", onSuccess, teamId } = props;
 
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
@@ -37,7 +37,7 @@ export const CreateTeamForm = (props: CreateTeamFormProps) => {
 		[mode]
 	);
 
-	const boundUpdateAction = useMemo(() => updateTeamAction, [projectId]);
+	const boundUpdateAction = useMemo(() => updateTeamAction, [teamId]);
 
 	const [createState, createAction, isCreatePending] = useActionState(
 		createTeamAction.bind(null, user?.id || ""),

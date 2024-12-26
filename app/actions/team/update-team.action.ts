@@ -8,8 +8,7 @@ export const updateTeamAction = async (
 	formData: FormData
 ) => {
 	try {
-		// FIX CREATE
-
+		//TODO
 		const useCase = Container.getInstance().resolve("UpdateTeamUseCase");
 
 		const payload = {

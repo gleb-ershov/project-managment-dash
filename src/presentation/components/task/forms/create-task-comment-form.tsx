@@ -5,32 +5,30 @@ import { useActionState, useEffect, useMemo } from "react";
 import { createTaskCommentAction } from "@/app/actions/task-comment/create-task-comment.action";
 import { updateTaskCommentAction } from "@/app/actions/task-comment/update-task-comment.action";
 import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
-import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
 import { toast } from "sonner";
 
 interface CreateTaskFormProps {
 	commentId?: string;
 	taskId: string;
 	initialContent?: string;
+	onSubmit?: () => void;
 	onCancel?: () => void;
 	mode?: "create" | "update";
+	submitLabel?: string;
 }
 
-export const CreateTaskForm = (props: CreateTaskFormProps) => {
+export const CreateCommentForm = (props: CreateTaskFormProps) => {
 	const { user } = useAuth();
 	const {
 		initialContent,
 		mode = "create",
 		taskId,
 		commentId,
+		onSubmit,
 		onCancel,
+		submitLabel,
 	} = props;
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
-
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
-	);
 
 	const boundUpdateAction = useMemo(
 		() =>
@@ -74,8 +72,13 @@ export const CreateTaskForm = (props: CreateTaskFormProps) => {
 				className="min-h-[50px] flex-1"
 			/>
 			<div className="flex flex-col gap-2 self-end">
-				<Button type="submit" disabled={IS_PENDING} size="sm">
-					{BUTTON_LABEL}
+				<Button
+					type="submit"
+					disabled={IS_PENDING}
+					size="sm"
+					onClick={onSubmit}
+				>
+					{submitLabel}
 				</Button>
 				{onCancel && (
 					<Button
