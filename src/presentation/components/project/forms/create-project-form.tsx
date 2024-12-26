@@ -26,13 +26,10 @@ export const CreateProjectForm = ({
 	initialState,
 	mode = "create",
 }: {
-	initialState: Partial<CreateProjectFormInitialState>;
+	initialState?: Partial<CreateProjectFormInitialState>;
 	mode?: string;
 }) => {
 	const { user } = useAuth();
-	const { title, description, status, due_date, members, categories } =
-		initialState;
-
 	const [formState, action, isPending] = useActionState(
 		createProjectAction.bind(null, {
 			userId: user?.id || "",
@@ -46,25 +43,28 @@ export const CreateProjectForm = ({
 		<form className="space-y-4" action={action}>
 			<EntityTitleInput
 				id="create_project_form--title"
-				defaultValue={title}
+				defaultValue={initialState?.title}
 			/>
 			<EntityDescriptionInput
 				id="create_project_form--description"
 				required={false}
-				defaultValue={description}
+				defaultValue={initialState?.description}
 			/>
 			<ProjectStatusSelect
 				id="create_project_form--status"
-				defaultValue={status}
+				defaultValue={initialState?.status}
 			/>
 			<EntityDueDateInput
 				id="create_project_form--due_date"
-				defaultValue={due_date}
+				defaultValue={initialState?.due_date}
 			/>
-			<MemberSearchInput name="members" defaultMembers={members} />
+			<MemberSearchInput
+				name="members"
+				defaultMembers={initialState?.members}
+			/>
 			<ProjectCategorySearchInput
 				name="categories"
-				defaultCategories={categories}
+				defaultCategories={initialState?.categories}
 			/>
 			<Button type="submit" disabled={isPending}>
 				{isPending
