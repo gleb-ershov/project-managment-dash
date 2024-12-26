@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum UserPlan {
+  FREE
+  PRO
+}
+
+enum ProjectStatus {
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TODO
+  ONGOING
+  COMPLETED
+  BLOCKED
+}
+
+model User {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  surname     String
+  description String?  @db.Text
+  email       String   @unique
+  password    String   @db.VarChar(60)
+  imageUrl    String   @db.Text
+  plan        UserPlan @default(FREE)
+
+  deletedAt DateTime?
+
+  // Team relations
+  teamMembers TeamMember[]
+
+  // Task relations
+  tasks   Task[] @relation("taskCreatedBy")
+  inTasks Task[] @relation("taskMembers")
+
+  // Project relations
+  projects   Project[] @relation("projectCreatedBy")
+  inProjects Project[] @relation("projectMembers")
+
+  // Comments
+  taskComments TaskComment[]
+}
+
+model Team {
+  id          String       @id @default(cuid())
+  name        String
+  description String?      @db.Text
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     TeamMember[]
+}
+
+model TeamMember {
+  id       String   @id @default(cuid())
+  team     Team     @relation(fields: [teamId], references: [id])
+  teamId   String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  role     UserRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+model ProjectCategory {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  projects Project[]
+}
+
+model Project {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  createdBy User   @relation(name: "projectCreatedBy", fields: [userId], references: [id])
+  userId    String
+
+  members    User[]            @relation(name: "projectMembers")
+  categories ProjectCategory[]
+
+  status      ProjectStatus @default(IN_PROGRESS)
+  dueDate     DateTime      @db.Date
+  title       String        @db.VarChar(255)
+  description String?       @db.Text
+  tasks       Task[]
+
+  @@index([userId])
+}
+
+model Task {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  createdBy User   @relation("taskCreatedBy", fields: [userId], references: [id])
+  userId    String
+
+  members User[] @relation("taskMembers")
+
+  priority      TaskPriority @default(NORMAL)
+  status        TaskStatus   @default(TODO)
+  dueDate       DateTime     @db.Date
+  title         String       @db.VarChar(255)
+  externalLinks String[]     @default([])
+  tags          String[]     @default([])
+  description   String?      @db.Text
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+
+  // Task dependencies
+  dependencies Task[] @relation("TaskDependencies")
+  dependentOn  Task[] @relation("TaskDependencies")
+
+  // Comments
+  comments TaskComment[]
+
+  @@index([projectId])
+  @@index([userId])
+  @@index([title])
+}
+
+model TaskComment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@index([taskId])
+  @@index([authorId])
+}
