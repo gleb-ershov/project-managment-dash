@@ -6,22 +6,18 @@ import {
 import { memo, useCallback, useEffect, useState } from "react";
 import { Badge } from "../../ui/badge";
 import { useSearchCategories } from "@/src/presentation/hooks/project-categories/use-search-categories";
-
-interface ProjectCategory {
-	id: string;
-	name: string;
-}
+import { ProjectCategoryViewModel } from "@/src/application/view-models/project-category.view-model";
 
 interface ProjectCategorySearchInputProps {
 	name?: string;
 	onCategoriesChange?: (categoriesIds: string[]) => void;
-	fallbackData?: ProjectCategory[];
-	defaultCategories?: ProjectCategory[];
+	fallbackData?: ProjectCategoryViewModel[];
+	defaultCategories?: ProjectCategoryViewModel[];
 	disabled?: boolean;
 	className?: string;
 }
 
-type SearchableCategory = ProjectCategory & BaseItem;
+type SearchableCategory = ProjectCategoryViewModel & BaseItem;
 
 export const ProjectCategorySearchInput = memo(
 	({
@@ -34,7 +30,7 @@ export const ProjectCategorySearchInput = memo(
 	}: ProjectCategorySearchInputProps) => {
 		const [searchQuery, setSearchQuery] = useState("");
 		const [selectedCategories, setSelectedCategories] =
-			useState<ProjectCategory[]>(defaultCategories);
+			useState<ProjectCategoryViewModel[]>(defaultCategories);
 
 		const { categories, isLoading, error } = useSearchCategories(
 			searchQuery,
@@ -43,10 +39,8 @@ export const ProjectCategorySearchInput = memo(
 			}
 		);
 
-
-
 		const handleCategorySelect = useCallback(
-			(category: ProjectCategory) => {
+			(category: ProjectCategoryViewModel) => {
 				setSelectedCategories((prev) => {
 					const updated = [...prev, category];
 					onCategoriesChange?.(updated.map((c) => c.id));

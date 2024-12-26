@@ -10,9 +10,28 @@ import { ProjectCategorySearchInput } from "../form-elements/project-category-se
 import { createProjectAction } from "@/app/actions/project/create-project-action";
 import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
 import { Button } from "../../ui/button";
+import { ProjectStatus } from "@prisma/client";
+import { ProjectCategoryViewModel } from "@/src/application/view-models/project-category.view-model";
+import { UserViewModel } from "@/src/application/view-models/user.view-model";
+interface CreateProjectFormInitialState {
+	title: string;
+	description: string;
+	status: ProjectStatus;
+	due_date: string;
+	members: UserViewModel[];
+	categories: ProjectCategoryViewModel[];
+}
 
-export const CreateProjectForm = () => {
+export const CreateProjectForm = ({
+	initialState,
+	mode = "create",
+}: {
+	initialState: Partial<CreateProjectFormInitialState>;
+	mode?: string;
+}) => {
 	const { user } = useAuth();
+	const { title, description, status, due_date, members, categories } =
+		initialState;
 
 	const [formState, action, isPending] = useActionState(
 		createProjectAction.bind(null, {
@@ -21,19 +40,36 @@ export const CreateProjectForm = () => {
 		undefined
 	);
 
+	const buttonLabel = mode === "create" ? "Create" : "Update";
+
 	return (
 		<form className="space-y-4" action={action}>
-			<EntityTitleInput id="create_project_form--title" />
+			<EntityTitleInput
+				id="create_project_form--title"
+				defaultValue={title}
+			/>
 			<EntityDescriptionInput
 				id="create_project_form--description"
 				required={false}
+				defaultValue={description}
 			/>
-			<ProjectStatusSelect id="create_project_form--status" />
-			<EntityDueDateInput id="create_project_form--due_date" />
-			<MemberSearchInput name="members" />
-			<ProjectCategorySearchInput name="categories" />
+			<ProjectStatusSelect
+				id="create_project_form--status"
+				defaultValue={status}
+			/>
+			<EntityDueDateInput
+				id="create_project_form--due_date"
+				defaultValue={due_date}
+			/>
+			<MemberSearchInput name="members" defaultMembers={members} />
+			<ProjectCategorySearchInput
+				name="categories"
+				defaultCategories={categories}
+			/>
 			<Button type="submit" disabled={isPending}>
-				{isPending ? "Creating..." : "Create"}
+				{isPending
+					? `${buttonLabel.slice(0, buttonLabel.length - 1)}ing...`
+					: buttonLabel}
 			</Button>
 		</form>
 	);

@@ -13,7 +13,7 @@ export const useSearchCategories = (
 	const categoriesFetcher = createFetcher<ProjectCategory>();
 
 	const { data, error, isLoading } = useSWR<ProjectCategory[], Error, Key>(
-		`/api/project-categories${query ? `?search=${query}` : ""}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/project-categories${query ? `?search=${query}` : ""}`,
 		(url: string) => categoriesFetcher(url, { entityKey: "categories" }),
 		{
 			revalidateOnFocus: false,

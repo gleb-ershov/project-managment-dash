@@ -14,7 +14,7 @@ export const useSearchProjects = (
 	const projectFetcher = createFetcher<ProjectViewModel>();
 
 	const { data, error, isLoading } = useSWR<ProjectViewModel[], Error, Key>(
-		`/api/projects${query ? `?search=${query}&userId=${userId}` : ""}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects${query ? `?search=${query}&userId=${userId}` : ""}`,
 		(url: string) => projectFetcher(url, { entityKey: "projects" }),
 		{
 			fallbackData: options?.fallbackData,

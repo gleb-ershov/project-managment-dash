@@ -7,8 +7,8 @@ import { getCurrentUser } from "../user/get-current-user";
 export const getUserTasksGroupedByDate = async (): Promise<
 	TaskViewModelGroupWithLabel[]
 > => {
+	const currentUser = await getCurrentUser();
 	try {
-		const currentUser = await getCurrentUser();
 		if (!currentUser) {
 			throw new UnauthorizedError("Current user not found");
 		}

@@ -107,14 +107,3 @@ export const SearchButton = memo(
 );
 
 SearchButton.displayName = "SearchButton";
-
-if (typeof window !== "undefined") {
-	window.addEventListener("keydown", (e) => {
-		if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-			e.preventDefault();
-			document
-				.querySelector<HTMLButtonElement>('[aria-label="Search"]')
-				?.click();
-		}
-	});
-}

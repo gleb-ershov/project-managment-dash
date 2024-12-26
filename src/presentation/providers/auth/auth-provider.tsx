@@ -20,10 +20,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const checkAuth = async () => {
 		try {
 			// Call API endpoint to verify auth status
-			const response = await fetch("/api/users/current", {
-				method: "GET",
-				credentials: "include", // Important for cookies
-			});
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/current`,
+				{
+					method: "GET",
+					credentials: "include", // Important for cookies
+				}
+			);
 
 			if (!response.ok) {
 				throw new Error("Not authenticated");
@@ -45,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const logout = async () => {
 		try {
 			// Call logout API endpoint to clear cookies
-			await fetch("/api/auth/logout", {
+			await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`, {
 				method: "POST",
 				credentials: "include",
 			});
@@ -58,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const refreshTokens = async () => {
 		try {
-			const response = await fetch("/api/auth/refresh", {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`, {
 				method: "POST",
 				credentials: "include",
 			});
