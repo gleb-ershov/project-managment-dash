@@ -9,18 +9,27 @@ interface RouteModalProps {
 	title?: string;
 	description?: string;
 	className?: string;
+	redirectPath?: string;
 }
 
-export const Modal = ({ children, title, className }: RouteModalProps) => {
+export const Modal = ({
+	children,
+	title,
+	className,
+	redirectPath,
+}: RouteModalProps) => {
 	const router = useRouter();
 
+	const onModalClose = () => {
+		if (redirectPath) {
+			router.push(redirectPath);
+		} else {
+			router.back();
+		}
+	};
+
 	return (
-		<Dialog
-			open
-			onOpenChange={() => {
-				router.back();
-			}}
-		>
+		<Dialog open onOpenChange={() => onModalClose()}>
 			<DialogContent className={className}>
 				<DialogHeader className="flex items-center justify-between">
 					{title && (

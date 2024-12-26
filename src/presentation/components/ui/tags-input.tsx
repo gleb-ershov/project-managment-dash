@@ -20,7 +20,7 @@ const FORMATTING_REGEX = /^[^a-zA-Z0-9]*|[^a-zA-Z0-9]*$/g;
 interface TagsInputProps extends React.HTMLAttributes<HTMLDivElement> {
 	name?: string;
 	value: string[];
-	onValueChange: (value: string[]) => void;
+	onValueChange?: (value: string[]) => void;
 	placeholder?: string;
 	maxItems?: number;
 	minItems?: number;
@@ -28,7 +28,7 @@ interface TagsInputProps extends React.HTMLAttributes<HTMLDivElement> {
 
 interface TagsInputContextProps {
 	value: string[];
-	onValueChange: (value: any) => void;
+	onValueChange?: (value: any) => void;
 	inputValue: string;
 	setInputValue: React.Dispatch<React.SetStateAction<string>>;
 	activeIndex: number;
@@ -65,7 +65,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 		const onValueChangeHandler = React.useCallback(
 			(val: string) => {
 				if (!value.includes(val) && value.length < parseMaxItems) {
-					onValueChange([...value, val]);
+					onValueChange?.([...value, val]);
 				}
 			},
 			[value]
@@ -74,7 +74,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 		const RemoveValue = React.useCallback(
 			(val: string) => {
 				if (value.includes(val) && value.length > parseMinItems) {
-					onValueChange(value.filter((item) => item !== val));
+					onValueChange?.(value.filter((item) => item !== val));
 				}
 			},
 			[value]
@@ -99,7 +99,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 						newValue.push(parsedItem);
 					}
 				});
-				onValueChange(newValue);
+				onValueChange?.(newValue);
 				setInputValue("");
 			},
 			[value]

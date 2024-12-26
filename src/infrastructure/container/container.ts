@@ -45,6 +45,7 @@ import { FindTaskByIdUseCase } from "@/src/application/use-cases/task/find-task-
 import { TaskCommentService } from "@/src/application/services/task-comment.service";
 import { TaskService } from "@/src/application/services/task.service";
 import { ProjectCategoryService } from "@/src/application/services/project-category.service";
+import { UpdateTaskUseCase } from "@/src/application/use-cases/task/update-task.use-case";
 
 type Dependencies = {
 	UserRepository: IUserRepository;
@@ -86,11 +87,14 @@ type Dependencies = {
 	CreateTeamWithMembersUseCase: CreateTeamWithMembersUseCase;
 	GetUserTeamsCountUseCase: GetUserTeamsCountUseCase;
 	GetUserTeamsUseCase: GetUserTeamsUseCase;
+	// FIX CREATE
+	UpdateTeamUseCase: UpdateTeamUseCase;
 
 	GetUserLatestTasksUseCase: GetUserLatestTasksUseCase;
 	CreateTaskUseCase: CreateTaskUseCase;
 	FindTaskByIdUseCase: FindTaskByIdUseCase;
 	GetUserTasksGroupedByDateUseCase: GetUserTasksGroupedByDateUseCase;
+	UpdateTaskUseCase: UpdateTaskUseCase;
 };
 
 export class Container {
@@ -274,6 +278,9 @@ export class Container {
 			"GetUserTasksGroupedByDateUseCase",
 			getUserTasksGroupedByDateUseCase
 		);
+
+		const updateTaskUseCase = new UpdateTaskUseCase(taskRepository);
+		this.dependencies.set("UpdateTaskUseCase", updateTaskUseCase);
 
 		// TaskComment
 		const createTaskCommentUseCase = new CreateTaskCommentUseCase(

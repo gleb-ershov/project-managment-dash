@@ -61,10 +61,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const refreshTokens = async () => {
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`, {
-				method: "POST",
-				credentials: "include",
-			});
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/refresh`,
+				{
+					method: "POST",
+					credentials: "include",
+				}
+			);
 
 			if (!response.ok) throw new Error("Refresh failed");
 

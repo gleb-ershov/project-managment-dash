@@ -1,21 +1,17 @@
 "use server";
 
 import { ProjectMapper } from "@/src/application/mappers/project.mapper";
+import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
-interface CreateProjectActionArgs {
-	userId: string;
-}
-
 export const createProjectAction = async (
-	args: CreateProjectActionArgs,
+	userId: string,
 	currentState: unknown,
 	formState: FormData
 ): Promise<ProjectViewModel> => {
-	const { userId } = args;
+	const currentUser = await getCurrentUser();
 
 	const useCase = Container.getInstance().resolve("CreateProjectUseCase");
 

@@ -1,25 +1,20 @@
 "use server";
 
 import { TaskViewModel } from "@/src/application/view-models/task.view-model";
-import { TaskMapper } from "./../../../src/application/mappers/task.mapper";
+import { TaskMapper } from "../../../src/application/mappers/task.mapper";
 
 import { Container } from "@/src/infrastructure/container/container";
 import { parseExternalLinks } from "@/src/presentation/utils/shared/parse-external-links";
 import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
-interface CreateTaskActionArgs {
-	userId: string;
-}
+import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 
 export const createTaskAction = async (
-	args: CreateTaskActionArgs,
+	userId: string,
 	currentState: unknown,
 	formData: FormData
 ): Promise<TaskViewModel> => {
-	const { userId } = args;
-
 	try {
 		const useCase = Container.getInstance().resolve("CreateTaskUseCase");
 

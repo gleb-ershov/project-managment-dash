@@ -20,8 +20,12 @@ export const updateTaskCommentAction = async (
 		);
 		const { commentId, userId, taskId } = args;
 		const content = formData.get("content") as string;
-		await useCase.execute(commentId, { content, id: taskId }, userId);
+		const comment = await useCase.execute(
+			commentId,
+			{ content, id: taskId },
+			userId
+		);
 		revalidatePath(`/tasks/${taskId}`);
-		return { success: true, status: 200 };
+		return comment;
 	} catch (error) {}
 };

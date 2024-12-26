@@ -1,46 +1,72 @@
 import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
 import { Button } from "../../ui/button";
 import { Textarea } from "../../ui/textarea";
-import { useActionState } from "react";
-import { createTaskCommentAction } from "@/app/actions/task-comment/create-task-comment";
-import { updateTaskCommentAction } from "@/app/actions/task-comment/update-task-comment";
+import { useActionState, useEffect, useMemo } from "react";
+import { createTaskCommentAction } from "@/app/actions/task-comment/create-task-comment.action";
+import { updateTaskCommentAction } from "@/app/actions/task-comment/update-task-comment.action";
+import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
+import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
+import { toast } from "sonner";
 
-interface CreateCommentFormProps {
+interface CreateTaskFormProps {
 	commentId?: string;
 	taskId: string;
 	initialContent?: string;
 	onCancel?: () => void;
-	submitLabel?: string;
-	onSubmit?: () => void;
+	mode?: "create" | "update";
 }
 
-export const CreateCommentForm = ({
-	commentId,
-	taskId,
-	initialContent = "",
-	onCancel,
-	submitLabel = "Send",
-	onSubmit
-}: CreateCommentFormProps) => {
+export const CreateTaskForm = (props: CreateTaskFormProps) => {
 	const { user } = useAuth();
-
-	const update = updateTaskCommentAction.bind(null, {
-		commentId: commentId || "",
+	const {
+		initialContent,
+		mode = "create",
 		taskId,
-		userId: String(user?.id),
-	});
+		commentId,
+		onCancel,
+	} = props;
+	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
-	const create = createTaskCommentAction.bind(null, taskId, String(user?.id));
-	const [createActionState, createAction, createActionPending] =
-		useActionState(create, undefined);
-	const [updateActionState, updateAction, updateActionPending] =
-		useActionState(update, undefined);
+	const BUTTON_LABEL = useMemo(
+		() => generateButtonLabel(IS_PENDING, mode),
+		[mode]
+	);
+
+	const boundUpdateAction = useMemo(
+		() =>
+			updateTaskCommentAction.bind(null, {
+				commentId: commentId || "",
+				userId: user?.id || "",
+				taskId: taskId || "",
+			}),
+		[taskId]
+	);
+
+	const [createState, createAction, isCreatePending] = useActionState(
+		createTaskCommentAction.bind(null, taskId, user?.id || ""),
+		undefined
+	);
+
+	const [updateState, updateAction, isUpdatePending] = useActionState(
+		boundUpdateAction,
+		undefined
+	);
+
+	const IS_PENDING = isCreatePending || isUpdatePending;
+
+	useEffect(() => {
+		const hasResult = updateState?.id || createState?.id;
+		if (hasResult) {
+			toast.success(
+				`Comment was successfully ${
+					IS_UPDATE_FORM ? "updated" : "created"
+				}!`
+			);
+		}
+	}, [updateState?.id, createState?.id, IS_UPDATE_FORM]);
 
 	return (
-		<form
-			action={commentId ? updateAction : createAction}
-			className="flex gap-2"
-		>
+		<form action={IS_UPDATE_FORM ? updateAction : createAction}>
 			<Textarea
 				name="content"
 				defaultValue={initialContent}
@@ -48,13 +74,8 @@ export const CreateCommentForm = ({
 				className="min-h-[50px] flex-1"
 			/>
 			<div className="flex flex-col gap-2 self-end">
-				<Button
-					type="submit"
-					disabled={createActionPending || updateActionPending}
-					onClick={onSubmit}
-					size="sm"
-				>
-					{submitLabel}
+				<Button type="submit" disabled={IS_PENDING} size="sm">
+					{BUTTON_LABEL}
 				</Button>
 				{onCancel && (
 					<Button

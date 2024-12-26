@@ -13,6 +13,7 @@ interface UrlInputProps {
 	disabled?: boolean;
 	className?: string;
 	maxLinks?: number;
+	defaultValue?: string;
 }
 
 export const UrlInput = ({
@@ -22,9 +23,10 @@ export const UrlInput = ({
 	disabled = false,
 	className,
 	maxLinks = 10,
+	defaultValue,
 }: UrlInputProps) => {
 	const [isPending, startTransition] = useTransition();
-	const [newLinks, setNewLinks] = useState("");
+	const [newLinks, setNewLinks] = useState(defaultValue);
 	const [error, setError] = useState<string | null>(null);
 
 	const validateUrl = (url: string) => {

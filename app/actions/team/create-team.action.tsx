@@ -4,16 +4,11 @@ import { Container } from "@/src/infrastructure/container/container";
 import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
 import { revalidatePath } from "next/cache";
 
-interface CreateTeamActionArgs {
-	userId: string;
-}
-
 export const createTeamAction = async (
-	args: CreateTeamActionArgs,
+	userId: string,
 	currentState: unknown,
 	formData: FormData
 ) => {
-	const { userId } = args;
 	try {
 		const useCase = Container.getInstance().resolve(
 			"CreateTeamWithMembersUseCase"

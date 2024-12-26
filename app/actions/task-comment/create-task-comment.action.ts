@@ -14,8 +14,8 @@ export const createTaskCommentAction = async (
 			"CreateTaskCommentUseCase"
 		);
 		const content = formState.get("content") as string;
-		await useCase.execute({ content, taskId }, userId);
+		const comment = await useCase.execute({ content, taskId }, userId);
 		revalidatePath(`/tasks/${taskId}`);
-		return { success: true, status: 200 };
+		return comment;
 	} catch (error) {}
 };
