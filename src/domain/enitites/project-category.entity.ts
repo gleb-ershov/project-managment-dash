@@ -30,7 +30,6 @@ export class ProjectCategoryEntity {
 		name: string;
 		projects?: ProjectEntity[];
 	}): ProjectCategoryEntity {
-		props.projects || [];
 		return new ProjectCategoryEntity(props.id, props.name);
 	}
 }
