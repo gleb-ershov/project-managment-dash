@@ -10,9 +10,7 @@ export const createTeamAction = async (
 	formData: FormData
 ) => {
 	try {
-		const useCase = Container.getInstance().resolve(
-			"CreateTeamWithMembersUseCase"
-		);
+		const teamService = Container.getInstance().resolve("TeamService");
 
 		const members = parseMultipleValues(formData.get("members") as string);
 
@@ -22,7 +20,7 @@ export const createTeamAction = async (
 			members,
 		};
 
-		const team = await useCase.execute(payload, userId);
+		const team = await teamService.createTeamWithMembers(payload, userId);
 		revalidatePath("/");
 
 		return team;

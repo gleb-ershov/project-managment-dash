@@ -46,6 +46,7 @@ import { TaskCommentService } from "@/src/application/services/task-comment.serv
 import { TaskService } from "@/src/application/services/task.service";
 import { ProjectCategoryService } from "@/src/application/services/project-category.service";
 import { UpdateTaskUseCase } from "@/src/application/use-cases/task/update-task.use-case";
+import { UpdateTeamUseCase } from "@/src/application/use-cases/team/update-team.use-case";
 
 type Dependencies = {
 	UserRepository: IUserRepository;
@@ -87,7 +88,6 @@ type Dependencies = {
 	CreateTeamWithMembersUseCase: CreateTeamWithMembersUseCase;
 	GetUserTeamsCountUseCase: GetUserTeamsCountUseCase;
 	GetUserTeamsUseCase: GetUserTeamsUseCase;
-	//TODO
 	UpdateTeamUseCase: UpdateTeamUseCase;
 
 	GetUserLatestTasksUseCase: GetUserLatestTasksUseCase;
@@ -323,6 +323,13 @@ export class Container {
 			createTeamWithMembersUseCase
 		);
 
+		const updateTeamUseCase = new UpdateTeamUseCase(
+			prisma,
+			teamRepository,
+			teamMemberRepository
+		);
+		this.dependencies.set("UpdateTeamUseCase", getUserTeamsUseCase);
+
 		const getUserTeams = new GetUserTeamsUseCase(teamRepository);
 		this.dependencies.set("GetUserTeamsUseCase", getUserTeams);
 
@@ -358,7 +365,9 @@ export class Container {
 
 		const teamService = new TeamService(
 			getUserTeamsCountUseCase,
-			getUserTeamsUseCase
+			getUserTeamsUseCase,
+			createTeamWithMembersUseCase,
+			updateTeamUseCase
 		);
 		this.dependencies.set("TeamService", teamService);
 

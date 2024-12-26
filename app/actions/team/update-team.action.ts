@@ -4,19 +4,19 @@ import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
 
 export const updateTeamAction = async (
+	teamId: string,
 	currentState: unknown,
 	formData: FormData
 ) => {
 	try {
-		//TODO
-		const useCase = Container.getInstance().resolve("UpdateTeamUseCase");
+		const teamService = Container.getInstance().resolve("TeamService");
 
 		const payload = {
 			name: formData.get("name") as string,
 			description: formData.get("description") as string,
 		};
 
-		const team = await useCase.execute(payload);
+		const team = await teamService.updateTeam(payload, teamId);
 		revalidatePath("/");
 
 		return team;
