@@ -10,6 +10,7 @@ import { FindTaskByIdUseCase } from "../use-cases/task/find-task-by-id.use-case"
 import { CreateTaskUseCase } from "../use-cases/task/create-task.use-case";
 import { CreateTaskDTO, UpdateTaskDTO } from "../dtos/task.dto";
 import { UpdateTaskUseCase } from "../use-cases/task/update-task.use-case";
+import { DeleteTaskUseCase } from "../use-cases/task/delete-task.use-case";
 
 export interface TaskViewModelGroupWithLabel {
 	label: string;
@@ -20,7 +21,6 @@ export class TaskService {
 	constructor(
 		private readonly createTaskUseCase: CreateTaskUseCase,
 		private readonly updateTaskUseCase: UpdateTaskUseCase,
-		// TODO
 		private readonly deleteTaskUseCase: DeleteTaskUseCase,
 		private readonly findTaskByIdUseCase: FindTaskByIdUseCase,
 		private readonly getUserLatestTasksUseCase: GetUserLatestTasksUseCase,

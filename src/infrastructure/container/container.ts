@@ -30,7 +30,7 @@ import { PrismaTeamRepository } from "../repositories/prisma.team.repository";
 import { TeamService } from "@/src/application/services/team.service";
 import { PrismaTaskRepository } from "../repositories/prisma.task.repository";
 import { GetUserLatestTasksUseCase } from "@/src/application/use-cases/task/get-user-latest-tasks.use-case";
-import { FindProjectCategoriesByQueryUseCase } from "@/src/application/use-cases/project-category/find-project-category.use-case";
+import { FindProjectCategoriesByQueryUseCase } from "@/src/application/use-cases/project-category/find-project-category-by-query.use-case";
 import { FindProjectsByQueryAndUserUseCase } from "@/src/application/use-cases/project/find-projects-by-query-and-user.use-case";
 import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members";
 import { PrismaTeamMemberRepository } from "../repositories/prisma.team-member.repository";
@@ -51,6 +51,8 @@ import { DeleteTaskUseCase } from "@/src/application/use-cases/task/delete-task.
 import { DeleteTaskCommentUseCase } from "@/src/application/use-cases/task-comment/delete-task-comment.use-case";
 import { DeleteTeamUseCase } from "@/src/application/use-cases/team/delete-team.use-case";
 import { AuthService } from "@/src/application/services/auth.service";
+import { FindTeamByIdUseCase } from "@/src/application/use-cases/team/find-team-by-id.use-case";
+import { FindProjectCategoryByIdUseCase } from "@/src/application/use-cases/project-category/find-project-category-by-id.use-case";
 
 type Dependencies = {
 	UserRepository: IUserRepository;
@@ -235,6 +237,13 @@ export class Container {
 			findProjectsByQueryUseCase
 		);
 
+		const findProjectCategoryByIdUseCase =
+			new FindProjectCategoryByIdUseCase(projectCategoryRepository);
+		this.dependencies.set(
+			"FindProjectCategoryByIdUseCase",
+			findProjectCategoryByIdUseCase
+		);
+
 		// ProjectCategory
 		const createProjectCategoryUseCase = new CreateProjectCategoryUseCase(
 			projectCategoryRepository
@@ -343,6 +352,9 @@ export class Container {
 			createTeamWithMembersUseCase
 		);
 
+		const findTeamByIdUseCase = new FindTeamByIdUseCase(teamRepository);
+		this.dependencies.set("FindTeamByIdUseCase", teamRepository);
+
 		const updateTeamUseCase = new UpdateTeamUseCase(
 			prisma,
 			teamRepository,
@@ -389,13 +401,15 @@ export class Container {
 			createProjectCategoryUseCase,
 			updateProjectCategoryUseCase,
 			deleteProjectCategoryUseCase,
-			findProjectCategoryByQueryUseCase
+			findProjectCategoryByQueryUseCase,
+			findProjectCategoryByIdUseCase
 		);
 		this.dependencies.set("ProjectCategoryService", projectCategoryService);
 
 		const teamService = new TeamService(
 			getUserTeamsCountUseCase,
 			getUserTeamsUseCase,
+			findTeamByIdUseCase,
 			createTeamWithMembersUseCase,
 			updateTeamUseCase,
 			deleteTeamUseCase

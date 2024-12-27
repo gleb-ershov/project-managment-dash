@@ -1,8 +1,6 @@
-import { getProjectById } from "@/src/application/queries/project/get-project-by-id";
+import { getProjectCategoryById } from "@/src/application/queries/project-categories/get-project-category-by-id";
 import { CreateCategoryForm } from "@/src/presentation/components/categories/forms/create-category-form";
-import { CreateProjectForm } from "@/src/presentation/components/project/forms/create-project-form";
 import { Modal } from "@/src/presentation/components/shared/modal";
-import { ProjectStatus } from "@prisma/client";
 import { notFound } from "next/navigation";
 
 export default async function EditProjectPage({
@@ -11,7 +9,6 @@ export default async function EditProjectPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	//TODO
 	const currentCategory = await getProjectCategoryById(id);
 
 	if (!currentCategory) {

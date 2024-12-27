@@ -7,15 +7,26 @@ import {
 } from "../dtos/project-category.dto";
 import { ProjectCategoryViewModel } from "../view-models/project-category.view-model";
 import { ProjectCategoryMapper } from "../mappers/project-category.mapper";
-import { FindProjectCategoriesByQueryUseCase } from "../use-cases/project-category/find-project-category.use-case";
+import { FindProjectCategoriesByQueryUseCase } from "../use-cases/project-category/find-project-category-by-query.use-case";
+import { FindProjectCategoryByIdUseCase } from "../use-cases/project-category/find-project-category-by-id.use-case";
 
 export class ProjectCategoryService {
 	constructor(
 		private readonly createProjectCategoryUseCase: CreateProjectCategoryUseCase,
 		private readonly updateProjectCategoryUseCase: UpdateProjectCategoryUseCase,
 		private readonly deleteProjectUseCase: DeleteProjectCategoryUseCase,
-		private readonly findCategoriesByQueryUseCase: FindProjectCategoriesByQueryUseCase
+		private readonly findCategoriesByQueryUseCase: FindProjectCategoriesByQueryUseCase,
+		private readonly findCategoryByIdUseCase: FindProjectCategoryByIdUseCase
 	) {}
+
+	async findCategoryById(
+		id: string
+	): Promise<ProjectCategoryViewModel | null> {
+		const projectCategory = await this.findCategoryByIdUseCase.execute(id);
+		return projectCategory
+			? ProjectCategoryMapper.toViewModel(projectCategory)
+			: null;
+	}
 
 	async findCategoriesByQuery(
 		query: string

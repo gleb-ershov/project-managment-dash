@@ -6,15 +6,22 @@ import { GetUserTeamsUseCase } from "../use-cases/team/get-user-teams-with-membe
 import { TeamViewModel } from "../view-models/team.view-model";
 import { CreateTeamDTO } from "../dtos/team.dto";
 import { DeleteTeamUseCase } from "../use-cases/team/delete-team.use-case";
+import { FindTeamByIdUseCase } from "../use-cases/team/find-team-by-id.use-case";
 
 export class TeamService {
 	constructor(
 		private readonly getUserTeamsCountUseCase: GetUserTeamsCountUseCase,
 		private readonly getUserTeamsUseCase: GetUserTeamsUseCase,
+		private readonly findTeamByIdUseCase: FindTeamByIdUseCase,
 		private readonly createTeamWithMembersUseCase: CreateTeamWithMembersUseCase,
 		private readonly updateTeamUseCase: UpdateTeamUseCase,
 		private readonly deleteTeamUseCase: DeleteTeamUseCase
 	) {}
+
+	async findTeamById(teamId: string): Promise<TeamViewModel | null> {
+		const team = await this.findTeamByIdUseCase.execute(teamId);
+		return team ? TeamMapper.toViewModel(team) : null;
+	}
 
 	async deleteTeam(teamId: string): Promise<void> {
 		await this.deleteTeamUseCase.execute(teamId);

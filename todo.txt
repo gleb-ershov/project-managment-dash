@@ -3,7 +3,7 @@ auto close form after submit
 Add task in project page
 add member form
 
-action to services
+api to services
 
 user page
 filters on tasks and proj page
