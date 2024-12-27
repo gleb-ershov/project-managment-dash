@@ -9,11 +9,11 @@ export default async function ProjectsPage(props: {
 		sortBy?: string;
 	}>;
 }) {
-	const searchParams = await props.searchParams;
-	const projectFilters = {
-		projectName: searchParams?.projectName || "",
-		filterBy: searchParams?.filterBy || "",
-		sortBy: searchParams?.sortBy || "",
+	const SEARCH_PARAMS = await props.searchParams;
+	const PROJECT_FILTERS = {
+		projectName: SEARCH_PARAMS?.projectName || "",
+		filterBy: SEARCH_PARAMS?.filterBy || "",
+		sortBy: SEARCH_PARAMS?.sortBy || "",
 	};
 
 	return (
@@ -34,7 +34,7 @@ export default async function ProjectsPage(props: {
 						label="Create new project"
 					/>
 				</header>
-				<ProjectsList {...projectFilters} />
+				<ProjectsList {...PROJECT_FILTERS} />
 			</div>
 		</div>
 	);

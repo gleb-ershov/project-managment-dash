@@ -18,14 +18,14 @@ export default async function OverviewPage(props: {
 		sortBy?: string;
 	}>;
 }) {
-	const searchParams = await props.searchParams;
-	const projectFilters = {
-		projectName: searchParams?.projectName || "",
-		filterBy: searchParams?.filterBy || "",
-		sortBy: searchParams?.sortBy || "",
+	const SEARCH_PARAMS = await props.searchParams;
+	const PROJECT_FILTERS = {
+		projectName: SEARCH_PARAMS?.projectName || "",
+		filterBy: SEARCH_PARAMS?.filterBy || "",
+		sortBy: SEARCH_PARAMS?.sortBy || "",
 	};
 
-	const tasks = await getUserLatestTasks();
+	const TASKS = await getUserLatestTasks();
 
 	return (
 		<div className="flex w-full justify-between dark:bg-[#212125]">
@@ -41,13 +41,13 @@ export default async function OverviewPage(props: {
 				<main className="flex h-full w-full flex-col gap-4">
 					<StatsWrapper />
 					<OngoingTasksWrapper />
-					<OverviewPageProjectsListWrapper {...projectFilters} />
+					<OverviewPageProjectsListWrapper {...PROJECT_FILTERS} />
 				</main>
 			</div>
 			<div className="ml-auto w-[22%] border-l-[1px] border-[#eeeeeeee] dark:border-[#555556a8]">
 				<section className="mx-auto mt-6 flex w-[90%] flex-col gap-4">
 					<h5 className="text-gray-700">Tasks by day</h5>
-					<TasksByDay tasks={tasks} />
+					<TasksByDay tasks={TASKS} />
 				</section>
 				<section className="mx-auto mt-6 flex w-[90%] flex-col gap-4">
 					<div className="flex items-center justify-between">

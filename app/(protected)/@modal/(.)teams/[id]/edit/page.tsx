@@ -9,9 +9,9 @@ export default async function EditTeamPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const currentTeam = await findTeamById(id);
+	const CURRENT_TEAM = await findTeamById(id);
 
-	if (!currentTeam) {
+	if (!CURRENT_TEAM) {
 		notFound();
 	}
 	return (
@@ -19,7 +19,7 @@ export default async function EditTeamPage({
 			<CreateTeamForm
 				mode="update"
 				teamId={id}
-				initialState={currentTeam}
+				initialState={CURRENT_TEAM}
 			/>
 		</Modal>
 	);

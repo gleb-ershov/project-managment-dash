@@ -12,10 +12,10 @@ export default async function TaskPage({
 }: {
 	params: Promise<{ id: string }>;
 }) {
-	const idParams = await params;
-	const task = await getTaskById(idParams.id);
-	console.log("PAGE", task);
-	if (!task) {
+	const TASK_ID = (await params).id;
+	const TASK = await getTaskById(TASK_ID);
+
+	if (!TASK) {
 		notFound();
 	}
 
@@ -35,7 +35,7 @@ export default async function TaskPage({
 						</p>
 					</div>
 				</div>
-				<Link href={`/tasks/${idParams.id}/edit`}>
+				<Link href={`/tasks/${TASK_ID}/edit`}>
 					<Button variant="outline" className="gap-2">
 						<Pencil className="h-4 w-4" />
 						Edit Task
@@ -47,12 +47,12 @@ export default async function TaskPage({
 
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
 				<div className="lg:col-span-2">
-					<TaskCard {...task} />
+					<TaskCard {...TASK} />
 				</div>
-				{task.comments ? (
+				{TASK.comments ? (
 					<TaskCommentsCard
-						taskId={idParams.id}
-						comments={task.comments}
+						taskId={TASK_ID}
+						comments={TASK.comments}
 					/>
 				) : null}
 			</div>

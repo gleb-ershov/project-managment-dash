@@ -10,25 +10,29 @@ export const createProjectAction = async (
 	formState: FormData
 ): Promise<ProjectViewModel> => {
 	try {
-		const projectService =
+		const PROJECT_SERVICE =
 			Container.getInstance().resolve("ProjectService");
 
-		const dueDate = new Date(formState.get("dueDate") as string);
-		const categoriesIds = formState.get("categories") as string;
-		const membersIds = formState.get("members") as string;
+		const DUE_DATE_FIELD_VALUE = new Date(
+			formState.get("dueDate") as string
+		);
+		const CATEGORIES_ID_VALUES = formState.get("categories") as string;
+		const MEMBERS_ID_VALUES = formState.get("members") as string;
 
-		const project = await projectService.createProject({
+		const NEW_PROJECT = await PROJECT_SERVICE.createProject({
 			title: formState.get("title") as string,
 			description: formState.get("description") as string,
 			status: formState.get("status") as ProjectStatus,
-			dueDate,
+			dueDate: DUE_DATE_FIELD_VALUE,
 			userId,
-			memberIds: membersIds ? membersIds.split(",") : [],
-			categoriesIds: categoriesIds ? categoriesIds.split(",") : [],
+			memberIds: MEMBERS_ID_VALUES ? MEMBERS_ID_VALUES.split(",") : [],
+			categoriesIds: CATEGORIES_ID_VALUES
+				? CATEGORIES_ID_VALUES.split(",")
+				: [],
 		});
 
 		revalidatePath("/");
-		return project;
+		return NEW_PROJECT;
 	} catch (error) {
 		throw new Error("Failed to create project");
 	}

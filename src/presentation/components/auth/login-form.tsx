@@ -4,6 +4,10 @@ import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/app/actions/auth/login.action";
 import { setAuthCookies } from "@/src/infrastructure/utils/cookies";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import Link from "next/link";
 
 export const LoginForm = () => {
 	const router = useRouter();
@@ -38,15 +42,14 @@ export const LoginForm = () => {
 		undefined
 	);
 
-
 	return (
-		<form className="mt-8 space-y-6" action={submitAction}>
+		<form className="mt-8 space-y-6 w-[90%] mx-auto" action={submitAction}>
 			<div className="rounded-md shadow-sm space-y-4">
 				<div>
-					<label htmlFor="email" className="sr-only">
+					<Label htmlFor="email" className="sr-only">
 						Email address
-					</label>
-					<input
+					</Label>
+					<Input
 						id="email"
 						name="email"
 						type="email"
@@ -58,10 +61,10 @@ export const LoginForm = () => {
 				</div>
 
 				<div>
-					<label htmlFor="password" className="sr-only">
+					<Label htmlFor="password" className="sr-only">
 						Password
-					</label>
-					<input
+					</Label>
+					<Input
 						id="password"
 						name="password"
 						type="password"
@@ -78,41 +81,14 @@ export const LoginForm = () => {
 					{state.error}
 				</div>
 			)}
-
-			<div className="flex items-center justify-between">
-				<div className="flex items-center">
-					<input
-						id="remember-me"
-						name="remember-me"
-						type="checkbox"
-						className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-					/>
-					<label
-						htmlFor="remember-me"
-						className="ml-2 block text-sm text-gray-900"
-					>
-						Remember me
-					</label>
-				</div>
-
-				<div className="text-sm">
-					<a
-						href="#"
-						className="font-medium text-indigo-600 hover:text-indigo-500"
-					>
-						Forgot your password?
-					</a>
-				</div>
-			</div>
-
 			<div>
-				<button
+				<Button
 					type="submit"
 					disabled={isPending}
 					className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
 						isPending
-							? "bg-indigo-400 cursor-not-allowed"
-							: "bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							? "cursor-not-allowed"
+							: "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					}`}
 				>
 					{isPending ? (
@@ -142,7 +118,16 @@ export const LoginForm = () => {
 					) : (
 						"Sign in"
 					)}
-				</button>
+				</Button>
+
+				<div className="">
+					<Link
+						href="/sign-up"
+						className="text-sm text-center text-indigo-600 hover:text-indigo-500"
+					>
+						Don&apos;t have an account? Sign up
+					</Link>
+				</div>
 			</div>
 		</form>
 	);

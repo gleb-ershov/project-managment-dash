@@ -11,20 +11,22 @@ export const updateProjectAction = async (
 	formState: FormData
 ): Promise<ProjectViewModel> => {
 	try {
-		const projectService =
+		const PROJECT_SERVICE =
 			Container.getInstance().resolve("ProjectService");
 
-		const dueDate = new Date(formState.get("dueDate") as string);
+		const DUE_DATE_FIELD_VALUE = new Date(
+			formState.get("dueDate") as string
+		);
 
-		const project = await projectService.updateProject(projectId, {
+		const UPDATED_PROJECT = await PROJECT_SERVICE.updateProject(projectId, {
 			title: formState.get("title") as string,
 			description: formState.get("description") as string,
 			status: formState.get("status") as ProjectStatus,
-			dueDate,
+			dueDate: DUE_DATE_FIELD_VALUE,
 		});
 
 		revalidatePath("/");
-		return project;
+		return UPDATED_PROJECT;
 	} catch (error) {
 		throw new Error("Failed to update project");
 	}

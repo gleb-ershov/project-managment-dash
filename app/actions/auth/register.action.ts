@@ -15,13 +15,12 @@ interface RegisterActionArgs {
 
 export const register = async (data: RegisterActionArgs) => {
 	try {
-		const validatedData = registerSchema.parse(data);
-		const authService =
-			Container.getInstance().resolve("AuthService");
-		const result = await authService.register(validatedData);
+		const VALIDATED_DATA = registerSchema.parse(data);
+		const AUTH_SERVICE = Container.getInstance().resolve("AuthService");
+		const ACTION_RESULT = await AUTH_SERVICE.register(VALIDATED_DATA);
 
 		return {
-			data: result,
+			data: ACTION_RESULT,
 			error: null,
 		};
 	} catch (error) {

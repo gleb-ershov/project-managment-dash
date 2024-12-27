@@ -4,6 +4,8 @@ import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "@/app/actions/auth/register.action";
 import Link from "next/link";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export const SignUpForm = () => {
 	const router = useRouter();
@@ -46,14 +48,14 @@ export const SignUpForm = () => {
 	);
 
 	return (
-		<form className="mt-8 space-y-6" action={submitAction}>
+		<form className="mt-8 space-y-6 w-[90%] mx-auto" action={submitAction}>
 			<div className="rounded-md shadow-sm space-y-4">
 				<div className="flex gap-4">
 					<div>
-						<label htmlFor="firstName" className="sr-only">
+						<Label htmlFor="firstName" className="sr-only">
 							First Name
-						</label>
-						<input
+						</Label>
+						<Input
 							id="firstName"
 							name="firstName"
 							type="text"
@@ -63,10 +65,10 @@ export const SignUpForm = () => {
 						/>
 					</div>
 					<div>
-						<label htmlFor="lastName" className="sr-only">
+						<Label htmlFor="lastName" className="sr-only">
 							Last Name
-						</label>
-						<input
+						</Label>
+						<Input
 							id="lastName"
 							name="lastName"
 							type="text"
@@ -78,10 +80,10 @@ export const SignUpForm = () => {
 				</div>
 
 				<div>
-					<label htmlFor="email" className="sr-only">
+					<Label htmlFor="email" className="sr-only">
 						Email address
-					</label>
-					<input
+					</Label>
+					<Input
 						id="email"
 						name="email"
 						type="email"
@@ -93,10 +95,10 @@ export const SignUpForm = () => {
 				</div>
 
 				<div>
-					<label htmlFor="password" className="sr-only">
+					<Label htmlFor="password" className="sr-only">
 						Password
-					</label>
-					<input
+					</Label>
+					<Input
 						id="password"
 						name="password"
 						type="password"
@@ -107,10 +109,10 @@ export const SignUpForm = () => {
 				</div>
 
 				<div>
-					<label htmlFor="confirmPassword" className="sr-only">
+					<Label htmlFor="confirmPassword" className="sr-only">
 						Confirm Password
-					</label>
-					<input
+					</Label>
+					<Input
 						id="confirmPassword"
 						name="confirmPassword"
 						type="password"
@@ -133,8 +135,8 @@ export const SignUpForm = () => {
 					disabled={isPending}
 					className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
 						isPending
-							? "bg-indigo-400 cursor-not-allowed"
-							: "bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							? "cursor-not-allowed"
+							: "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					}`}
 				>
 					{isPending ? (

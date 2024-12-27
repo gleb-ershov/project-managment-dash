@@ -15,33 +15,35 @@ export const updateTaskAction = async (
 	formData: FormData
 ): Promise<TaskViewModel> => {
 	try {
-		const taskService = Container.getInstance().resolve("TaskService");
+		const TASK_SERVICE = Container.getInstance().resolve("TaskService");
 
 		// Get form data
-		const title = formData.get("title") as string;
-		const description = formData.get("description") as string;
-		const status = formData.get("status") as TaskStatus;
-		const dueDate = formData.get("dueDate") as string;
-		const priority = formData.get("priority") as TaskPriority;
+		const TITLE_FIELD_VALUE = formData.get("title") as string;
+		const DESCRIPTION_FIELD_VALUE = formData.get("description") as string;
+		const STATUS_FIELD_VALUE = formData.get("status") as TaskStatus;
+		const DUE_DATE_FIELD_VALUE = formData.get("dueDate") as string;
+		const PRIORITY_FIELD_VALUE = formData.get("priority") as TaskPriority;
 
 		// Parse arrays
-		const tags = parseMultipleValues(formData.get("tags") as string);
-		const externalLinks = parseExternalLinks(
+		const TAGS_FIELD_VALUE = parseMultipleValues(
+			formData.get("tags") as string
+		);
+		const EXTERNAL_LINKS_FIELD_VALUE = parseExternalLinks(
 			formData.get("externalLinks") as string
 		);
 
-		const task = await taskService.updateTask(taskId, {
-			title,
-			status,
-			description,
-			dueDate: new Date(dueDate),
-			externalLinks,
-			priority,
-			tags,
+		const UPDATED_TASK = await TASK_SERVICE.updateTask(taskId, {
+			title: TITLE_FIELD_VALUE,
+			status: STATUS_FIELD_VALUE,
+			description: DESCRIPTION_FIELD_VALUE,
+			dueDate: new Date(DUE_DATE_FIELD_VALUE),
+			externalLinks: EXTERNAL_LINKS_FIELD_VALUE,
+			priority: PRIORITY_FIELD_VALUE,
+			tags: TAGS_FIELD_VALUE,
 		});
 
 		revalidatePath("/");
-		return task;
+		return UPDATED_TASK;
 	} catch (error) {
 		console.error("Error creating task:", error);
 		throw error;

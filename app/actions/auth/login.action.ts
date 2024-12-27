@@ -7,12 +7,12 @@ import { loginSchema } from "@/src/application/dtos/auth.dto";
 
 export const login = async (data: { email: string; password: string }) => {
 	try {
-		const validatedData = loginSchema.parse(data);
-		const authService = Container.getInstance().resolve("AuthService");
-		const result = await authService.login(validatedData);
+		const VALIDATED_DATA = loginSchema.parse(data);
+		const AUTH_SERVICE = Container.getInstance().resolve("AuthService");
+		const ACTION_RESULT = await AUTH_SERVICE.login(VALIDATED_DATA);
 
 		return {
-			data: result,
+			data: ACTION_RESULT,
 			error: null,
 		};
 	} catch (error) {

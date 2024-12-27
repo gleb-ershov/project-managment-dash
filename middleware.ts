@@ -3,16 +3,16 @@ import type { NextRequest } from "next/server";
 import { JWTService } from "@/src/infrastructure/services/jwt.service";
 
 // Define public routes that don't require authentication
-const authRoutes = ["/login", "/sign-up"];
+const AUTH_ROUTES = ["/login", "/sign-up"];
 // Define routes that should skip middleware (like api routes, static files)
-const skipMiddlewareRoutes = ["/api/auth", "/_next", "/favicon.ico"];
+const SKIP_MIDDLEWARE_ROUTES = ["/api/auth", "/_next", "/favicon.ico"];
 const DEFAULT_REDIRECT_ROUTE = "/";
 
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
 	// Skip middleware for specific routes
-	if (skipMiddlewareRoutes.some((route) => pathname.startsWith(route))) {
+	if (SKIP_MIDDLEWARE_ROUTES.some((route) => pathname.startsWith(route))) {
 		return NextResponse.next();
 	}
 
@@ -21,13 +21,13 @@ export async function middleware(request: NextRequest) {
 
 	try {
 		// Get tokens from cookies
-		const accessToken = request.cookies.get("accessToken")?.value;
-		const refreshToken = request.cookies.get("refreshToken")?.value;
+		const ACCESS_TOKEN = request.cookies.get("ACCESS_TOKEN")?.value;
+		const REFRESH_TOKEN = request.cookies.get("REFRESH_TOKEN")?.value;
 
-		const isAuthRoute = authRoutes.includes(pathname);
+		const IS_AUTH_ROUTE = AUTH_ROUTES.includes(pathname);
 		// If no tokens exist, redirect to login
-		if (!accessToken && !refreshToken) {
-			if (isAuthRoute) {
+		if (!ACCESS_TOKEN && !REFRESH_TOKEN) {
+			if (IS_AUTH_ROUTE) {
 				return NextResponse.next();
 			}
 			return redirectToLogin(request);
@@ -35,14 +35,14 @@ export async function middleware(request: NextRequest) {
 
 		// Try to validate access token first
 		// let isAuthenticated = false;
-		if (accessToken) {
+		if (ACCESS_TOKEN) {
 			try {
-				await JWTService.verifyAccessToken(accessToken);
+				await JWTService.verifyAccessToken(ACCESS_TOKEN);
 				// isAuthenticated = true;
 
 				// If user is authenticated and trying to access auth routes,
 				// redirect to default page
-				if (isAuthRoute) {
+				if (IS_AUTH_ROUTE) {
 					return NextResponse.redirect(
 						new URL(DEFAULT_REDIRECT_ROUTE, request.url)
 					);
@@ -56,8 +56,8 @@ export async function middleware(request: NextRequest) {
 
 		// At this point, either no access token or it's invalid
 		// Try to use refresh token
-		if (!refreshToken) {
-			if (isAuthRoute) {
+		if (!REFRESH_TOKEN) {
+			if (IS_AUTH_ROUTE) {
 				return NextResponse.next();
 			}
 			return redirectToLogin(request);
@@ -65,8 +65,8 @@ export async function middleware(request: NextRequest) {
 
 		try {
 			// Validate refresh token
-			const refreshPayload = await JWTService.verifyRefreshToken(
-				refreshToken
+			const REFRESH_PAYLOAD = await JWTService.verifyRefreshToken(
+				REFRESH_TOKEN
 			);
 
 			// Generate new token pair
@@ -74,26 +74,26 @@ export async function middleware(request: NextRequest) {
 				accessToken: newAccessToken,
 				refreshToken: newRefreshToken,
 			} = await JWTService.generateTokenPair({
-				userId: refreshPayload.userId,
-				email: refreshPayload.email,
+				userId: REFRESH_PAYLOAD.userId,
+				email: REFRESH_PAYLOAD.email,
 			});
 
 			// Create response with new tokens
-			response = isAuthRoute
+			response = IS_AUTH_ROUTE
 				? NextResponse.redirect(
 						new URL(DEFAULT_REDIRECT_ROUTE, request.url)
 				  )
 				: NextResponse.next();
 
 			// Set new tokens in cookies
-			response.cookies.set("accessToken", newAccessToken, {
+			response.cookies.set("ACCESS_TOKEN", newAccessToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "lax",
 				path: "/",
 			});
 
-			response.cookies.set("refreshToken", newRefreshToken, {
+			response.cookies.set("REFRESH_TOKEN", newRefreshToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "lax",
@@ -104,7 +104,7 @@ export async function middleware(request: NextRequest) {
 		} catch (error) {
 			// Refresh token is invalid
 			console.error("Refresh token validation failed:", error);
-			if (authRoutes.includes(pathname)) {
+			if (AUTH_ROUTES.includes(pathname)) {
 				return NextResponse.next();
 			}
 			return clearTokensAndRedirect(request);
@@ -112,7 +112,7 @@ export async function middleware(request: NextRequest) {
 	} catch (error) {
 		// Handle any unexpected errors
 		console.error("Middleware error:", error);
-		if (authRoutes.includes(pathname)) {
+		if (AUTH_ROUTES.includes(pathname)) {
 			return NextResponse.next();
 		}
 		return clearTokensAndRedirect(request);
@@ -121,18 +121,18 @@ export async function middleware(request: NextRequest) {
 
 // Helper function to redirect to login
 function redirectToLogin(request: NextRequest): NextResponse {
-	const loginUrl = new URL("/login", request.url);
+	const LOGIN_URL = new URL("/login", request.url);
 	// Store the original URL to redirect back after login
-	loginUrl.searchParams.set("callbackUrl", request.url);
-	return NextResponse.redirect(loginUrl);
+	LOGIN_URL.searchParams.set("callbackUrl", request.url);
+	return NextResponse.redirect(LOGIN_URL);
 }
 
 // Helper function to clear tokens and redirect
 function clearTokensAndRedirect(request: NextRequest): NextResponse {
-	const response = redirectToLogin(request);
-	response.cookies.delete("accessToken");
-	response.cookies.delete("refreshToken");
-	return response;
+	const RESPONSE = redirectToLogin(request);
+	RESPONSE.cookies.delete("ACCESS_TOKEN");
+	RESPONSE.cookies.delete("REFRESH_TOKEN");
+	return RESPONSE;
 }
 
 // Configure middleware to run on all routes except those specified

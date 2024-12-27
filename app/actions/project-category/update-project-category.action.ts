@@ -8,15 +8,15 @@ export const updateProjectCategoryAction = async (
 	formState: FormData
 ): Promise<ProjectCategoryViewModel> => {
 	try {
-		const name = formState.get("name") as string;
-		const projectCategoryService = Container.getInstance().resolve(
+		const PROJECT_CATEGORY_NAME_VALUE = formState.get("name") as string;
+		const PROJECT_CATEGORY_SERVICE = Container.getInstance().resolve(
 			"ProjectCategoryService"
 		);
-		const projectCategory =
-			await projectCategoryService.updateProjectCategory(categoryId, {
-				name,
+		const UPDATED_PROJECT_CATEGORY =
+			await PROJECT_CATEGORY_SERVICE.updateProjectCategory(categoryId, {
+				name: PROJECT_CATEGORY_NAME_VALUE,
 			});
-		return projectCategory;
+		return UPDATED_PROJECT_CATEGORY;
 	} catch (error) {
 		throw Error;
 	}

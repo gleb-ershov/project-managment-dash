@@ -17,18 +17,18 @@ export default async function ProjectPage({
 }: {
 	params: Promise<{ id: string }>;
 }) {
-	const projectId = (await params).id;
-	const user = await getCurrentUser();
-	const project = await getProjectById(projectId);
+	const PROJECT_ID = (await params).id;
+	const USER = await getCurrentUser();
+	const PROJECT = await getProjectById(PROJECT_ID);
 
-	if (!project) {
+	if (!PROJECT) {
 		notFound();
 	}
 
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="max-w-6xl mx-auto space-y-8">
-				<ProjectHeader project={project} currentUserId={user?.id} />
+				<ProjectHeader project={PROJECT} currentUserId={USER?.id} />
 
 				<Tabs defaultValue="overview" className="w-full">
 					<TabsList>
@@ -38,17 +38,17 @@ export default async function ProjectPage({
 					</TabsList>
 
 					<TabsContent value="overview" className="mt-6">
-						<ProjectOverview {...project} />
+						<ProjectOverview {...PROJECT} />
 					</TabsContent>
 
 					<TabsContent value="tasks" className="mt-6">
-						<ProjectTasks project={project} />
+						<ProjectTasks project={PROJECT} />
 					</TabsContent>
 
 					<TabsContent value="members" className="mt-6">
 						<ProjectMembers
-							project={project}
-							currentUserId={user?.id}
+							project={PROJECT}
+							currentUserId={USER?.id}
 						/>
 					</TabsContent>
 				</Tabs>

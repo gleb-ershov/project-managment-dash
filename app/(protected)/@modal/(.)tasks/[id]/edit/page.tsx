@@ -10,15 +10,15 @@ export default async function EditTaskPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const currentTask = await getTaskById(id);
+	const CURRENT_TAKS = await getTaskById(id);
 
-	if (!currentTask) {
+	if (!CURRENT_TAKS) {
 		notFound();
 	}
 
-	const updateFormInitialState = {
-		...currentTask,
-		status: currentTask.status as ProjectStatus,
+	const UPDATE_FORM_INITIAL_STATE = {
+		...CURRENT_TAKS,
+		status: CURRENT_TAKS.status as ProjectStatus,
 	};
 
 	return (
@@ -26,7 +26,7 @@ export default async function EditTaskPage({
 			<CreateTaskForm
 				mode="update"
 				taskId={id}
-				initialState={updateFormInitialState}
+				initialState={UPDATE_FORM_INITIAL_STATE}
 			/>
 		</Modal>
 	);

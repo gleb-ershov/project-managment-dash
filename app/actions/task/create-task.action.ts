@@ -15,40 +15,42 @@ export const createTaskAction = async (
 	formData: FormData
 ): Promise<TaskViewModel> => {
 	try {
-		const taskService = Container.getInstance().resolve("TaskService");
+		const TASK_SERVICE = Container.getInstance().resolve("TaskService");
 
 		// Get form data
-		const title = formData.get("title") as string;
-		const description = formData.get("description") as string;
-		const status = formData.get("status") as TaskStatus;
-		const dueDate = formData.get("dueDate") as string;
-		const priority = formData.get("priority") as TaskPriority;
-		const projectId = formData.get("projectId") as string;
+		const TITLE_FIELD_VALUE = formData.get("title") as string;
+		const DESCRIPTION_FIELD_VALUE = formData.get("description") as string;
+		const STATUS_FIELD_VALUE = formData.get("status") as TaskStatus;
+		const DUE_DATE_FIELD_VALUE = formData.get("dueDate") as string;
+		const PRIORITY_FIELD_VALUE = formData.get("priority") as TaskPriority;
+		const PROJECT_ID = formData.get("projectId") as string;
 
 		// Parse arrays
-		const memberIds = parseMultipleValues(
+		const MEMBERS_ID_VALUES = parseMultipleValues(
 			formData.get("members") as string
 		);
-		const tags = parseMultipleValues(formData.get("tags") as string);
-		const externalLinks = parseExternalLinks(
+		const TAGS_FIELD_VALUE = parseMultipleValues(
+			formData.get("tags") as string
+		);
+		const EXTERNAL_LINKS_FIELD_VALUE = parseExternalLinks(
 			formData.get("externalLinks") as string
 		);
 
-		const task = await taskService.createTask({
-			title,
-			description,
-			status,
-			dueDate: new Date(dueDate),
+		const CREATED_TASK = await TASK_SERVICE.createTask({
+			title: TITLE_FIELD_VALUE,
+			description: DESCRIPTION_FIELD_VALUE,
+			status: STATUS_FIELD_VALUE,
+			dueDate: new Date(DUE_DATE_FIELD_VALUE),
 			userId,
-			memberIds,
-			externalLinks,
-			priority,
-			projectId,
-			tags,
+			memberIds: MEMBERS_ID_VALUES,
+			externalLinks: EXTERNAL_LINKS_FIELD_VALUE,
+			priority: PRIORITY_FIELD_VALUE,
+			projectId: PROJECT_ID,
+			tags: TAGS_FIELD_VALUE,
 		});
 
 		revalidatePath("/");
-		return task;
+		return CREATED_TASK;
 	} catch (error) {
 		console.error("Error creating task:", error);
 		throw error;

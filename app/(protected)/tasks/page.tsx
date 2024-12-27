@@ -2,7 +2,7 @@ import { TaskGroupList } from "@/src/presentation/components/task/lists/task-gro
 import { getUserTasksGroupedByDate } from "@/src/application/queries/task/get-tasks-grouped-by-date";
 
 export default async function TasksPage() {
-	const taskGroups = await getUserTasksGroupedByDate();
+	const TASKS_GROUPS = await getUserTasksGroupedByDate();
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -13,7 +13,7 @@ export default async function TasksPage() {
 						Manage and track your tasks
 					</p>
 				</header>
-				<TaskGroupList groups={taskGroups} />
+				<TaskGroupList groups={TASKS_GROUPS} />
 			</div>
 		</div>
 	);

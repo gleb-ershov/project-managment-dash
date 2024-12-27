@@ -6,10 +6,10 @@ export const deleteProjectCategoryAction = async (
 	categoryId: string
 ): Promise<void> => {
 	try {
-		const projectCategoryService = Container.getInstance().resolve(
+		const PROJECT_CATEGORY_SERVICE = Container.getInstance().resolve(
 			"ProjectCategoryService"
 		);
-		await projectCategoryService.deleteProjectCategory(categoryId);
+		await PROJECT_CATEGORY_SERVICE.deleteProjectCategory(categoryId);
 	} catch (error) {
 		throw Error;
 	}

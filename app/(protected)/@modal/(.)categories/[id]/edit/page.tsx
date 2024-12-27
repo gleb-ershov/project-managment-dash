@@ -9,9 +9,9 @@ export default async function EditProjectPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const currentCategory = await getProjectCategoryById(id);
+	const CURRENT_CATEGORY = await getProjectCategoryById(id);
 
-	if (!currentCategory) {
+	if (!CURRENT_CATEGORY) {
 		notFound();
 	}
 	return (
@@ -19,7 +19,7 @@ export default async function EditProjectPage({
 			<CreateCategoryForm
 				mode="update"
 				categoryId={id}
-				initialState={currentCategory}
+				initialState={CURRENT_CATEGORY}
 			/>
 		</Modal>
 	);

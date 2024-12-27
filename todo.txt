@@ -11,3 +11,7 @@ filters on tasks and proj page
 skeletons for message block
 skeeltons for comments
 fix skeletons for stats cards
+
+consts to uppercase
+
+error define in layer in correct way
