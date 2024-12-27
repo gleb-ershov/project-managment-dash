@@ -21,8 +21,8 @@ export async function middleware(request: NextRequest) {
 
 	try {
 		// Get tokens from cookies
-		const ACCESS_TOKEN = request.cookies.get("ACCESS_TOKEN")?.value;
-		const REFRESH_TOKEN = request.cookies.get("REFRESH_TOKEN")?.value;
+		const ACCESS_TOKEN = request.cookies.get("accessToken")?.value;
+		const REFRESH_TOKEN = request.cookies.get("refreshToken")?.value;
 
 		const IS_AUTH_ROUTE = AUTH_ROUTES.includes(pathname);
 		// If no tokens exist, redirect to login
@@ -34,7 +34,6 @@ export async function middleware(request: NextRequest) {
 		}
 
 		// Try to validate access token first
-		// let isAuthenticated = false;
 		if (ACCESS_TOKEN) {
 			try {
 				await JWTService.verifyAccessToken(ACCESS_TOKEN);
@@ -86,14 +85,14 @@ export async function middleware(request: NextRequest) {
 				: NextResponse.next();
 
 			// Set new tokens in cookies
-			response.cookies.set("ACCESS_TOKEN", newAccessToken, {
+			response.cookies.set("accessToken", newAccessToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "lax",
 				path: "/",
 			});
 
-			response.cookies.set("REFRESH_TOKEN", newRefreshToken, {
+			response.cookies.set("refreshToken", newRefreshToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "lax",
@@ -130,8 +129,8 @@ function redirectToLogin(request: NextRequest): NextResponse {
 // Helper function to clear tokens and redirect
 function clearTokensAndRedirect(request: NextRequest): NextResponse {
 	const RESPONSE = redirectToLogin(request);
-	RESPONSE.cookies.delete("ACCESS_TOKEN");
-	RESPONSE.cookies.delete("REFRESH_TOKEN");
+	RESPONSE.cookies.delete("accessToken");
+	RESPONSE.cookies.delete("refreshToken");
 	return RESPONSE;
 }
 

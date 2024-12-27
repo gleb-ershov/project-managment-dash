@@ -32,12 +32,10 @@ export const CreateTeamForm = (props: CreateTeamFormProps) => {
 
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
+	const boundUpdateAction = useMemo(
+		() => updateTeamAction.bind(null, teamId || ""),
+		[teamId]
 	);
-
-	const boundUpdateAction = useMemo(() => updateTeamAction, [teamId]);
 
 	const [createState, createAction, isCreatePending] = useActionState(
 		createTeamAction.bind(null, user?.id || ""),
@@ -50,7 +48,10 @@ export const CreateTeamForm = (props: CreateTeamFormProps) => {
 	);
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
-
+	const BUTTON_LABEL = useMemo(
+		() => generateButtonLabel(IS_PENDING, mode),
+		[mode]
+	);
 	useEffect(() => {
 		const hasResult = updateState?.id || createState?.id;
 		if (hasResult) {

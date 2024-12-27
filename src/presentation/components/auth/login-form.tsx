@@ -120,14 +120,12 @@ export const LoginForm = () => {
 					)}
 				</Button>
 
-				<div className="">
-					<Link
-						href="/sign-up"
-						className="text-sm text-center text-indigo-600 hover:text-indigo-500"
-					>
-						Don&apos;t have an account? Sign up
-					</Link>
-				</div>
+				<Link
+					href="/sign-up"
+					className="text-sm text-center text-gray-700 mx-auto mt-4"
+				>
+					Don&apos;t have an account? Sign up
+				</Link>
 			</div>
 		</form>
 	);

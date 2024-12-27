@@ -6,7 +6,7 @@ export interface ITeamRepository {
 	create(team: TeamEntity, tx?: any): Promise<TeamEntity>;
 	update(team: TeamEntity): Promise<TeamEntity>;
 	delete(id: string): Promise<void>;
-	addMember(teamId: string, userId: string): Promise<TeamEntity>;
+	addMember(teamId: string, membersIds: string[]): Promise<TeamEntity>;
 	removeMember(teamId: string, userId: string): Promise<TeamEntity>;
 	countTeamsByUserId(userId: string): Promise<number>;
 }

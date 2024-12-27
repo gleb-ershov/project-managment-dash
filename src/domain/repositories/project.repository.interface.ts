@@ -15,7 +15,7 @@ export interface IProjectRepository {
 	softDelete(id: string): Promise<void>;
 	findById(id: string): Promise<ProjectEntity | null>;
 	findByUserId(userId: string): Promise<ProjectEntity[]>;
-	// addMember(projectId: string, userId: string): Promise<ProjectEntity>;
+	addMember(projectId: string, membersIds: string[]): Promise<ProjectEntity>;
 	// removeMember(projectId: string, userId: string): Promise<ProjectEntity>;
 	findFinishedProjectsByUserId(userId: string): Promise<ProjectEntity[]>;
 	findWithFiltersAndSort(

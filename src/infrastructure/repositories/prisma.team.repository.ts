@@ -97,12 +97,14 @@ export class PrismaTeamRepository implements ITeamRepository {
 			where: { id },
 		});
 	}
-	async addMember(teamId: string, userId: string): Promise<TeamEntity> {
+	async addMember(teamId: string, membersIds: string[]): Promise<TeamEntity> {
 		const updated = await this.prisma.team.update({
 			where: { id: teamId },
 			data: {
 				members: {
-					connect: { id: userId },
+					connect: membersIds.map((memberId) => ({
+						id: memberId,
+					})),
 				},
 			},
 			include: {

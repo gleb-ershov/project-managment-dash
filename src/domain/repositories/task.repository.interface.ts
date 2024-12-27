@@ -22,4 +22,5 @@ export interface ITaskRepository {
 	findLatestUserTasks(
 		options: FindLatestUserTasksOptions
 	): Promise<TaskEntity[]>;
+	addMember(taskId: string, membersIds: string[]): Promise<TaskEntity>;
 }

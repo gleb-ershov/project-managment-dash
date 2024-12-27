@@ -28,6 +28,30 @@ export class PrismaProjectRepository implements IProjectRepository {
 		},
 	};
 
+	async addMember(
+		projectId: string,
+		membersIds: string[]
+	): Promise<ProjectEntity> {
+		try {
+			const project = await this.prisma.project.update({
+				where: {
+					id: projectId,
+				},
+				include: this.defaultIncludes,
+				data: {
+					members: {
+						connect: membersIds.map((memberId) => ({
+							id: memberId,
+						})),
+					},
+				},
+			});
+			return PrismaProjectMapper.toDomain(project);
+		} catch (error) {
+			throw new DatabaseError("Failed to add member", error);
+		}
+	}
+
 	async findByQueryAndUser(
 		query: string,
 		userId: string

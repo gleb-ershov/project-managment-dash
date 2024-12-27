@@ -4,21 +4,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
 	try {
-		const body = await request.json();
-		const refreshToken = body.refreshToken;
+		const REQUEST_BODY = await request.json();
+		const REFRESH_TOKEN = REQUEST_BODY.refreshToken;
 
-		if (!refreshToken) {
+		if (!REFRESH_TOKEN) {
 			return NextResponse.json(
 				{ error: "Refresh token is required" },
 				{ status: 400 }
 			);
 		}
 
-		const refreshTokenUseCase = Container.getInstance().resolve(
-			"RefreshTokenUseCase"
-		);
-		const tokens = refreshTokenUseCase.execute(refreshToken);
-		return NextResponse.json(tokens, { status: 200 });
+		const AUTH_SERVICE = Container.getInstance().resolve("AuthService");
+		const TOKENS = AUTH_SERVICE.refreshToken(REFRESH_TOKEN);
+		return NextResponse.json(TOKENS, { status: 200 });
 	} catch (error) {
 		if (error instanceof ValidationError) {
 			return NextResponse.json({ error: error.message }, { status: 401 });

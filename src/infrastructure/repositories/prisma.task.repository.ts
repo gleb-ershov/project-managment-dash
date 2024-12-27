@@ -21,6 +21,27 @@ export class PrismaTaskRepository implements ITaskRepository {
 		createdBy: true,
 	};
 
+	async addMember(taskId: string, membersIds: string[]): Promise<TaskEntity> {
+		try {
+			const task = await this.prisma.task.update({
+				where: {
+					id: taskId,
+				},
+				include: this.defaultIncludes,
+				data: {
+					members: {
+						connect: membersIds.map((memberId) => ({
+							id: memberId,
+						})),
+					},
+				},
+			});
+			return PrismaTaskMapper.toDomain(task);
+		} catch (error) {
+			throw new DatabaseError("Failed to add member", error);
+		}
+	}
+
 	async findByUserId(userId: string): Promise<TaskEntity[]> {
 		try {
 			const tasks = await this.prisma.task.findMany({
