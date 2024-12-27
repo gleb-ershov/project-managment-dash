@@ -8,7 +8,6 @@ import { parseExternalLinks } from "@/src/presentation/utils/shared/parse-extern
 import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 
 export const createTaskAction = async (
 	userId: string,
@@ -16,7 +15,7 @@ export const createTaskAction = async (
 	formData: FormData
 ): Promise<TaskViewModel> => {
 	try {
-		const useCase = Container.getInstance().resolve("CreateTaskUseCase");
+		const taskService = Container.getInstance().resolve("TaskService");
 
 		// Get form data
 		const title = formData.get("title") as string;
@@ -35,7 +34,7 @@ export const createTaskAction = async (
 			formData.get("externalLinks") as string
 		);
 
-		const task = await useCase.execute({
+		const task = await taskService.createTask({
 			title,
 			description,
 			status,
@@ -49,7 +48,7 @@ export const createTaskAction = async (
 		});
 
 		revalidatePath("/");
-		return TaskMapper.toViewModel(task);
+		return task;
 	} catch (error) {
 		console.error("Error creating task:", error);
 		throw error;

@@ -1,15 +1,15 @@
 "use server";
 
-import { loginSchema } from "@/src/application/dtos/auth/auth.dto";
 import { ZodError } from "zod";
 import { ValidationError } from "@/src/domain/errors/application.error";
 import { Container } from "@/src/infrastructure/container/container";
+import { loginSchema } from "@/src/application/dtos/auth.dto";
 
 export const login = async (data: { email: string; password: string }) => {
 	try {
 		const validatedData = loginSchema.parse(data);
-		const loginUseCase = Container.getInstance().resolve("LoginUseCase");
-		const result = await loginUseCase.execute(validatedData);
+		const authService = Container.getInstance().resolve("AuthService");
+		const result = await authService.login(validatedData);
 
 		return {
 			data: result,

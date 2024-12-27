@@ -1,6 +1,5 @@
 "use server";
 
-import { ProjectMapper } from "@/src/application/mappers/project.mapper";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
@@ -11,17 +10,22 @@ export const updateProjectAction = async (
 	currentState: unknown,
 	formState: FormData
 ): Promise<ProjectViewModel> => {
-	const useCase = Container.getInstance().resolve("UpdateProjectUseCase");
+	try {
+		const projectService =
+			Container.getInstance().resolve("ProjectService");
 
-	const dueDate = new Date(formState.get("dueDate") as string);
+		const dueDate = new Date(formState.get("dueDate") as string);
 
-	const project = await useCase.execute(projectId, {
-		title: formState.get("title") as string,
-		description: formState.get("description") as string,
-		status: formState.get("status") as ProjectStatus,
-		dueDate,
-	});
+		const project = await projectService.updateProject(projectId, {
+			title: formState.get("title") as string,
+			description: formState.get("description") as string,
+			status: formState.get("status") as ProjectStatus,
+			dueDate,
+		});
 
-	revalidatePath("/");
-	return ProjectMapper.toViewModel(project);
+		revalidatePath("/");
+		return project;
+	} catch (error) {
+		throw new Error("Failed to update project");
+	}
 };

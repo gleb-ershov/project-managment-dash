@@ -2,12 +2,18 @@ import { CreateTaskCommentUseCase } from "../use-cases/task-comment/create-task-
 import { UpdateTaskCommentUseCase } from "../use-cases/task-comment/update-task-comment.use-case";
 import { TaskCommentViewModel } from "../view-models/task-comment.view-model";
 import { TaskCommentMapper } from "../mappers/task-comment.mapper";
+import { DeleteTaskCommentUseCase } from "../use-cases/task-comment/delete-task-comment.use-case";
 
 export class TaskCommentService {
 	constructor(
 		private readonly createTaskCommentUseCase: CreateTaskCommentUseCase,
-		private updateTaskCommentUseCase: UpdateTaskCommentUseCase
+		private readonly updateTaskCommentUseCase: UpdateTaskCommentUseCase,
+		private readonly deleteTaskCommentUseCase: DeleteTaskCommentUseCase
 	) {}
+
+	async deleteTaskComment(commentId: string): Promise<void> {
+		await this.deleteTaskCommentUseCase.execute(commentId);
+	}
 
 	async createTaskComment(
 		taskId: string,

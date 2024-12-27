@@ -1,7 +1,5 @@
 "use server";
 
-import { ProjectMapper } from "@/src/application/mappers/project.mapper";
-import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
@@ -11,24 +9,27 @@ export const createProjectAction = async (
 	currentState: unknown,
 	formState: FormData
 ): Promise<ProjectViewModel> => {
-	const currentUser = await getCurrentUser();
+	try {
+		const projectService =
+			Container.getInstance().resolve("ProjectService");
 
-	const useCase = Container.getInstance().resolve("CreateProjectUseCase");
+		const dueDate = new Date(formState.get("dueDate") as string);
+		const categoriesIds = formState.get("categories") as string;
+		const membersIds = formState.get("members") as string;
 
-	const dueDate = new Date(formState.get("dueDate") as string);
-	const categoriesIds = formState.get("categories") as string;
-	const membersIds = formState.get("members") as string;
+		const project = await projectService.createProject({
+			title: formState.get("title") as string,
+			description: formState.get("description") as string,
+			status: formState.get("status") as ProjectStatus,
+			dueDate,
+			userId,
+			memberIds: membersIds ? membersIds.split(",") : [],
+			categoriesIds: categoriesIds ? categoriesIds.split(",") : [],
+		});
 
-	const project = await useCase.execute({
-		title: formState.get("title") as string,
-		description: formState.get("description") as string,
-		status: formState.get("status") as ProjectStatus,
-		dueDate,
-		userId,
-		memberIds: membersIds ? membersIds.split(",") : [],
-		categoriesIds: categoriesIds ? categoriesIds.split(",") : [],
-	});
-
-	revalidatePath("/");
-	return ProjectMapper.toViewModel(project);
+		revalidatePath("/");
+		return project;
+	} catch (error) {
+		throw new Error("Failed to create project");
+	}
 };

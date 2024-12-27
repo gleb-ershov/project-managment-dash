@@ -5,14 +5,20 @@ import { GetUserTeamsCountUseCase } from "../use-cases/team/get-user-teams-count
 import { GetUserTeamsUseCase } from "../use-cases/team/get-user-teams-with-members.use-case";
 import { TeamViewModel } from "../view-models/team.view-model";
 import { CreateTeamDTO } from "../dtos/team.dto";
+import { DeleteTeamUseCase } from "../use-cases/team/delete-team.use-case";
 
 export class TeamService {
 	constructor(
 		private readonly getUserTeamsCountUseCase: GetUserTeamsCountUseCase,
 		private readonly getUserTeamsUseCase: GetUserTeamsUseCase,
 		private readonly createTeamWithMembersUseCase: CreateTeamWithMembersUseCase,
-		private readonly updateTeamUseCase: UpdateTeamUseCase
+		private readonly updateTeamUseCase: UpdateTeamUseCase,
+		private readonly deleteTeamUseCase: DeleteTeamUseCase
 	) {}
+
+	async deleteTeam(teamId: string): Promise<void> {
+		await this.deleteTeamUseCase.execute(teamId);
+	}
 
 	async getUserTeamsCount(userId: string): Promise<number> {
 		return await this.getUserTeamsCountUseCase.execute(userId);

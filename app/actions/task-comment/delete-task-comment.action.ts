@@ -3,29 +3,19 @@
 import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
 
-interface UpdateCommentActionArgs {
+interface DeleteCommentActionArgs {
 	commentId: string;
-	userId: string;
 	taskId: string;
 }
 
 export const updateTaskCommentAction = async (
-	args: UpdateCommentActionArgs,
-	currentState: unknown,
-	formData: FormData
-) => {
+	args: DeleteCommentActionArgs
+): Promise<void> => {
 	try {
 		const taskCommentService =
 			Container.getInstance().resolve("TaskCommentService");
-		const { commentId, userId, taskId } = args;
-		const content = formData.get("content") as string;
-		const comment = await taskCommentService.updateTaskComment(
-			userId,
-			taskId,
-			content,
-			commentId
-		);
+		const { commentId, taskId } = args;
+		await taskCommentService.deleteTaskComment(commentId);
 		revalidatePath(`/tasks/${taskId}`);
-		return comment;
 	} catch (error) {}
 };

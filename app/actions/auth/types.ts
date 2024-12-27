@@ -1,6 +1,8 @@
-import { LoginDTO } from "@/src/application/dtos/auth/login.dto";
-import { AuthResponseDTO } from "@/src/application/dtos/auth/auth-response.dto";
-import { RegisterDTO } from "@/src/application/dtos/auth/register.dto";
+import {
+	LoginDTO,
+	AuthResponseDTO,
+	RegisterDTO,
+} from "@/src/application/dtos/auth.dto";
 
 export type ActionResponse<T> = {
 	data: T | null;

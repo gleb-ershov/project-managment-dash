@@ -1,9 +1,9 @@
 "use server";
 
-import { registerSchema } from "@/src/application/dtos/auth/auth.dto";
 import { ZodError } from "zod";
 import { ValidationError } from "@/src/domain/errors/application.error";
 import { Container } from "@/src/infrastructure/container/container";
+import { registerSchema } from "@/src/application/dtos/auth.dto";
 
 interface RegisterActionArgs {
 	name: string;
@@ -16,9 +16,9 @@ interface RegisterActionArgs {
 export const register = async (data: RegisterActionArgs) => {
 	try {
 		const validatedData = registerSchema.parse(data);
-		const registerUseCase =
-			Container.getInstance().resolve("RegisterUseCase");
-		const result = await registerUseCase.execute(validatedData);
+		const authService =
+			Container.getInstance().resolve("AuthService");
+		const result = await authService.register(validatedData);
 
 		return {
 			data: result,

@@ -47,6 +47,10 @@ import { TaskService } from "@/src/application/services/task.service";
 import { ProjectCategoryService } from "@/src/application/services/project-category.service";
 import { UpdateTaskUseCase } from "@/src/application/use-cases/task/update-task.use-case";
 import { UpdateTeamUseCase } from "@/src/application/use-cases/team/update-team.use-case";
+import { DeleteTaskUseCase } from "@/src/application/use-cases/task/delete-task.use-case";
+import { DeleteTaskCommentUseCase } from "@/src/application/use-cases/task-comment/delete-task-comment.use-case";
+import { DeleteTeamUseCase } from "@/src/application/use-cases/team/delete-team.use-case";
+import { AuthService } from "@/src/application/services/auth.service";
 
 type Dependencies = {
 	UserRepository: IUserRepository;
@@ -57,6 +61,8 @@ type Dependencies = {
 	TaskService: TaskService;
 	TeamService: TeamService;
 	ProjectCategoryService: ProjectCategoryService;
+	TaskCommentService: TaskCommentService;
+	AuthService: AuthService;
 	JWTService: typeof JWTService;
 
 	CreateUserUseCase: CreateUserUseCase;
@@ -84,17 +90,20 @@ type Dependencies = {
 
 	CreateTaskCommentUseCase: CreateTaskCommentUseCase;
 	UpdateTaskCommentUseCase: UpdateTaskCommentUseCase;
+	DeleteTaskCommentUseCase: DeleteTaskCommentUseCase;
 
 	CreateTeamWithMembersUseCase: CreateTeamWithMembersUseCase;
 	GetUserTeamsCountUseCase: GetUserTeamsCountUseCase;
 	GetUserTeamsUseCase: GetUserTeamsUseCase;
 	UpdateTeamUseCase: UpdateTeamUseCase;
+	DeleteTeamUseCase: DeleteTeamUseCase;
 
 	GetUserLatestTasksUseCase: GetUserLatestTasksUseCase;
 	CreateTaskUseCase: CreateTaskUseCase;
 	FindTaskByIdUseCase: FindTaskByIdUseCase;
 	GetUserTasksGroupedByDateUseCase: GetUserTasksGroupedByDateUseCase;
 	UpdateTaskUseCase: UpdateTaskUseCase;
+	DeleteTaskUseCase: DeleteTaskUseCase;
 };
 
 export class Container {
@@ -261,6 +270,9 @@ export class Container {
 		const createTaskUseCase = new CreateTaskUseCase(taskRepository);
 		this.dependencies.set("CreateTaskUseCase", createTaskUseCase);
 
+		const deleteTaskUseCase = new DeleteTaskUseCase(taskRepository);
+		this.dependencies.set("DeleteTaskUseCase", deleteTaskUseCase);
+
 		const getUserLatestTasksUseCase = new GetUserLatestTasksUseCase(
 			taskRepository
 		);
@@ -301,6 +313,14 @@ export class Container {
 			updateTaskCommentUseCase
 		);
 
+		const deleteTaskCommentUseCase = new DeleteTaskCommentUseCase(
+			taskCommentRepository
+		);
+		this.dependencies.set(
+			"DeleteTaskCommentUseCase",
+			deleteTaskCommentUseCase
+		);
+
 		// Team
 		const getUserTeamsCountUseCase = new GetUserTeamsCountUseCase(
 			teamRepository
@@ -330,6 +350,9 @@ export class Container {
 		);
 		this.dependencies.set("UpdateTeamUseCase", getUserTeamsUseCase);
 
+		const deleteTeamUseCase = new DeleteTeamUseCase(teamRepository);
+		this.dependencies.set("DeleteTeamUseCase", deleteTeamUseCase);
+
 		const getUserTeams = new GetUserTeamsUseCase(teamRepository);
 		this.dependencies.set("GetUserTeamsUseCase", getUserTeams);
 
@@ -341,6 +364,13 @@ export class Container {
 			updateUserUseCase
 		);
 		this.dependencies.set("UserService", userService);
+
+		const authService = new AuthService(
+			loginUseCase,
+			registerUseCase,
+			refreshTokenUseCase
+		);
+		this.dependencies.set("AuthService", authService);
 
 		const projectService = new ProjectService(
 			createProjectUseCase,
@@ -367,11 +397,15 @@ export class Container {
 			getUserTeamsCountUseCase,
 			getUserTeamsUseCase,
 			createTeamWithMembersUseCase,
-			updateTeamUseCase
+			updateTeamUseCase,
+			deleteTeamUseCase
 		);
 		this.dependencies.set("TeamService", teamService);
 
 		const taskService = new TaskService(
+			createTaskUseCase,
+			updateTaskUseCase,
+			deleteTaskUseCase,
 			findTaskByIdUseCase,
 			getUserLatestTasksUseCase,
 			getUserTasksGroupedByDateUseCase
@@ -380,7 +414,8 @@ export class Container {
 
 		const taskCommentService = new TaskCommentService(
 			createTaskCommentUseCase,
-			updateTaskCommentUseCase
+			updateTaskCommentUseCase,
+			deleteTaskCommentUseCase
 		);
 		this.dependencies.set("TaskCommentService", taskCommentService);
 

@@ -10,12 +10,17 @@ export const createTaskCommentAction = async (
 	formState: FormData
 ) => {
 	try {
-		const useCase = Container.getInstance().resolve(
-			"CreateTaskCommentUseCase"
-		);
+		const taskCommentService =
+			Container.getInstance().resolve("TaskCommentService");
 		const content = formState.get("content") as string;
-		const comment = await useCase.execute({ content, taskId }, userId);
+		const comment = await taskCommentService.createTaskComment(
+			taskId,
+			content,
+			userId
+		);
 		revalidatePath(`/tasks/${taskId}`);
 		return comment;
-	} catch (error) {}
+	} catch (error) {
+		throw new Error("Error creating task comment: " + error);
+	}
 };

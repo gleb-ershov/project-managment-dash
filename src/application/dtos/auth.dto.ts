@@ -18,3 +18,17 @@ export const registerSchema = z.object({
 	surname: z.string().min(2, "Surname must be at least 2 characters"),
 });
 
+export interface AuthResponseDTO {
+	user: {
+		id: string;
+		email: string;
+		name: string;
+		surname: string;
+	};
+	accessToken: string;
+	refreshToken: string;
+}
+
+export type LoginDTO = z.infer<typeof loginSchema>;
+
+export type RegisterDTO = z.infer<typeof registerSchema>;

@@ -1,8 +1,7 @@
 import { IUserRepository } from "@/src/domain/repositories/user.repository.interface";
-import { AuthResponseDTO } from "../../dtos/auth/auth-response.dto";
-import { LoginDTO } from "../../dtos/auth/login.dto";
 import { ValidationError } from "@/src/domain/errors/application.error";
 import { IJWTService } from "@/src/domain/services/jwt.service.interface";
+import { AuthResponseDTO, LoginDTO } from "../../dtos/auth.dto";
 
 export class LoginUseCase {
 	constructor(

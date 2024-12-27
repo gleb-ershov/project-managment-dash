@@ -1,11 +1,10 @@
 import { Email } from "@/src/domain/value-objects/email.value-object";
-import { RegisterDTO } from "../../dtos/auth/register.dto";
 import { Password } from "@/src/domain/value-objects/password.value-object";
 import { ValidationError } from "@/src/domain/errors/application.error";
 import { UserEntity } from "@/src/domain/enitites/user.entity";
 import { IUserRepository } from "@/src/domain/repositories/user.repository.interface";
-import { AuthResponseDTO } from "../../dtos/auth/auth-response.dto";
 import { IJWTService } from "@/src/domain/services/jwt.service.interface";
+import { AuthResponseDTO, RegisterDTO } from "../../dtos/auth.dto";
 
 export class RegisterUseCase {
 	constructor(
