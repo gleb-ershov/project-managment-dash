@@ -23,6 +23,7 @@ export const updateTaskAction = async (
 		const STATUS_FIELD_VALUE = formData.get("status") as TaskStatus;
 		const DUE_DATE_FIELD_VALUE = formData.get("dueDate") as string;
 		const PRIORITY_FIELD_VALUE = formData.get("priority") as TaskPriority;
+		const MEMBERS_FIELD_VALUE = formData.get("members") as string;
 
 		// Parse arrays
 		const TAGS_FIELD_VALUE = parseMultipleValues(
@@ -40,6 +41,7 @@ export const updateTaskAction = async (
 			externalLinks: EXTERNAL_LINKS_FIELD_VALUE,
 			priority: PRIORITY_FIELD_VALUE,
 			tags: TAGS_FIELD_VALUE,
+			membersIds: MEMBERS_FIELD_VALUE.split(","),
 		});
 
 		revalidatePath("/");

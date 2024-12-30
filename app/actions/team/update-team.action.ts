@@ -1,5 +1,6 @@
 "use server";
 
+import { TeamViewModel } from "@/src/application/view-models/team.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
 
@@ -7,7 +8,7 @@ export const updateTeamAction = async (
 	teamId: string,
 	currentState: unknown,
 	formData: FormData
-) => {
+): Promise<TeamViewModel> => {
 	try {
 		const teamService = Container.getInstance().resolve("TeamService");
 

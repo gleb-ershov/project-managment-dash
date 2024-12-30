@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Badge } from "../../ui/badge";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
+import { AddEntityButton } from "../../shared/add-entity-button";
 
 interface ProjectMembersProps {
 	project: ProjectViewModel;
@@ -20,10 +21,10 @@ export const ProjectMembers = ({
 			<div className="flex items-center justify-between">
 				<h3 className="text-lg font-semibold">Team Members</h3>
 				{isOwner && (
-					<Button>
-						<Plus className="h-4 w-4 mr-2" />
-						Add Member
-					</Button>
+					<AddEntityButton
+						path={`/projects/${project.id}/add-member`}
+						label="Add member"
+					/>
 				)}
 			</div>
 

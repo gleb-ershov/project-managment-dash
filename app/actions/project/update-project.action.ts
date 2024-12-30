@@ -23,6 +23,7 @@ export const updateProjectAction = async (
 			description: formState.get("description") as string,
 			status: formState.get("status") as ProjectStatus,
 			dueDate: DUE_DATE_FIELD_VALUE,
+			memberIds: formState.getAll("members") as string[],
 		});
 
 		revalidatePath("/");

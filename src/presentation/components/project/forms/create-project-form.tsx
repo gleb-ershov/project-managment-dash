@@ -17,6 +17,8 @@ import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
 import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
 import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
 import { updateProjectAction } from "@/app/actions/project/update-project.action";
+import { useRouter } from "next/navigation";
+import { useProjectForm } from "@/src/presentation/hooks/shared/use-project-form";
 interface CreateProjectFormInitialState {
 	title: string;
 	description: string;
@@ -34,44 +36,14 @@ interface CreateProjectFormProps {
 }
 
 export const CreateProjectForm = (props: CreateProjectFormProps) => {
-	const { user } = useAuth();
-	const { initialState, mode = "create", onSuccess, projectId } = props;
-
-	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
-
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
-	);
-
-	const boundUpdateAction = useMemo(
-		() => updateProjectAction.bind(null, projectId || ""),
-		[projectId]
-	);
-
-	const [createState, createAction, isCreatePending] = useActionState(
-		createProjectAction.bind(null, user?.id || ""),
-		undefined
-	);
-
-	const [updateState, updateAction, isUpdatePending] = useActionState(
-		boundUpdateAction,
-		undefined
-	);
-
-	const IS_PENDING = isCreatePending || isUpdatePending;
-
-	useEffect(() => {
-		const hasResult = updateState?.id || createState?.id;
-		if (hasResult) {
-			onSuccess?.();
-			toast.success(
-				`Project was successfully ${
-					IS_UPDATE_FORM ? "updated" : "created"
-				}!`
-			);
-		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
+	const { mode = "create", projectId, onSuccess, initialState } = props;
+	const {
+		IS_UPDATE_FORM,
+		IS_PENDING,
+		BUTTON_LABEL,
+		createAction,
+		updateAction,
+	} = useProjectForm(mode, projectId, onSuccess);
 
 	return (
 		<form action={IS_UPDATE_FORM ? updateAction : createAction}>

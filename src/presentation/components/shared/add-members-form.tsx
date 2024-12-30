@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "react-day-picker";
 import { MemberSearchInput } from "../user/form-elements/user-search-input";
-import { useMemo } from "react";
+import { useActionState, useMemo } from "react";
 import { updateProjectAction } from "@/app/actions/project/update-project.action";
 import { updateTeamAction } from "@/app/actions/team/update-team.action";
 import { updateTaskAction } from "@/app/actions/task/update-task.action";
@@ -14,7 +14,7 @@ interface AddMembersFormProps {
 export const AddMembersForm = (props: AddMembersFormProps) => {
 	const { entity, entityId } = props;
 
-	const boundAction = useMemo(() => {
+	const boundAction = useMemo<any>(() => {
 		if (entity === "project") {
 			return updateProjectAction.bind(null, entityId);
 		}
@@ -26,9 +26,14 @@ export const AddMembersForm = (props: AddMembersFormProps) => {
 		}
 	}, [entity, entityId]);
 
+	const [formState, action, isPending] = useActionState(
+		boundAction,
+		undefined
+	);
+
 	return (
-		<form>
-			<MemberSearchInput />
+		<form action={action}>
+			<MemberSearchInput name="members" />
 			<Button type="submit">Add members</Button>
 		</form>
 	);

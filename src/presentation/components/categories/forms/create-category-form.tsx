@@ -11,6 +11,7 @@ import { Button } from "../../ui/button";
 
 import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
 import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
+import { useRouter } from "next/navigation";
 
 interface CreateCategoryInitialState {
 	name: string;
@@ -47,11 +48,12 @@ export const CreateCategoryForm = (props: CreateCategoryFormProps) => {
 	);
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
-
+	const { back } = useRouter();
 	useEffect(() => {
 		const hasResult = updateState?.id || createState?.id;
 		if (hasResult) {
 			onSuccess?.();
+			back();
 			toast.success(
 				`Project category ${
 					IS_UPDATE_FORM ? updateState?.name : createState?.name

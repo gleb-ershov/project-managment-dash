@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
 import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
 import { updateTeamAction } from "@/app/actions/team/update-team.action";
+import { useRouter } from "next/navigation";
 
 interface CreateTeamFormInitialState {
 	name: string;
@@ -52,10 +53,12 @@ export const CreateTeamForm = (props: CreateTeamFormProps) => {
 		() => generateButtonLabel(IS_PENDING, mode),
 		[mode]
 	);
+	const { back } = useRouter();
 	useEffect(() => {
 		const hasResult = updateState?.id || createState?.id;
 		if (hasResult) {
 			onSuccess?.();
+			back();
 			toast.success(
 				`Team was successfully ${
 					IS_UPDATE_FORM ? "updated" : "created"

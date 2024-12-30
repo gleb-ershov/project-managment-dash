@@ -23,4 +23,6 @@ export interface CreateProjectDTO extends z.infer<typeof createprojectSchema> {
 	memberIds: string[];
 	categoriesIds: string[];
 }
-export interface UpdateProjectDTO extends z.infer<typeof updateProjectSchema> {}
+export interface UpdateProjectDTO extends z.infer<typeof updateProjectSchema> {
+	memberIds?: string[];
+}

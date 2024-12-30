@@ -1,6 +1,5 @@
 "use client";
 
-import { useActionState, useEffect, useMemo } from "react";
 import { EntityTitleInput } from "../../shared/entity-title-input";
 import { EntityDescriptionInput } from "../../shared/entity-description-input";
 import { EntityDueDateInput } from "../../shared/entity-due-date-input";
@@ -9,17 +8,12 @@ import { Button } from "../../ui/button";
 import { UrlInput } from "../../shared/url-input";
 import { TaskStatusSelect } from "../form-elements/task-status-select";
 import { TagsInput } from "../../ui/tags-input";
-import { createTaskAction } from "@/app/actions/task/create-task.action";
 import { ProjectSearchInput } from "../../project/form-elements/project-search-input";
 import { TaskPrioritySelect } from "../form-elements/task-priority-select";
-import { toast } from "sonner";
 import { ProjectStatus } from "@prisma/client";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
-import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
-import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
-import { updateTaskAction } from "@/app/actions/task/update-task.action";
-import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
+import { useTaskForm } from "@/src/presentation/hooks/shared/use-task-form";
 
 interface CreateTaskFormInitialState {
 	title: string;
@@ -41,42 +35,15 @@ interface CreateTaskFormProps {
 }
 
 export const CreateTaskForm = (props: CreateTaskFormProps) => {
-	const { user } = useAuth();
 	const { initialState, mode = "create", onSuccess, taskId } = props;
-	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
-	const boundUpdateAction = useMemo(
-		() => updateTaskAction.bind(null, taskId || ""),
-		[taskId]
-	);
-
-	const [createState, createAction, isCreatePending] = useActionState(
-		createTaskAction.bind(null, user?.id || ""),
-		undefined
-	);
-
-	const [updateState, updateAction, isUpdatePending] = useActionState(
-		boundUpdateAction,
-		undefined
-	);
-
-	const IS_PENDING = isCreatePending || isUpdatePending;
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
-	);
-	useEffect(() => {
-		console.log("UPDATE FORM INITIAL:", initialState);
-		const hasResult = updateState?.id || createState?.id;
-		if (hasResult) {
-			onSuccess?.();
-			toast.success(
-				`Task was successfully ${
-					IS_UPDATE_FORM ? "updated" : "created"
-				}!`
-			);
-		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
+	const {
+		IS_UPDATE_FORM,
+		IS_PENDING,
+		BUTTON_LABEL,
+		createAction,
+		updateAction,
+	} = useTaskForm(mode, taskId, onSuccess);
 
 	return (
 		<form action={IS_UPDATE_FORM ? updateAction : createAction}>

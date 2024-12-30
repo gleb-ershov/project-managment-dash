@@ -1,7 +1,6 @@
 add labels in form
 auto close form after submit
 Add task in project page
-add member form
 
 user page
 filters on tasks and proj page

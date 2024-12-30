@@ -5,7 +5,6 @@ import { useActionState, useEffect, useMemo } from "react";
 import { createTaskCommentAction } from "@/app/actions/task-comment/create-task-comment.action";
 import { updateTaskCommentAction } from "@/app/actions/task-comment/update-task-comment.action";
 import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
-import { toast } from "sonner";
 
 interface CreateTaskFormProps {
 	commentId?: string;
@@ -51,17 +50,6 @@ export const CreateCommentForm = (props: CreateTaskFormProps) => {
 	);
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
-
-	useEffect(() => {
-		const hasResult = updateState?.id || createState?.id;
-		if (hasResult) {
-			toast.success(
-				`Comment was successfully ${
-					IS_UPDATE_FORM ? "updated" : "created"
-				}!`
-			);
-		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM]);
 
 	return (
 		<form action={IS_UPDATE_FORM ? updateAction : createAction}>

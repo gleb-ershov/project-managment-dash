@@ -51,7 +51,9 @@ export const EntityDueDateInput = memo(
 		const formattedMinDate = formatDate(minDate);
 		const formattedMaxDate = maxDate ? formatDate(maxDate) : undefined;
 		const [inputValue, setValue] = useState<string>(
-			format(parse(defaultValue, "PPP", new Date()), "yyyy-MM-dd")
+			defaultValue
+				? format(parse(defaultValue, "PPP", new Date()), "yyyy-MM-dd")
+				: new Date().toISOString()
 		);
 
 		const handleChange = useCallback(
