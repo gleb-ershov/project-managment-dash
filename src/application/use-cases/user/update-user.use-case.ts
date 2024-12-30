@@ -25,7 +25,9 @@ export class UpdateUserUseCase {
 			throw new ValidationError("Current password does not exist");
 		}
 
-		let updateData: any;
+		let updateData: {
+			[key: string]: any;
+		} = {};
 		const {
 			email,
 			currentPassword,

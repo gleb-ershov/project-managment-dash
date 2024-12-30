@@ -1,51 +1,37 @@
 "use server";
 
-import { prisma } from "@/prisma/db";
 import { ValidationError } from "@/src/domain/errors/application.error";
-import { PrismaUserRepository } from "@/src/infrastructure/repositories/prisma.user.repository";
 import { ZodError } from "zod";
-import { UpdateUserUseCase } from "@/src/application/use-cases/user/update-user.use-case";
-import { UpdateUserDTO } from "@/src/application/dtos/user.dto";
+import { Container } from "@/src/infrastructure/container/container";
+import { UserViewModel } from "@/src/application/view-models/user.view-model";
+import { revalidatePath } from "next/cache";
 
-const userRepository = new PrismaUserRepository(prisma);
-
-export const updateUser = async (id: string, data: UpdateUserDTO) => {
+export const updateUser = async (
+	id: string,
+	currentState: unknown,
+	formState: FormData
+): Promise<UserViewModel> => {
 	try {
-		const updateUserUseCase = new UpdateUserUseCase(userRepository);
-		const user = await updateUserUseCase.execute(id, data);
+		const userService = Container.getInstance().resolve("UserService");
 
-		return {
-			data: user,
-			error: null,
+		const name = formState.get("name") as string;
+		const surname = formState.get("surname") as string;
+		const email = formState.get("email") as string;
+		const password = formState.get("password") as string;
+		const description = formState.get("description") as string;
+
+		const newUserData = {
+			...(name.length > 0 && { name }),
+			...(surname.length > 0 && { surname }),
+			...(email.length > 0 && { email }),
+			...(password.length > 0 && { password }),
+			...(description.length > 0 && { description }),
 		};
+
+		const updatedUser = await userService.updateUser(id, newUserData);
+		revalidatePath(`/users/${id}`);
+		return updatedUser;
 	} catch (error) {
-		if (error instanceof ZodError) {
-			return {
-				data: null,
-				error: {
-					message: "Validation failed",
-					errors: error.errors.map((err) => ({
-						field: err.path.join("."),
-						message: err.message,
-					})),
-				},
-			};
-		}
-
-		if (error instanceof ValidationError) {
-			return {
-				data: null,
-				error: {
-					message: error.message,
-				},
-			};
-		}
-
-		return {
-			data: null,
-			error: {
-				message: "Failed to update user",
-			},
-		};
+		throw error;
 	}
 };
