@@ -2,7 +2,7 @@ import { UserEntity } from "@/src/domain/enitites/user.entity";
 import { DatabaseError } from "@/src/domain/errors/application.error";
 import { IUserRepository } from "@/src/domain/repositories/user.repository.interface";
 import { PrismaClient } from "@prisma/client";
-import { PrismaUserMapper as PrismaPrismaUserMapper } from "../mappers/prisma.user.mapper";
+import { PrismaUserMapper as PrismaUserMapper } from "../mappers/prisma.user.mapper";
 
 export class PrismaUserRepository implements IUserRepository {
 	constructor(private prisma: PrismaClient) {}
@@ -36,7 +36,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			if (!users) return [];
 
-			return PrismaPrismaUserMapper.toDomainList(users);
+			return PrismaUserMapper.toDomainList(users);
 		} catch (error) {
 			throw new DatabaseError("Failed to fetch users", error);
 		}
@@ -50,7 +50,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			if (!user) return null;
 
-			return user ? PrismaPrismaUserMapper.toDomain(user) : null;
+			return user ? PrismaUserMapper.toDomain(user) : null;
 		} catch (error) {
 			throw new DatabaseError("Failed to fetch user", error);
 		}
@@ -60,11 +60,29 @@ export class PrismaUserRepository implements IUserRepository {
 		try {
 			const user = await this.prisma.user.findUnique({
 				where: { id },
+				include: {
+					tasks: {
+						include: {
+							createdBy: true,
+							project: {
+								include: {
+									createdBy: true,
+								},
+							},
+						},
+					},
+					projects: {
+						include: {
+							createdBy: true,
+						},
+					},
+					teamMembers: true,
+				},
 			});
 
 			if (!user) return null;
 
-			return user ? PrismaPrismaUserMapper.toDomain(user) : null;
+			return user ? PrismaUserMapper.toDomain(user) : null;
 		} catch (error) {
 			throw new DatabaseError("Failed to fetch user", error);
 		}
@@ -90,7 +108,7 @@ export class PrismaUserRepository implements IUserRepository {
 				},
 			});
 
-			return PrismaPrismaUserMapper.toDomain(user);
+			return PrismaUserMapper.toDomain(user);
 		} catch (error) {
 			throw new DatabaseError("Failed to create user", error);
 		}
@@ -114,7 +132,7 @@ export class PrismaUserRepository implements IUserRepository {
 				data: updateData,
 			});
 
-			return PrismaPrismaUserMapper.toDomain(user);
+			return PrismaUserMapper.toDomain(user);
 		} catch (error) {
 			throw new DatabaseError("Failed to update user", error);
 		}
