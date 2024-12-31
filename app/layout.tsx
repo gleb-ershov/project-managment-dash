@@ -20,7 +20,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const theme = await getTheme();
-
+	// TODO FIX LAYOUT SHIFT W SELECT
 	return (
 		<html lang="en">
 			<body className={`${font.className} antialiased`}>

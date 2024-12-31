@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
-import { Modal } from "@/src/presentation/components/shared/modal";
 import {
 	Tabs,
 	TabsContent,
@@ -7,6 +6,14 @@ import {
 	TabsTrigger,
 } from "@/src/presentation/components/ui/tabs";
 import { UpdateUserForm } from "@/src/presentation/components/user/forms/update-user-form";
+
+import dynamic from "next/dynamic";
+
+const Modal = dynamic(() =>
+	import("@/src/presentation/components/shared/modal").then(
+		(mod) => mod.Modal
+	)
+);
 
 export default async function UserSettingsPage({
 	params,

@@ -43,7 +43,7 @@ export const TaskStatusSelect = memo(
 		return (
 			<div className={`space-y-2 ${className}`}>
 				<Label htmlFor={id}>{label}</Label>
-				<Select
+				<Select 
 					required={required}
 					name={name}
 					defaultValue={defaultValue}

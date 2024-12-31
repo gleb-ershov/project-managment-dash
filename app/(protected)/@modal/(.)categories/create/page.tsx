@@ -1,5 +1,20 @@
-import { CreateCategoryForm } from "@/src/presentation/components/categories/forms/create-category-form";
-import { Modal } from "@/src/presentation/components/shared/modal";
+import dynamic from "next/dynamic";
+
+const Modal = dynamic(() =>
+	import("@/src/presentation/components/shared/modal").then(
+		(mod) => mod.Modal
+	)
+);
+
+const CreateCategoryForm = dynamic(
+	() =>
+		import(
+			"@/src/presentation/components/categories/forms/create-category-form"
+		).then((mod) => mod.CreateCategoryForm),
+	{
+		ssr: false, // Отключаем серверный рендеринг для модального окна
+	}
+);
 
 export default function CreateProjectPage() {
 	return (

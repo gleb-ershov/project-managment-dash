@@ -1,5 +1,20 @@
-import { AddMembersForm } from "@/src/presentation/components/shared/add-members-form";
-import { Modal } from "@/src/presentation/components/shared/modal";
+import dynamic from "next/dynamic";
+
+const Modal = dynamic(() =>
+	import("@/src/presentation/components/shared/modal").then(
+		(mod) => mod.Modal
+	)
+);
+
+const AddMembersForm = dynamic(
+	() =>
+		import("@/src/presentation/components/shared/add-members-form").then(
+			(component) => component.AddMembersForm
+		),
+	{
+		ssr: false, // Отключаем серверный рендеринг для модального окна
+	}
+);
 
 export default async function AddProjectMemberPage({
 	params,

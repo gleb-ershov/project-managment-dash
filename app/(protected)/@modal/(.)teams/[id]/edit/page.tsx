@@ -1,7 +1,24 @@
 import { findTeamById } from "@/src/application/queries/team/find-team-by-id";
-import { Modal } from "@/src/presentation/components/shared/modal";
-import { CreateTeamForm } from "@/src/presentation/components/team/forms/create-team-form";
 import { notFound } from "next/navigation";
+
+import dynamic from "next/dynamic";
+
+const Modal = dynamic(() =>
+	import("@/src/presentation/components/shared/modal").then(
+		(mod) => mod.Modal
+	)
+);
+
+const CreateTeamForm = dynamic(
+	() =>
+		import(
+			"@/src/presentation/components/team/forms/create-team-form"
+		).then((component) => component.CreateTeamForm),
+	{
+		ssr: false, // Отключаем серверный рендеринг для модального окна
+	}
+);
+
 
 export default async function EditTeamPage({
 	params,

@@ -1,20 +1,10 @@
-import { Button } from "../../ui/button";
 import { Badge } from "../../ui/badge";
 import { Progress } from "../../ui/progress";
-import {
-	CalendarIcon,
-	MoreVertical,
-	PencilIcon,
-	TrashIcon,
-} from "lucide-react";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
+import { CalendarIcon } from "lucide-react";
+
 import { calculateProgress } from "./projects-page-list-card";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
+import { EntityActionsMenu } from "../../shared/entity-action-menu";
 
 interface ProjectHeaderProps {
 	project: ProjectViewModel;
@@ -53,47 +43,25 @@ export const ProjectHeader = ({
 						<ProjectStatusBadge status={project.status} />
 					</div>
 
-					{project.description && (
-						<p className="mt-2 text-gray-500 max-w-2xl">
-							{project.description}
-						</p>
-					)}
+					<p className="mt-2 text-gray-500 max-w-2xl">
+						{project.description}
+					</p>
 				</div>
 
 				{isOwner && (
-					<DropdownMenu modal={false}>
-						<DropdownMenuTrigger asChild>
-							<Button variant="ghost" size="icon">
-								<MoreVertical className="h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							<DropdownMenuItem>
-								<PencilIcon className="h-4 w-4 mr-2" />
-								Edit Project
-							</DropdownMenuItem>
-							<DropdownMenuItem className="text-red-600">
-								<TrashIcon className="h-4 w-4 mr-2" />
-								Delete Project
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+					<EntityActionsMenu entity="project" entityId={project.id} />
 				)}
 			</div>
 
 			<div className="flex items-center gap-6 text-sm text-gray-500">
-				{project.createdAt && (
-					<div className="flex items-center gap-2">
-						<CalendarIcon className="h-4 w-4" />
-						<span>Started {project.createdAt}</span>
-					</div>
-				)}
-				{project.dueDate && (
-					<div className="flex items-center gap-2">
-						<CalendarIcon className="h-4 w-4" />
-						<span>Due {project.dueDate}</span>
-					</div>
-				)}
+				<div className="flex items-center gap-2">
+					<CalendarIcon className="h-4 w-4" />
+					<span>Started {project.createdAt}</span>
+				</div>
+				<div className="flex items-center gap-2">
+					<CalendarIcon className="h-4 w-4" />
+					<span>Due {project.dueDate}</span>
+				</div>
 			</div>
 
 			<div className="max-w-xl">

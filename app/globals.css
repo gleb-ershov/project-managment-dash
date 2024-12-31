@@ -83,11 +83,6 @@
 	}
 }
 
-html,
-body {
-	scrollbar-gutter: stable;
-}
-
 ::-webkit-scrollbar {
 	width: 6px;
 }

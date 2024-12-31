@@ -75,10 +75,12 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 							Current plan
 						</span>
 						<span className="text-[13px] text-[#808080]">
-							{user?.plan
-								? user?.plan.slice(0, 1) +
-								  user?.plan.slice(1).toLowerCase()
-								: null}
+							{user ? (
+								user?.plan.slice(0, 1) +
+								user?.plan.slice(1).toLowerCase()
+							) : (
+								<div className="h-[12px] mt-2 w-[80px] rounded-lg bg-[#dfdfdf] animate-pulse" />
+							)}
 						</span>
 					</div>
 

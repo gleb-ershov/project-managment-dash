@@ -1,5 +1,20 @@
-import { Modal } from "@/src/presentation/components/shared/modal";
-import { CreateTaskForm } from "@/src/presentation/components/task/forms/create-task-form";
+import dynamic from "next/dynamic";
+
+const Modal = dynamic(() =>
+	import("@/src/presentation/components/shared/modal").then(
+		(mod) => mod.Modal
+	)
+);
+
+const CreateTaskForm = dynamic(
+	() =>
+		import(
+			"@/src/presentation/components/task/forms/create-task-form"
+		).then((component) => component.CreateTaskForm),
+	{
+		ssr: false, // Отключаем серверный рендеринг для модального окна
+	}
+);
 
 export default function CreateTaskPage() {
 	return (
