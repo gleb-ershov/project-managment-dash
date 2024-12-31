@@ -82,3 +82,26 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+html,
+body {
+	scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #ebebeb;
+	border-radius: 20px;
+	transition: 0.3 ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #e2e2e2;
+}

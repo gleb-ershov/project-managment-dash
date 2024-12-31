@@ -23,8 +23,8 @@ export class UpdateTeamUseCase {
 				throw new Error("Team not found");
 			}
 
-			const memberPromises = data.memberIds
-				? data.memberIds.map((memberId) => {
+			const memberPromises = data.membersIds
+				? data.membersIds.map((memberId) => {
 						const teamMember = TeamMemberEntity.create({
 							teamId,
 							userId: memberId,

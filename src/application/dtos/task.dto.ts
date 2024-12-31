@@ -24,7 +24,7 @@ export const updateTaskSchema = createtaskSchema
 	.partial();
 
 export interface CreateTaskDTO extends z.infer<typeof createtaskSchema> {
-	memberIds: string[];
+	membersIds: string[];
 }
 export interface UpdateTaskDTO extends z.infer<typeof updateTaskSchema> {
 	membersIds?: string[];

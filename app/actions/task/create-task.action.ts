@@ -42,7 +42,7 @@ export const createTaskAction = async (
 			status: STATUS_FIELD_VALUE,
 			dueDate: new Date(DUE_DATE_FIELD_VALUE),
 			userId,
-			memberIds: MEMBERS_ID_VALUES,
+			membersIds: MEMBERS_ID_VALUES,
 			externalLinks: EXTERNAL_LINKS_FIELD_VALUE,
 			priority: PRIORITY_FIELD_VALUE,
 			projectId: PROJECT_ID,

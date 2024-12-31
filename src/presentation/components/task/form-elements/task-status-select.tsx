@@ -8,6 +8,7 @@ import {
 } from "../../ui/select";
 import { Label } from "../../ui/label";
 import { TaskStatus } from "@prisma/client";
+import { boolean } from "zod";
 
 interface TaskStatusSelectProps {
 	id?: string;
@@ -17,6 +18,7 @@ interface TaskStatusSelectProps {
 	required?: boolean;
 	disabled?: boolean;
 	className?: string;
+	noValueAllowed?: boolean;
 	onChange?: (value: string) => void;
 	onBlur?: () => void;
 }
@@ -35,6 +37,7 @@ export const TaskStatusSelect = memo(
 		required = true,
 		disabled = false,
 		className = "",
+		noValueAllowed = false,
 		onChange,
 	}: TaskStatusSelectProps) => {
 		return (
@@ -51,6 +54,9 @@ export const TaskStatusSelect = memo(
 						<SelectValue placeholder="Select status" />
 					</SelectTrigger>
 					<SelectContent>
+						{noValueAllowed ? (
+							<SelectItem value="all">All</SelectItem>
+						) : null}
 						{statusOptions.map(({ value, label }) => (
 							<SelectItem key={value} value={value}>
 								{label}

@@ -283,6 +283,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 		id: string,
 		data: Partial<ProjectEntity>
 	): Promise<ProjectEntity> {
+		console.log("DB INCOMING DATA", data);
 		try {
 			const project = await this.prisma.project.update({
 				where: { id },
@@ -291,6 +292,11 @@ export class PrismaProjectRepository implements IProjectRepository {
 					status: data.status,
 					dueDate: data.dueDate,
 					description: data.description,
+					members: {
+						connect: data.membersIds?.map((member) => ({
+							id: member,
+						})),
+					},
 				},
 				include: this.defaultIncludes,
 			});

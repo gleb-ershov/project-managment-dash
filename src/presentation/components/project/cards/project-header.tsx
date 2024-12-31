@@ -7,7 +7,6 @@ import {
 	PencilIcon,
 	TrashIcon,
 } from "lucide-react";
-import { format } from "date-fns";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -62,7 +61,7 @@ export const ProjectHeader = ({
 				</div>
 
 				{isOwner && (
-					<DropdownMenu>
+					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon">
 								<MoreVertical className="h-4 w-4" />

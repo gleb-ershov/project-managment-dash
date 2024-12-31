@@ -21,6 +21,7 @@ export class UpdateProjectUseCase {
 		if (validatedData.status) updateData.status = validatedData.status;
 		if ("description" in validatedData)
 			updateData.description = validatedData.description;
+		if (data.membersIds) updateData.membersIds = data.membersIds;
 
 		const updatedProject = await this.projectRepository.update(
 			id,

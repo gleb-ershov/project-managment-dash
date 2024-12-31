@@ -10,7 +10,7 @@ export class CreateTaskUseCase {
 
 		const taskEntity = await TaskEntity.create({
 			...validatedData,
-			membersIds: data.memberIds,
+			membersIds: data.membersIds,
 		});
 
 		const createdTask = await this.taskRepository.create(taskEntity);

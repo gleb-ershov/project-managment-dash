@@ -29,8 +29,8 @@ export class CreateTeamWithMembersUseCase {
 
 			await this.teamMemberRepository.create(creatorMember, tx);
 
-			const memberPromises = data.memberIds
-				? data.memberIds.map((memberId) => {
+			const memberPromises = data.membersIds
+				? data.membersIds.map((memberId) => {
 						const teamMember = TeamMemberEntity.create({
 							teamId: createdTeam.id,
 							userId: memberId,

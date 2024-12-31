@@ -25,7 +25,7 @@ export const createProjectAction = async (
 			status: formState.get("status") as ProjectStatus,
 			dueDate: DUE_DATE_FIELD_VALUE,
 			userId,
-			memberIds: MEMBERS_ID_VALUES ? MEMBERS_ID_VALUES.split(",") : [],
+			membersIds: MEMBERS_ID_VALUES ? MEMBERS_ID_VALUES.split(",") : [],
 			categoriesIds: CATEGORIES_ID_VALUES
 				? CATEGORIES_ID_VALUES.split(",")
 				: [],

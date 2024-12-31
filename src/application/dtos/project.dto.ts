@@ -20,9 +20,9 @@ export const updateProjectSchema = createprojectSchema
 	.partial();
 
 export interface CreateProjectDTO extends z.infer<typeof createprojectSchema> {
-	memberIds: string[];
+	membersIds: string[];
 	categoriesIds: string[];
 }
 export interface UpdateProjectDTO extends z.infer<typeof updateProjectSchema> {
-	memberIds?: string[];
+	membersIds?: string[];
 }

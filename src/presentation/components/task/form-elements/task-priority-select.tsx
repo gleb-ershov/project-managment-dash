@@ -17,6 +17,7 @@ interface TaskPrioritySelectProps {
 	required?: boolean;
 	disabled?: boolean;
 	className?: string;
+	noValueAllowed?: boolean;
 	onChange?: (value: string) => void;
 	onBlur?: () => void;
 }
@@ -34,6 +35,7 @@ export const TaskPrioritySelect = memo(
 		defaultValue = priorityOptions[0].value,
 		required = true,
 		disabled = false,
+		noValueAllowed = false,
 		className = "",
 		onChange,
 	}: TaskPrioritySelectProps) => {
@@ -51,6 +53,9 @@ export const TaskPrioritySelect = memo(
 						<SelectValue placeholder="Select status" />
 					</SelectTrigger>
 					<SelectContent>
+					{noValueAllowed ? (
+							<SelectItem value="all">All</SelectItem>
+						) : null}
 						{priorityOptions.map(({ value, label }) => (
 							<SelectItem key={value} value={value}>
 								{label}

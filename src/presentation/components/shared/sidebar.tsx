@@ -82,7 +82,7 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 						</span>
 					</div>
 
-					<DropdownMenu>
+					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger className="ml-auto outline-none">
 							<ChevronDown color="#808080" size={20} />
 						</DropdownMenuTrigger>

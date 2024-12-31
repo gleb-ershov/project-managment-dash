@@ -10,11 +10,13 @@ export class CreateProjectUseCase {
 
 		const projectEntity = ProjectEntity.create({
 			...validatedData,
-			membersIds: data.memberIds,
+			membersIds: data.membersIds,
 			categoriesIds: data.categoriesIds,
 		});
 
-		const createdProject = await this.projectRepository.create(projectEntity);
+		const createdProject = await this.projectRepository.create(
+			projectEntity
+		);
 
 		return createdProject;
 	}

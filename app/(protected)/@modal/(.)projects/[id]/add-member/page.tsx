@@ -9,7 +9,7 @@ export default async function AddProjectMemberPage({
 	const PROJECT_ID = (await params).id;
 
 	return (
-		<Modal>
+		<Modal title="Add members">
 			<AddMembersForm entity="project" entityId={PROJECT_ID} />
 		</Modal>
 	);

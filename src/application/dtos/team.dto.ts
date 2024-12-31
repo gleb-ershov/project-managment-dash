@@ -1,11 +1,11 @@
 export interface CreateTeamDTO {
 	name: string;
 	description?: string;
-	memberIds?: string[];
+	membersIds?: string[];
 }
 
 export interface UpdateTeamDTO {
 	name?: string;
 	description?: string;
-	memberIds?: string[];
+	membersIds?: string[];
 }

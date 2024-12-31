@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "react-day-picker";
 import { MemberSearchInput } from "../user/form-elements/user-search-input";
-import { useActionState, useMemo } from "react";
+import { useActionState, useEffect, useMemo } from "react";
 import { updateProjectAction } from "@/app/actions/project/update-project.action";
 import { updateTeamAction } from "@/app/actions/team/update-team.action";
 import { updateTaskAction } from "@/app/actions/task/update-task.action";
+import { Button } from "../ui/button";
 
 interface AddMembersFormProps {
 	entityId: string;
@@ -30,6 +30,7 @@ export const AddMembersForm = (props: AddMembersFormProps) => {
 		boundAction,
 		undefined
 	);
+	useEffect(() => console.log(formState), [formState]);
 
 	return (
 		<form action={action}>
