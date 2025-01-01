@@ -1,16 +1,20 @@
 "use server";
 
-import { Container } from "@/src/infrastructure/container/container";
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export const deleteTeamAction = async (teamId: string): Promise<void> => {
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { Container } from "@/src/infrastructure/container/container";
+import { QueryResponse } from "@/src/application/types/query-response";
+
+export const deleteTeamAction = async (
+	teamId: string
+): Promise<QueryResponse<void>> => {
 	try {
 		const teamService = Container.getInstance().resolve("TeamService");
 
 		await teamService.deleteTeam(teamId);
-		revalidatePath("/");
+		redirect("/");
 	} catch (error) {
-		console.error("Error creating task:", error);
-		throw error;
+		return queryErrorHandler(error);
 	}
 };

@@ -1,5 +1,9 @@
 "use server";
 
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
+import { TaskCommentViewModel } from "@/src/application/view-models/task-comment.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
 
@@ -13,7 +17,7 @@ export const updateTaskCommentAction = async (
 	args: UpdateCommentActionArgs,
 	currentState: unknown,
 	formData: FormData
-) => {
+): Promise<QueryResponse<TaskCommentViewModel>> => {
 	try {
 		const taskCommentService =
 			Container.getInstance().resolve("TaskCommentService");
@@ -26,6 +30,8 @@ export const updateTaskCommentAction = async (
 			commentId
 		);
 		revalidatePath(`/tasks/${taskId}`);
-		return comment;
-	} catch (error) {}
+		return querySuccessHandler(comment);
+	} catch (error) {
+		return queryErrorHandler(error);
+	}
 };

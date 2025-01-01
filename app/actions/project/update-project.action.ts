@@ -1,5 +1,8 @@
 "use server";
 
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
@@ -9,7 +12,7 @@ export const updateProjectAction = async (
 	projectId: string,
 	currentState: unknown,
 	formState: FormData
-): Promise<ProjectViewModel> => {
+): Promise<QueryResponse<ProjectViewModel>> => {
 	try {
 		const PROJECT_SERVICE =
 			Container.getInstance().resolve("ProjectService");
@@ -42,9 +45,11 @@ export const updateProjectAction = async (
 		);
 
 		revalidatePath(`/projects/${projectId}`);
-		return UPDATED_PROJECT;
+		return querySuccessHandler(UPDATED_PROJECT);
 	} catch (error) {
-		console.log("ERROR IS HERE", error);
-		throw new Error("Failed to update project");
+		return queryErrorHandler(
+			error,
+			"Error occurred while updating project"
+		);
 	}
 };

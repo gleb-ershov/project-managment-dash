@@ -1,5 +1,8 @@
 "use server";
 
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
 import { TeamViewModel } from "@/src/application/view-models/team.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
@@ -8,7 +11,7 @@ export const updateTeamAction = async (
 	teamId: string,
 	currentState: unknown,
 	formData: FormData
-): Promise<TeamViewModel> => {
+): Promise<QueryResponse<TeamViewModel>> => {
 	try {
 		const teamService = Container.getInstance().resolve("TeamService");
 
@@ -20,9 +23,8 @@ export const updateTeamAction = async (
 		const team = await teamService.updateTeam(payload, teamId);
 		revalidatePath("/");
 
-		return team;
+		return querySuccessHandler(team);
 	} catch (error) {
-		console.error("Error creating task:", error);
-		throw error;
+		return queryErrorHandler(error);
 	}
 };

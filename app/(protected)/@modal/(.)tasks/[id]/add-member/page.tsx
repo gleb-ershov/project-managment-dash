@@ -11,9 +11,7 @@ const AddMembersForm = dynamic(
 		import("@/src/presentation/components/shared/add-members-form").then(
 			(component) => component.AddMembersForm
 		),
-	{
-		, // Отключаем серверный рендеринг для модального окна
-	}
+
 );
 
 export default async function AddTaskMemberPage({

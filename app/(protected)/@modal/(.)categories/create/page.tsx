@@ -6,14 +6,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateCategoryForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/categories/forms/create-category-form"
-		).then((mod) => mod.CreateCategoryForm),
-	{
-		, // Отключаем серверный рендеринг для модального окна
-	}
+const CreateCategoryForm = dynamic(() =>
+	import(
+		"@/src/presentation/components/categories/forms/create-category-form"
+	).then((mod) => mod.CreateCategoryForm)
 );
 
 export default function CreateProjectPage() {

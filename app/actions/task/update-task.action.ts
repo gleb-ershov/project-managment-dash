@@ -8,12 +8,15 @@ import { parseExternalLinks } from "@/src/presentation/utils/shared/parse-extern
 import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { QueryResponse } from "@/src/application/types/query-response";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
 
 export const updateTaskAction = async (
 	taskId: string,
 	currentState: unknown,
 	formData: FormData
-): Promise<TaskViewModel> => {
+): Promise<QueryResponse<TaskViewModel>> => {
 	try {
 		const TASK_SERVICE = Container.getInstance().resolve("TaskService");
 
@@ -45,9 +48,8 @@ export const updateTaskAction = async (
 		});
 
 		revalidatePath("/");
-		return UPDATED_TASK;
+		return querySuccessHandler(UPDATED_TASK);
 	} catch (error) {
-		console.error("Error creating task:", error);
-		throw error;
+		return queryErrorHandler(error, "Error while updating task");
 	}
 };

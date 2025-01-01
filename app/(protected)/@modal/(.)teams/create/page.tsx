@@ -6,14 +6,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateTeamForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/team/forms/create-team-form"
-		).then((component) => component.CreateTeamForm),
-	{
-		, // Отключаем серверный рендеринг для модального окна
-	}
+const CreateTeamForm = dynamic(() =>
+	import("@/src/presentation/components/team/forms/create-team-form").then(
+		(component) => component.CreateTeamForm
+	)
 );
 
 export default function CreateTeamPage() {

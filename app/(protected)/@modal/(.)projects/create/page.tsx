@@ -6,14 +6,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateProjectForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/project/forms/create-project-form"
-		).then((mod) => mod.CreateProjectForm),
-	{
-		, // Отключаем серверный рендеринг для модального окна
-	}
+const CreateProjectForm = dynamic(() =>
+	import(
+		"@/src/presentation/components/project/forms/create-project-form"
+	).then((mod) => mod.CreateProjectForm)
 );
 
 export default function CreateProjectPage() {

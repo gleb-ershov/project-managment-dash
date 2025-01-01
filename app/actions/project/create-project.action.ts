@@ -1,5 +1,8 @@
 "use server";
 
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
@@ -8,7 +11,7 @@ export const createProjectAction = async (
 	userId: string,
 	currentState: unknown,
 	formState: FormData
-): Promise<ProjectViewModel> => {
+): Promise<QueryResponse<ProjectViewModel>> => {
 	try {
 		const PROJECT_SERVICE =
 			Container.getInstance().resolve("ProjectService");
@@ -32,8 +35,11 @@ export const createProjectAction = async (
 		});
 
 		revalidatePath("/");
-		return NEW_PROJECT;
+		return querySuccessHandler(NEW_PROJECT);
 	} catch (error) {
-		throw new Error("Failed to create project");
+		return queryErrorHandler(
+			error,
+			"Error occurred whilte creating new project"
+		);
 	}
 };

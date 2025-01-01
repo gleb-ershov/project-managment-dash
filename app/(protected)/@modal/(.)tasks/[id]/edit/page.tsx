@@ -10,14 +10,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateTaskForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/task/forms/create-task-form"
-		).then((component) => component.CreateTaskForm),
-	{
-		, // Отключаем серверный рендеринг для модального окна
-	}
+const CreateTaskForm = dynamic(() =>
+	import("@/src/presentation/components/task/forms/create-task-form").then(
+		(component) => component.CreateTaskForm
+	)
 );
 
 export default async function EditTaskPage({

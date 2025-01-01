@@ -1,5 +1,8 @@
 "use server";
 
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
 import { Container } from "@/src/infrastructure/container/container";
 import { revalidatePath } from "next/cache";
 
@@ -10,12 +13,15 @@ interface DeleteCommentActionArgs {
 
 export const updateTaskCommentAction = async (
 	args: DeleteCommentActionArgs
-): Promise<void> => {
+): Promise<QueryResponse<void>> => {
 	try {
 		const taskCommentService =
 			Container.getInstance().resolve("TaskCommentService");
 		const { commentId, taskId } = args;
-		await taskCommentService.deleteTaskComment(commentId);
+		const comment = await taskCommentService.deleteTaskComment(commentId);
 		revalidatePath(`/tasks/${taskId}`);
-	} catch (error) {}
+		return querySuccessHandler(comment);
+	} catch (error) {
+		return queryErrorHandler(error);
+	}
 };
