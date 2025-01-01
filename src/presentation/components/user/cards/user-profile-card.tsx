@@ -1,14 +1,9 @@
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "../../ui/card";
+import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import Image from "next/image";
 import { formatUserName } from "@/src/presentation/utils/user/format-user-name";
 import { getUser } from "@/src/application/queries/user/get-user";
+import { ShareButton } from "../../shared/share-button";
 
 export const UserProfile = async ({ userId }: { userId: string }) => {
 	const USER_DATA = await getUser(userId);
@@ -59,6 +54,10 @@ export const UserProfile = async ({ userId }: { userId: string }) => {
 					</div>
 				</div>
 			</CardContent>
+			<ShareButton
+				size="sm"
+				className="border-0 dark:hover:bg-[#141414]"
+			/>
 		</Card>
 	);
 };

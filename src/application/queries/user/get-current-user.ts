@@ -10,6 +10,7 @@ let userCache: { [key: string]: { user: UserViewModel; timestamp: number } } =
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 export const getCurrentUser = async (): Promise<UserViewModel | null> => {
+	console.log("TRIGGERED");
 	try {
 		const cookieStore = await cookies();
 		const accessToken = cookieStore.get("accessToken")?.value;

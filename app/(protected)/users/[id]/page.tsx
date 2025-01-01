@@ -1,7 +1,7 @@
-import { getUsersSharedProjects } from "@/src/application/queries/project/get-users-shared-projects";
-import { getUsersSharedTasks } from "@/src/application/queries/task/get-users-shared-tasks";
-import { getUsersSharedTeams } from "@/src/application/queries/team/get-users-shared-teams";
-import { Card, CardHeader } from "@/src/presentation/components/ui/card";
+import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
+import { SharedProjectsList } from "@/src/presentation/components/project/lists/shared-projects-list";
+import { SharedTasksList } from "@/src/presentation/components/task/lists/shared-tasks-list";
+import { SharedTeamsList } from "@/src/presentation/components/team/lists/shared-teams-list";
 import { UserProfile } from "@/src/presentation/components/user/cards/user-profile-card";
 import { UserStatsContainer } from "@/src/presentation/components/user/cards/user-stats-container";
 import { UserSettingsButton } from "@/src/presentation/components/user/form-elements/user-settings-button";
@@ -13,12 +13,8 @@ export default async function UserPage({
 	params: Promise<{ id: string }>;
 }) {
 	const USER_ID = (await params).id;
-	const sharedProjects = await getUsersSharedProjects(USER_ID);
-	const sharedTasks = await getUsersSharedTasks(USER_ID);
-	const sharedTeams = await getUsersSharedTeams(USER_ID);
-	console.log("SHARED PROJECTS", sharedProjects);
-	console.log("SHARED TASKS", sharedTasks);
-	console.log("SHARED TEAMS", sharedTeams);
+	const currentUser = await getCurrentUser();
+	const currentUserId = currentUser?.id || "";
 
 	return (
 		<div className="container mx-auto py-8 flex flex-col gap-6">
@@ -27,7 +23,11 @@ export default async function UserPage({
 				<p className="text-sm text-muted-foreground">
 					View and manage user information
 				</p>
-				<UserSettingsButton userId={USER_ID} className="ml-auto" />
+				<UserSettingsButton
+					userId={USER_ID}
+					currentUserId={currentUserId}
+					className="ml-auto"
+				/>
 			</div>
 			<Suspense fallback={<div>Loading...</div>}>
 				<UserProfile userId={USER_ID} />
@@ -36,21 +36,18 @@ export default async function UserPage({
 				<Suspense fallback={<div>Loading...</div>}>
 					<UserStatsContainer userId={USER_ID} />
 				</Suspense>
-				<Card className="dark:bg-[#18181B] flex-1" />
-				<Card className="dark:bg-[#18181B] flex-1" />
-				<Card className="dark:bg-[#18181B] flex-1" />
-
-				{/* <Card className="dark:bg-[#18181B] flex-1">
-					<CardHeader>Shared activities</CardHeader>
-					<div className="flex items-center justify-between gap-4">
-						<div className="h-[340px] border-r-[1px] border-[#272727] flex-1" />
-						<div className="h-[340px] flex-1" />
-						<div className="h-[340px] border-l-[1px] border-[#272727] flex-1" />
-					</div>
-				</Card> */}
-				{/* SharedProjects */}
-				{/* SharedTasks */}
-				{/* SharedTeams */}
+				<SharedProjectsList
+					userId={USER_ID}
+					currentUserId={currentUserId}
+				/>
+				<SharedTasksList
+					userId={USER_ID}
+					currentUserId={currentUserId}
+				/>
+				<SharedTeamsList
+					userId={USER_ID}
+					currentUserId={currentUserId}
+				/>
 			</div>
 		</div>
 	);
