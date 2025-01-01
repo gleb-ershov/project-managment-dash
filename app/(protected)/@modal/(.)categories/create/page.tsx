@@ -12,7 +12,7 @@ const CreateCategoryForm = dynamic(
 			"@/src/presentation/components/categories/forms/create-category-form"
 		).then((mod) => mod.CreateCategoryForm),
 	{
-		ssr: false, // Отключаем серверный рендеринг для модального окна
+		, // Отключаем серверный рендеринг для модального окна
 	}
 );
 

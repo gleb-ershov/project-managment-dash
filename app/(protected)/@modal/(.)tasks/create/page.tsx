@@ -12,7 +12,7 @@ const CreateTaskForm = dynamic(
 			"@/src/presentation/components/task/forms/create-task-form"
 		).then((component) => component.CreateTaskForm),
 	{
-		ssr: false, // Отключаем серверный рендеринг для модального окна
+		, // Отключаем серверный рендеринг для модального окна
 	}
 );
 

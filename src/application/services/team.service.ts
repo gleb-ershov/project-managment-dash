@@ -7,6 +7,7 @@ import { TeamViewModel } from "../view-models/team.view-model";
 import { CreateTeamDTO } from "../dtos/team.dto";
 import { DeleteTeamUseCase } from "../use-cases/team/delete-team.use-case";
 import { FindTeamByIdUseCase } from "../use-cases/team/find-team-by-id.use-case";
+import { FindUsersSharedTeamsUseCase } from "../use-cases/team/find-users-shared-teams.use-case";
 
 export class TeamService {
 	constructor(
@@ -15,8 +16,20 @@ export class TeamService {
 		private readonly findTeamByIdUseCase: FindTeamByIdUseCase,
 		private readonly createTeamWithMembersUseCase: CreateTeamWithMembersUseCase,
 		private readonly updateTeamUseCase: UpdateTeamUseCase,
-		private readonly deleteTeamUseCase: DeleteTeamUseCase
+		private readonly deleteTeamUseCase: DeleteTeamUseCase,
+		private readonly findUsersSharedTeamsUseCase: FindUsersSharedTeamsUseCase
 	) {}
+
+	async findUsersSharedTeams(
+		currentUserId: string,
+		userId: string
+	): Promise<TeamViewModel[]> {
+		const teams = await this.findUsersSharedTeamsUseCase.execute(
+			currentUserId,
+			userId
+		);
+		return TeamMapper.toViewModels(teams);
+	}
 
 	async findTeamById(teamId: string): Promise<TeamViewModel | null> {
 		const team = await this.findTeamByIdUseCase.execute(teamId);

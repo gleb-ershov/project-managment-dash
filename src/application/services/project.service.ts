@@ -11,6 +11,7 @@ import { CreateProjectDTO, UpdateProjectDTO } from "../dtos/project.dto";
 import { ProjectMapper } from "../mappers/project.mapper";
 import { ProjectViewModel } from "../view-models/project.view-model";
 import { FindProjectsByQueryAndUserUseCase } from "../use-cases/project/find-projects-by-query-and-user.use-case";
+import { FindUsersSharedProjectsUseCase } from "../use-cases/project/find-users-shared-projects.use-case";
 
 interface FindWithFiltersAndSortUseCaseRequest {
 	userId: string;
@@ -29,8 +30,20 @@ export class ProjectService {
 		private readonly findProjectsByUserIdUseCase: FindProjectsByUserIdUseCase,
 		private readonly getUserFinishedProjectsCountUseCase: GetUserFinishedProjectsCountUseCase,
 		private readonly findWithFiltersAndSortUseCase: FindWithFiltersAndSortUseCase,
-		private readonly findProjectsByQueryUseCase: FindProjectsByQueryAndUserUseCase
+		private readonly findProjectsByQueryUseCase: FindProjectsByQueryAndUserUseCase,
+		private readonly findUsersSharedProjectsUseCase: FindUsersSharedProjectsUseCase
 	) {}
+
+	async findUsersSharedProjects(
+		currentUserId: string,
+		userId: string
+	): Promise<ProjectViewModel[]> {
+		const projects = await this.findUsersSharedProjectsUseCase.execute(
+			currentUserId,
+			userId
+		);
+		return ProjectMapper.toViewModels(projects);
+	}
 
 	async findProjectsByQuery(
 		userId: string,

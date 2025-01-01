@@ -1,3 +1,5 @@
+"server-only";
+
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectViewModel } from "../../view-models/project.view-model";
 import { UnauthorizedError } from "@/src/domain/errors/application.error";

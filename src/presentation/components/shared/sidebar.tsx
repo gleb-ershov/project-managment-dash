@@ -71,7 +71,7 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 				<div className="mx-auto flex w-[85%] items-center gap-3">
 					<div className="h-10 w-10 rounded-lg bg-[#C2DD4B]" />
 					<div className="flex flex-col justify-center">
-						<span className="text-sm font-semibold text-[#010100] dark:text-white">
+						<span className="text-sm font-semibold text-[#010100] dark:text-white h-[20px]">
 							Current plan
 						</span>
 						<span className="text-[13px] text-[#808080]">
@@ -79,7 +79,7 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 								user?.plan.slice(0, 1) +
 								user?.plan.slice(1).toLowerCase()
 							) : (
-								<div className="h-[12px] mt-2 w-[80px] rounded-lg bg-[#dfdfdf] animate-pulse" />
+								<div className="h-[13px] mt-[5px] w-[80px] rounded-lg bg-[#dfdfdf] animate-pulse" />
 							)}
 						</span>
 					</div>
@@ -115,7 +115,7 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 						<CheckCircle {...ICON_PROPS_DEFAULT} />
 					</SidebarItemExtended>
 
-					<Collapsible defaultOpen className="group/collapsible">
+					<Collapsible className="group/collapsible">
 						<SidebarMenuItem
 							className={cn(
 								"mx-auto flex w-[90%] flex-col font-medium text-[#848485]",
@@ -128,7 +128,7 @@ export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 								<SidebarMenuButton
 									isActive={pathname.startsWith("/projects")}
 									className={cn(
-										"mx-auto flex h-10 items-center px-4 duration-300 hover:bg-[#F0F0EF] hover:text-[#101010]",
+										"mx-auto flex h-10 items-center px-4 duration-300 hover:bg-[#F0F0EF] hover:text-[#101010] dark:hover:bg-[#27272a] dark:hover:text-white",
 										{
 											"justify-center": sidebarStatus,
 										}

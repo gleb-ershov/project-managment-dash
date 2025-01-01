@@ -10,12 +10,12 @@ interface UserStatsCardProps {
 export const UserStatsCard = (props: UserStatsCardProps) => {
 	const { label, amount, icon, content } = props;
 	return (
-		<Card>
-			<CardHeader>
-				{label}
+		<Card className="dark:bg-[#18181B] p-0 flex-1">
+			<CardHeader className="flex flex-row gap-2">
 				{icon}
+				{label}
 			</CardHeader>
-			<CardContent>{amount}</CardContent>
+			<CardContent className="font-bold text-2xl pb-0">{amount}</CardContent>
 			<CardContent>{content}</CardContent>
 		</Card>
 	);

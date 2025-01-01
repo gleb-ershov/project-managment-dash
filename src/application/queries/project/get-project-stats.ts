@@ -1,3 +1,5 @@
+"server-only";
+
 import { differenceInDays, parse } from "date-fns";
 import { ProjectViewModel } from "../../view-models/project.view-model";
 

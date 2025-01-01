@@ -15,7 +15,7 @@ const CreateTeamForm = dynamic(
 			"@/src/presentation/components/team/forms/create-team-form"
 		).then((component) => component.CreateTeamForm),
 	{
-		ssr: false, // Отключаем серверный рендеринг для модального окна
+		, // Отключаем серверный рендеринг для модального окна
 	}
 );
 

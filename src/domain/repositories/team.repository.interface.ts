@@ -9,4 +9,8 @@ export interface ITeamRepository {
 	addMember(teamId: string, membersIds: string[]): Promise<TeamEntity>;
 	removeMember(teamId: string, userId: string): Promise<TeamEntity>;
 	countTeamsByUserId(userId: string): Promise<number>;
+	findUsersSharedTeams(
+		currentUserId: string,
+		userId: string
+	): Promise<TeamEntity[]>;
 }

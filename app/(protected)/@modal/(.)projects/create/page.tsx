@@ -12,7 +12,7 @@ const CreateProjectForm = dynamic(
 			"@/src/presentation/components/project/forms/create-project-form"
 		).then((mod) => mod.CreateProjectForm),
 	{
-		ssr: false, // Отключаем серверный рендеринг для модального окна
+		, // Отключаем серверный рендеринг для модального окна
 	}
 );
 

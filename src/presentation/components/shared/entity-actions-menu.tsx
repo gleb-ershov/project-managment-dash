@@ -29,13 +29,13 @@ export const EntityActionsMenu = (props: EntityActionsMenuProps) => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuItem asChild>
-					<Link href={`/${entity}/${entityId}/edit`}>
+					<Link href={`/${entity}s/${entityId}/edit`}>
 						<PencilIcon className="h-4 w-4 mr-2" />
 						{`Edit ${MENU_LABELS[entity]}`}
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild className="text-red-600">
-					<Link href={`/${entity}/${entityId}/delete`}>
+					<Link href={`/${entity}s/${entityId}/delete`}>
 						<TrashIcon className="h-4 w-4 mr-2" />
 						{`Delete ${MENU_LABELS[entity]}`}
 					</Link>

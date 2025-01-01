@@ -12,7 +12,7 @@ const AddMembersForm = dynamic(
 			(component) => component.AddMembersForm
 		),
 	{
-		ssr: false, // Отключаем серверный рендеринг для модального окна
+		, // Отключаем серверный рендеринг для модального окна
 	}
 );
 

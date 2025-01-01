@@ -3,11 +3,22 @@
 import { LogOut, Mail, Share2 } from "lucide-react";
 import Image from "next/image";
 import { useAuth } from "../../../hooks/auth/use-auth";
+import Link from "next/link";
+
+const CurrentUserCardSkeleton = () => {
+	return (
+		<div className="mx-auto flex w-[85%] items-center gap-1.5 h-[40px]">
+			<div className="rounded-full h-[34px] w-[34px] bg-[#30294F] dark:bg-[#272525] animate-pulse" />
+			<div className="flex flex-col justify-center gap-2">
+				<span className="h-[13px] animate-pulse w-[140px] bg-[#30294F] dark:bg-[#272525]" />
+				<span className="h-[11px] animate-pulse w-[100px] bg-[#30294F] dark:bg-[#272525]" />
+			</div>
+		</div>
+	);
+};
 
 export const CurrentUserCard = () => {
 	const { user, logout } = useAuth();
-
-	// TODO ADD SKELETON INSTEAD OF NULL
 
 	return (
 		<div className="mx-auto mb-4 mt-4 w-[90%] rounded-lg bg-[#0C0A25] py-3 shadow-sm dark:bg-[#131212]">
@@ -21,13 +32,18 @@ export const CurrentUserCard = () => {
 						alt="profile picture"
 					/>
 					<div className="flex flex-col justify-center">
-						<span className="text-[13px] text-white">{`${user?.name} ${user?.surname}`}</span>
-						<span className="text-[11px] text-[#9691A9]">
+						<Link
+							href={`/users/${user?.id}`}
+							className="text-[13px] text-white h-[20px]"
+						>{`${user?.name} ${user?.surname}`}</Link>
+						<span className="text-[11px] text-[#9691A9] h-[20px]">
 							{user?.email}
 						</span>
 					</div>
 				</div>
-			) : null}
+			) : (
+				<CurrentUserCardSkeleton />
+			)}
 			<div className="mt-4 flex w-[90%] items-center gap-2">
 				<button
 					className="ml-4 rounded-lg bg-[#30294F] p-1.5 dark:bg-[#272525]"

@@ -2,9 +2,42 @@ import { TeamEntity } from "@/src/domain/enitites/team.entity";
 import { ITeamRepository } from "@/src/domain/repositories/team.repository.interface";
 import { PrismaClient } from "@prisma/client";
 import { PrismaTeamMapper } from "../mappers/prisma.team.mapper";
+import { DatabaseError } from "@/src/domain/errors/application.error";
 
 export class PrismaTeamRepository implements ITeamRepository {
 	constructor(private prisma: PrismaClient) {}
+
+	async findUsersSharedTeams(
+		currentUserId: string,
+		userId: string
+	): Promise<TeamEntity[]> {
+		try {
+			const teams = await this.prisma.team.findMany({
+				where: {
+					AND: [
+						{
+							members: {
+								some: {
+									userId,
+								},
+							},
+						},
+						{
+							members: {
+								some: {
+									userId: currentUserId,
+								},
+							},
+						},
+					],
+				},
+			});
+
+			return teams.map((team) => PrismaTeamMapper.toDomain(team));
+		} catch (error) {
+			throw new DatabaseError("Failed to fetch teams", error);
+		}
+	}
 
 	async findById(id: string): Promise<TeamEntity | null> {
 		const team = await this.prisma.team.findUnique({

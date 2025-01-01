@@ -4,7 +4,7 @@ import { CalendarIcon } from "lucide-react";
 
 import { calculateProgress } from "./projects-page-list-card";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
-import { EntityActionsMenu } from "../../shared/entity-action-menu";
+import { EntityActionsMenu } from "../../shared/entity-actions-menu";
 
 interface ProjectHeaderProps {
 	project: ProjectViewModel;

@@ -57,6 +57,11 @@ export const ProjectTasks = ({ project }: ProjectTasksProps) => {
 				{FILTERED_TASKS?.map((task) => (
 					<GroupedTasksCard key={task.id} task={task} />
 				))}
+				{FILTERED_TASKS?.length === 0 && (
+					<span className="text-muted-foreground mt-4">
+						No tasks in this project yet.
+					</span>
+				)}
 			</div>
 		</div>
 	);

@@ -28,6 +28,51 @@ export class PrismaProjectRepository implements IProjectRepository {
 		},
 	};
 
+	async findUsersSharedProjects(
+		currentUserId: string,
+		userId: string
+	): Promise<ProjectEntity[]> {
+		try {
+			const projects = await this.prisma.project.findMany({
+				where: {
+					OR: [
+						{
+							AND: [
+								{ userId: currentUserId },
+								{
+									members: {
+										some: {
+											id: userId,
+										},
+									},
+								},
+							],
+						},
+						{
+							AND: [
+								{ userId },
+								{
+									members: {
+										some: {
+											id: currentUserId,
+										},
+									},
+								},
+							],
+						},
+					],
+				},
+				include: this.defaultIncludes,
+			});
+
+			return projects.map((project) =>
+				PrismaProjectMapper.toDomain(project)
+			);
+		} catch (error) {
+			throw new DatabaseError("Failed to fetch projects", error);
+		}
+	}
+
 	async addMember(
 		projectId: string,
 		membersIds: string[]
@@ -283,7 +328,6 @@ export class PrismaProjectRepository implements IProjectRepository {
 		id: string,
 		data: Partial<ProjectEntity>
 	): Promise<ProjectEntity> {
-		console.log("DB INCOMING DATA", data);
 		try {
 			const project = await this.prisma.project.update({
 				where: { id },

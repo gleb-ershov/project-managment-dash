@@ -16,27 +16,49 @@ export const UserProfile = async ({ userId }: { userId: string }) => {
 	const IMG_URL = USER_DATA?.imageUrl || "/avatar-placeholder.png";
 
 	return (
-		<Card>
-			<CardHeader>
+		<Card className="dark:bg-[#18181B] p-4">
+			<CardContent className="flex flex-row gap-8">
 				<Image
 					src={IMG_URL}
 					alt={`${USER_FULL_NAME}'s profile`}
-					width={72}
-					height={72}
+					width={140}
+					height={140}
 					className="rounded-full"
 				/>
-				<CardTitle>{USER_FULL_NAME}</CardTitle>
-				<CardDescription>{USER_DATA?.email}</CardDescription>
-			</CardHeader>
-
-			<CardContent>
-				<p>{USER_DATA?.description}</p>
-				<Badge variant="outline" className="mt-2">
-					{USER_DATA?.plan}
-				</Badge>
+				<div className="flex flex-col w-full">
+					<div className="flex items-start gap-4 flex-1">
+						<div className="flex flex-col gap-2">
+							<span className="text-sm text-muted-foreground">
+								Name
+							</span>
+							<span className="font-medium text-white">
+								{USER_FULL_NAME}
+							</span>
+						</div>
+						<div className="flex flex-col gap-2">
+							<span className="text-sm text-muted-foreground">
+								Email
+							</span>
+							<span className="font-medium text-white">
+								{USER_DATA?.email}
+							</span>
+						</div>
+						<Badge variant="outline" className="ml-auto">
+							{USER_DATA?.plan}
+						</Badge>
+					</div>
+					<div className="flex flex-col gap-2">
+						<span className="text-sm text-muted-foreground">
+							Bio
+						</span>
+						<p className="font-normal text-muted-foreground">
+							{USER_DATA?.description?.length
+								? USER_DATA.description
+								: "No additional info about this user."}
+						</p>
+					</div>
+				</div>
 			</CardContent>
 		</Card>
 	);
 };
-
-export default UserProfile;

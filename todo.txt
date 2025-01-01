@@ -1,9 +1,0 @@
-Add task in project page
-
-filters on tasks and proj page
-
-skeletons for message block
-skeeltons for comments
-fix skeletons for stats cards
-
-error define in layer in correct way

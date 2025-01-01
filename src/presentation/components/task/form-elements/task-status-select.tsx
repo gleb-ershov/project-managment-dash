@@ -8,7 +8,6 @@ import {
 } from "../../ui/select";
 import { Label } from "../../ui/label";
 import { TaskStatus } from "@prisma/client";
-import { boolean } from "zod";
 
 interface TaskStatusSelectProps {
 	id?: string;
@@ -43,7 +42,7 @@ export const TaskStatusSelect = memo(
 		return (
 			<div className={`space-y-2 ${className}`}>
 				<Label htmlFor={id}>{label}</Label>
-				<Select 
+				<Select
 					required={required}
 					name={name}
 					defaultValue={defaultValue}
