@@ -1,4 +1,9 @@
-import { ValidationError } from "@/src/domain/errors/application.error";
+import {
+	InternalServerError,
+	NotFoundError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 import { IUserRepository } from "@/src/domain/repositories/user.repository.interface";
 import { JWTService } from "@/src/infrastructure/services/jwt.service";
 import { TokenPair } from "@/src/types/jwt";
@@ -14,7 +19,7 @@ export class RefreshTokenUseCase {
 			// Check if user still exists
 			const user = await this.userRepository.findById(payload.userId);
 			if (!user) {
-				throw new ValidationError("User not found");
+				throw new NotFoundError("User not found");
 			}
 
 			// Generate new token pair
@@ -22,8 +27,11 @@ export class RefreshTokenUseCase {
 				userId: user.id,
 				email: user.email.getValue(),
 			});
-		} catch {
-			throw new ValidationError("Invalid refresh token");
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
 		}
 	}
 }

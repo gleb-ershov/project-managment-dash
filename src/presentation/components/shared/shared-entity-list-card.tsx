@@ -15,7 +15,7 @@ export const SharedEntityListCard = (props: SharedEntityListCardProps) => {
 		<Link
 			key={entity.id}
 			href={`/${type}s/${entity.id}`}
-			className="hover:text-white duration-300
+			className="hover:text-white duration-300 text-sm
 					py-2 px-4 text-center text-gray-200 rounded-lg dark:bg-[#2b2b31] w-[90%] mx-auto"
 		>
 			{CARD_TITLE}

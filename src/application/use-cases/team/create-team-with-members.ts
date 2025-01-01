@@ -4,6 +4,11 @@ import { PrismaClient, Team } from "@prisma/client";
 import { TeamEntity } from "@/src/domain/enitites/team.entity";
 import { TeamMemberEntity } from "@/src/domain/enitites/team-member.entity";
 import { CreateTeamDTO } from "../../dtos/team.dto";
+import {
+	InternalServerError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 export class CreateTeamWithMembersUseCase {
 	constructor(
@@ -14,42 +19,65 @@ export class CreateTeamWithMembersUseCase {
 
 	async execute(data: CreateTeamDTO, creatorId: string): Promise<TeamEntity> {
 		return this.prisma.$transaction(async (tx) => {
-			const team = TeamEntity.create({
-				name: data.name,
-				description: data.description,
-			});
+			try {
+				if (data.name.length === 0) {
+					throw new ValidationError("Team's name can not be empty");
+				}
 
-			const createdTeam = await this.teamRepository.create(team, tx);
+				const team = TeamEntity.create({
+					name: data.name,
+					description: data.description,
+				});
 
-			const creatorMember = TeamMemberEntity.create({
-				teamId: createdTeam.id,
-				userId: creatorId,
-				role: "ADMIN",
-			});
+				const createdTeam = await this.teamRepository.create(team, tx);
 
-			await this.teamMemberRepository.create(creatorMember, tx);
+				const creatorMember = TeamMemberEntity.create({
+					teamId: createdTeam.id,
+					userId: creatorId,
+					role: "ADMIN",
+				});
 
-			const memberPromises = data.membersIds
-				? data.membersIds.map((memberId) => {
-						const teamMember = TeamMemberEntity.create({
-							teamId: createdTeam.id,
-							userId: memberId,
-							role: "MEMBER",
-						});
-						return this.teamMemberRepository.create(teamMember, tx);
-				  })
-				: [];
+				await this.teamMemberRepository.create(creatorMember, tx);
 
-			await Promise.all(memberPromises);
+				if (data.membersIds?.length === 0) {
+					throw new ValidationError(
+						"Cannot pass an empty ids for members"
+					);
+				}
 
-			return new TeamEntity(
-				createdTeam.id,
-				createdTeam.name,
-				createdTeam.description,
-				createdTeam.createdAt,
-				createdTeam.updatedAt,
-				createdTeam.teamMembers
-			);
+				const memberPromises = data.membersIds
+					? data.membersIds.map((memberId) => {
+							const teamMember = TeamMemberEntity.create({
+								teamId: createdTeam.id,
+								userId: memberId,
+								role: "MEMBER",
+							});
+							return this.teamMemberRepository.create(
+								teamMember,
+								tx
+							);
+					  })
+					: [];
+
+				await Promise.all(memberPromises);
+
+				return new TeamEntity(
+					createdTeam.id,
+					createdTeam.name,
+					createdTeam.description,
+					createdTeam.createdAt,
+					createdTeam.updatedAt,
+					createdTeam.teamMembers
+				);
+			} catch (error) {
+				if (error instanceof BaseError) {
+					throw error;
+				}
+				throw new InternalServerError(
+					"An unexpected error occured",
+					error
+				);
+			}
 		});
 	}
 }

@@ -3,6 +3,8 @@ import { UpdateTaskCommentUseCase } from "../use-cases/task-comment/update-task-
 import { TaskCommentViewModel } from "../view-models/task-comment.view-model";
 import { TaskCommentMapper } from "../mappers/task-comment.mapper";
 import { DeleteTaskCommentUseCase } from "../use-cases/task-comment/delete-task-comment.use-case";
+import { InternalServerError } from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 export class TaskCommentService {
 	constructor(
@@ -12,7 +14,14 @@ export class TaskCommentService {
 	) {}
 
 	async deleteTaskComment(commentId: string): Promise<void> {
-		await this.deleteTaskCommentUseCase.execute(commentId);
+		try {
+			await this.deleteTaskCommentUseCase.execute(commentId);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async createTaskComment(
@@ -20,11 +29,18 @@ export class TaskCommentService {
 		content: string,
 		authorId: string
 	): Promise<TaskCommentViewModel> {
-		const comment = await this.createTaskCommentUseCase.execute(
-			{ taskId, content },
-			authorId
-		);
-		return TaskCommentMapper.toViewModel(comment);
+		try {
+			const comment = await this.createTaskCommentUseCase.execute(
+				{ taskId, content },
+				authorId
+			);
+			return TaskCommentMapper.toViewModel(comment);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async updateTaskComment(
@@ -33,11 +49,18 @@ export class TaskCommentService {
 		content: string,
 		commentId: string
 	): Promise<TaskCommentViewModel> {
-		const comment = await this.updateTaskCommentUseCase.execute(
-			commentId,
-			{ id: taskId, content },
-			currentUserId
-		);
-		return TaskCommentMapper.toViewModel(comment);
+		try {
+			const comment = await this.updateTaskCommentUseCase.execute(
+				commentId,
+				{ id: taskId, content },
+				currentUserId
+			);
+			return TaskCommentMapper.toViewModel(comment);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 }

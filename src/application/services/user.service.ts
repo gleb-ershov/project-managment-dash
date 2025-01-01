@@ -5,6 +5,14 @@ import { CreateUserDTO, UpdateUserDTO } from "../dtos/user.dto";
 import { UserViewModel } from "../view-models/user.view-model";
 import { UserMapper } from "../mappers/user.mapper";
 import { FindUsersByQuery } from "../use-cases/user/find-users-by-query.use-case";
+import {
+	DatabaseError,
+	DuplicateError,
+	InternalServerError,
+	NotFoundError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 export class UserService {
 	constructor(
@@ -15,25 +23,55 @@ export class UserService {
 	) {}
 
 	async findUsersByQuery(query: string): Promise<UserViewModel[]> {
-		const users = await this.findUsersByQueryUseCase.execute(query);
-		return UserMapper.toViewModels(users);
+		try {
+			const users = await this.findUsersByQueryUseCase.execute(query);
+			return UserMapper.toViewModels(users);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async getUser(id: string): Promise<UserViewModel | null> {
-		const user = await this.getUserUseCase.execute(id);
-		return user ? UserMapper.toViewModel(user) : null;
+		try {
+			const user = await this.getUserUseCase.execute(id);
+			return user ? UserMapper.toViewModel(user) : null;
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async createUser(fields: CreateUserDTO): Promise<UserViewModel> {
-		const user = await this.createUserUseCase.execute(fields);
-		return UserMapper.toViewModel(user);
+		try {
+			const user = await this.createUserUseCase.execute(fields);
+			return UserMapper.toViewModel(user);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async updateUser(
 		id: string,
 		fields: UpdateUserDTO
 	): Promise<UserViewModel> {
-		const user = await this.updateUserUseCase.execute(id, { ...fields });
-		return UserMapper.toViewModel(user);
+		try {
+			const user = await this.updateUserUseCase.execute(id, {
+				...fields,
+			});
+			return UserMapper.toViewModel(user);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 }

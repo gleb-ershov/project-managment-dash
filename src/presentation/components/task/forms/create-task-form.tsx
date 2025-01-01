@@ -14,6 +14,7 @@ import { ProjectStatus } from "@prisma/client";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 import { useTaskForm } from "@/src/presentation/hooks/shared/use-task-form";
+import { useEffect } from "react";
 
 interface CreateTaskFormInitialState {
 	title: string;
@@ -43,7 +44,11 @@ export const CreateTaskForm = (props: CreateTaskFormProps) => {
 		BUTTON_LABEL,
 		createAction,
 		updateAction,
+		createState,
+		updateState,
 	} = useTaskForm(mode, taskId, onSuccess);
+
+	useEffect(() => console.log(createState), [createState]);
 
 	return (
 		<form action={IS_UPDATE_FORM ? updateAction : createAction}>

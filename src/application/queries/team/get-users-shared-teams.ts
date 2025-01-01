@@ -2,11 +2,14 @@
 
 import { Container } from "@/src/infrastructure/container/container";
 import { TeamViewModel } from "../../view-models/team.view-model";
+import { queryErrorHandler } from "../../helpers/query-error-handler";
+import { QueryResponse } from "../../types/query-response";
+import { querySuccessHandler } from "../../helpers/query-success-handler";
 
 export const getUsersSharedTeams = async (
 	userId: string,
 	currentUserId: string
-): Promise<TeamViewModel[]> => {
+): Promise<QueryResponse<TeamViewModel[]>> => {
 	try {
 		const teamService = Container.getInstance().resolve("TeamService");
 
@@ -14,8 +17,8 @@ export const getUsersSharedTeams = async (
 			currentUserId,
 			userId
 		);
-		return teams;
+		return querySuccessHandler(teams);
 	} catch (error) {
-		throw error;
+		return queryErrorHandler(error, "Error fetching teams");
 	}
 };

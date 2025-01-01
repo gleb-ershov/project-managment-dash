@@ -9,6 +9,10 @@ import { ProjectCategoryViewModel } from "../view-models/project-category.view-m
 import { ProjectCategoryMapper } from "../mappers/project-category.mapper";
 import { FindProjectCategoriesByQueryUseCase } from "../use-cases/project-category/find-project-category-by-query.use-case";
 import { FindProjectCategoryByIdUseCase } from "../use-cases/project-category/find-project-category-by-id.use-case";
+import {
+	InternalServerError
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 export class ProjectCategoryService {
 	constructor(
@@ -22,44 +26,80 @@ export class ProjectCategoryService {
 	async findCategoryById(
 		id: string
 	): Promise<ProjectCategoryViewModel | null> {
-		const projectCategory = await this.findCategoryByIdUseCase.execute(id);
-		return projectCategory
-			? ProjectCategoryMapper.toViewModel(projectCategory)
-			: null;
+		try {
+			const projectCategory = await this.findCategoryByIdUseCase.execute(
+				id
+			);
+			return projectCategory
+				? ProjectCategoryMapper.toViewModel(projectCategory)
+				: null;
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async findCategoriesByQuery(
 		query: string
 	): Promise<ProjectCategoryViewModel[]> {
-		const categories = await this.findCategoriesByQueryUseCase.execute(
-			query
-		);
-		return categories.map((category) =>
-			ProjectCategoryMapper.toViewModel(category)
-		);
+		try {
+			const categories = await this.findCategoriesByQueryUseCase.execute(
+				query
+			);
+			return categories.map((category) =>
+				ProjectCategoryMapper.toViewModel(category)
+			);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async createProjectCategory(
 		fields: CreateProjectCategoryDTO
 	): Promise<ProjectCategoryViewModel> {
-		const projectCategory = await this.createProjectCategoryUseCase.execute(
-			fields
-		);
-		return ProjectCategoryMapper.toViewModel(projectCategory);
+		try {
+			const projectCategory =
+				await this.createProjectCategoryUseCase.execute(fields);
+			return ProjectCategoryMapper.toViewModel(projectCategory);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async updateProjectCategory(
 		id: string,
 		fields: UpdateProjectCategoryDTO
 	): Promise<ProjectCategoryViewModel> {
-		const projectCategory = await this.updateProjectCategoryUseCase.execute(
-			id,
-			{ ...fields }
-		);
-		return ProjectCategoryMapper.toViewModel(projectCategory);
+		try {
+			const projectCategory =
+				await this.updateProjectCategoryUseCase.execute(id, {
+					...fields,
+				});
+			return ProjectCategoryMapper.toViewModel(projectCategory);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async deleteProjectCategory(id: string): Promise<void> {
-		return this.deleteProjectUseCase.execute(id);
+		try {
+			return this.deleteProjectUseCase.execute(id);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 }

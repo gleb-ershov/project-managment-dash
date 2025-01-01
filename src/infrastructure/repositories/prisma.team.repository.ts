@@ -35,94 +35,107 @@ export class PrismaTeamRepository implements ITeamRepository {
 
 			return teams.map((team) => PrismaTeamMapper.toDomain(team));
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch teams", error);
+			throw new DatabaseError("Failed to fetch teams:", error);
 		}
 	}
 
 	async findById(id: string): Promise<TeamEntity | null> {
-		const team = await this.prisma.team.findUnique({
-			where: { id },
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const team = await this.prisma.team.findUnique({
+				where: { id },
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		if (!team) return null;
-		return PrismaTeamMapper.toDomain(team);
+			if (!team) return null;
+			return PrismaTeamMapper.toDomain(team);
+		} catch (error) {
+			throw new DatabaseError("Failed to fetch tea by id:", error);
+		}
 	}
 
 	async findByUserId(userId: string, limit?: number): Promise<TeamEntity[]> {
-		const teams = await this.prisma.team.findMany({
-			where: { members: { some: { userId } } },
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const teams = await this.prisma.team.findMany({
+				where: { members: { some: { userId } } },
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
 					},
 				},
-			},
-			take: limit,
-		});
+				take: limit,
+			});
 
-		return teams.map((team) => PrismaTeamMapper.toDomain(team));
+			return teams.map((team) => PrismaTeamMapper.toDomain(team));
+		} catch (error) {
+			throw new DatabaseError("Failed to fetch tea by user:", error);
+		}
 	}
 
 	async findAll(): Promise<TeamEntity[]> {
-		const teams = await this.prisma.team.findMany({
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const teams = await this.prisma.team.findMany({
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		return teams.map((team) => PrismaTeamMapper.toDomain(team));
+			return teams.map((team) => PrismaTeamMapper.toDomain(team));
+		} catch (error) {
+			throw new DatabaseError("Failed to fetch teams:", error);
+		}
 	}
 
 	async create(team: TeamEntity, tx?: any): Promise<TeamEntity> {
-		const prisma = tx || this.prisma;
-		const created = await prisma.team.create({
-			data: {
-				id: team.id,
-				name: team.name,
-				description: team.description,
-				createdAt: team.createdAt,
-				updatedAt: team.updatedAt,
-			},
-		});
-
-		return new TeamEntity(
-			created.id,
-			created.name,
-			created.description,
-			created.createdAt,
-			created.updatedAt
-		);
+		try {
+			const prisma = tx || this.prisma;
+			const created = await prisma.team.create({
+				data: {
+					id: team.id,
+					name: team.name,
+					description: team.description,
+					createdAt: team.createdAt,
+					updatedAt: team.updatedAt,
+				},
+			});
+			return PrismaTeamMapper.toDomain(created);
+		} catch (error) {
+			throw new DatabaseError("Failed to create new team:", error);
+		}
 	}
 
 	async update(team: TeamEntity): Promise<TeamEntity> {
-		const updated = await this.prisma.team.update({
-			where: { id: team.id },
-			data: {
-				name: team.name,
-				description: team.description,
-			},
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const updated = await this.prisma.team.update({
+				where: { id: team.id },
+				data: {
+					name: team.name,
+					description: team.description,
+				},
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		return PrismaTeamMapper.toDomain(updated);
+			return PrismaTeamMapper.toDomain(updated);
+		} catch (error) {
+			throw new DatabaseError("Failed to update team:", error);
+		}
 	}
 
 	async delete(id: string): Promise<void> {
@@ -131,58 +144,73 @@ export class PrismaTeamRepository implements ITeamRepository {
 		});
 	}
 	async addMember(teamId: string, membersIds: string[]): Promise<TeamEntity> {
-		const updated = await this.prisma.team.update({
-			where: { id: teamId },
-			data: {
-				members: {
-					connect: membersIds.map((memberId) => ({
-						id: memberId,
-					})),
-				},
-			},
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const updated = await this.prisma.team.update({
+				where: { id: teamId },
+				data: {
+					members: {
+						connect: membersIds.map((memberId) => ({
+							id: memberId,
+						})),
 					},
 				},
-			},
-		});
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
+					},
+				},
+			});
 
-		return PrismaTeamMapper.toDomain(updated);
+			return PrismaTeamMapper.toDomain(updated);
+		} catch (error) {
+			throw new DatabaseError("Failed to add member to the team:", error);
+		}
 	}
 
 	async removeMember(teamId: string, userId: string): Promise<TeamEntity> {
-		const updated = await this.prisma.team.update({
-			where: { id: teamId },
-			data: {
-				members: {
-					disconnect: { id: userId },
-				},
-			},
-			include: {
-				members: {
-					include: {
-						user: true,
+		try {
+			const updated = await this.prisma.team.update({
+				where: { id: teamId },
+				data: {
+					members: {
+						disconnect: { id: userId },
 					},
 				},
-			},
-		});
+				include: {
+					members: {
+						include: {
+							user: true,
+						},
+					},
+				},
+			});
 
-		return PrismaTeamMapper.toDomain(updated);
+			return PrismaTeamMapper.toDomain(updated);
+		} catch (error) {
+			throw new DatabaseError(
+				"Failed to remove member from the team:",
+				error
+			);
+		}
 	}
 
 	async countTeamsByUserId(userId: string): Promise<number> {
-		const count = await this.prisma.team.count({
-			where: {
-				members: {
-					some: {
-						userId: userId,
+		try {
+			const count = await this.prisma.team.count({
+				where: {
+					members: {
+						some: {
+							userId: userId,
+						},
 					},
 				},
-			},
-		});
+			});
 
-		return count;
+			return count;
+		} catch (error) {
+			throw new DatabaseError("Failed to get user teams count:", error);
+		}
 	}
 }

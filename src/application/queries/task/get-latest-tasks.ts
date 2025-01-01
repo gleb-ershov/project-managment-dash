@@ -4,10 +4,13 @@ import { Container } from "@/src/infrastructure/container/container";
 import { TaskViewModel } from "../../view-models/task.view-model";
 import { getCurrentUser } from "../user/get-current-user";
 import { UnauthorizedError } from "@/src/domain/errors/application.error";
+import { QueryResponse } from "../../types/query-response";
+import { querySuccessHandler } from "../../helpers/query-success-handler";
+import { queryErrorHandler } from "../../helpers/query-error-handler";
 
 export const getUserLatestTasks = async (
 	limit: number = 4
-): Promise<TaskViewModel[]> => {
+): Promise<QueryResponse<TaskViewModel[]>> => {
 	try {
 		const currentUser = await getCurrentUser();
 		if (!currentUser) {
@@ -19,9 +22,8 @@ export const getUserLatestTasks = async (
 			limit,
 		});
 
-		return tasks;
+		return querySuccessHandler(tasks);
 	} catch (error) {
-		console.error("Error fetching user latest tasks:", error);
-		return [];
+		return queryErrorHandler(error, "Error fetching tasks:");
 	}
 };

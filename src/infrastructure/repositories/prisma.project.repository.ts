@@ -69,7 +69,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				PrismaProjectMapper.toDomain(project)
 			);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch projects", error);
+			throw new DatabaseError("Failed to fetch projects:", error);
 		}
 	}
 
@@ -93,7 +93,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 			});
 			return PrismaProjectMapper.toDomain(project);
 		} catch (error) {
-			throw new DatabaseError("Failed to add member", error);
+			throw new DatabaseError("Failed to add member:", error);
 		}
 	}
 
@@ -132,7 +132,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				PrismaProjectMapper.toDomain(project)
 			);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch projects", error);
+			throw new DatabaseError("Failed to fetch projects:", error);
 		}
 	}
 
@@ -185,7 +185,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 			);
 		} catch (error) {
 			throw new DatabaseError(
-				"Failed to fetch projects with filters",
+				"Failed to fetch projects with filters:",
 				error
 			);
 		}
@@ -220,7 +220,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				PrismaProjectMapper.toDomain(project)
 			);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch finished projects", error);
+			throw new DatabaseError("Failed to fetch finished projects:", error);
 		}
 	}
 
@@ -235,7 +235,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 
 			return PrismaProjectMapper.toDomain(project);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch project", error);
+			throw new DatabaseError("Failed to fetch project:", error);
 		}
 	}
 
@@ -253,7 +253,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				PrismaProjectMapper.toDomain(project)
 			);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch projects by user", error);
+			throw new DatabaseError("Failed to fetch projects by user:", error);
 		}
 	}
 
@@ -272,7 +272,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 			);
 		} catch (error) {
 			throw new DatabaseError(
-				"Failed to fetch projects with members",
+				"Failed to fetch projects with members:",
 				error
 			);
 		}
@@ -291,7 +291,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				PrismaProjectMapper.toDomain(project)
 			);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch all projects", error);
+			throw new DatabaseError("Failed to fetch all projects:", error);
 		}
 	}
 
@@ -320,7 +320,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 			});
 			return PrismaProjectMapper.toDomain(project);
 		} catch (error) {
-			throw new DatabaseError("Failed to create project", error);
+			throw new DatabaseError("Failed to create project:", error);
 		}
 	}
 
@@ -347,7 +347,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 
 			return PrismaProjectMapper.toDomain(project);
 		} catch (error) {
-			throw new DatabaseError("Failed to update project", error);
+			throw new DatabaseError("Failed to update project:", error);
 		}
 	}
 
@@ -357,7 +357,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				where: { id },
 			});
 		} catch (error) {
-			throw new DatabaseError("Failed to delete project", error);
+			throw new DatabaseError("Failed to delete project:", error);
 		}
 	}
 

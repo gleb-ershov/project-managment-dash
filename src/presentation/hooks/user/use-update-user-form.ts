@@ -33,7 +33,7 @@ function reducer(
 		case "email": {
 			return {
 				...state,
-				name: !state.email,
+				email: !state.email,
 			};
 		}
 		case "password": {

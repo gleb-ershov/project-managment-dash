@@ -60,7 +60,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 
 			return tasks.map((task) => PrismaTaskMapper.toDomain(task));
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch projects", error);
+			throw new DatabaseError("Failed to fetch projects:", error);
 		}
 	}
 
@@ -81,7 +81,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 			});
 			return PrismaTaskMapper.toDomain(task);
 		} catch (error) {
-			throw new DatabaseError("Failed to add member", error);
+			throw new DatabaseError("Failed to add member:", error);
 		}
 	}
 
@@ -105,7 +105,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 			});
 			return tasks.map((task) => PrismaTaskMapper.toDomain(task));
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch tasks", { error });
+			throw new DatabaseError("Failed to fetch tasks:", error);
 		}
 	}
 
@@ -115,7 +115,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 				where: { id },
 			});
 		} catch (error) {
-			throw new DatabaseError("Failed to delete task", { error });
+			throw new DatabaseError("Failed to delete task:", error);
 		}
 	}
 
@@ -128,7 +128,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 
 			return tasks.map((task) => PrismaTaskMapper.toDomain(task));
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch tasks", { error });
+			throw new DatabaseError("Failed to fetch tasks:", error);
 		}
 	}
 
@@ -180,7 +180,9 @@ export class PrismaTaskRepository implements ITaskRepository {
 
 			return groupedTasks;
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch grouped tasks", { error });
+			throw new DatabaseError("Failed to fetch grouped tasks:", {
+				error,
+			});
 		}
 	}
 
@@ -219,7 +221,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 
 			return PrismaTaskMapper.toDomain(task);
 		} catch (error) {
-			throw new DatabaseError("Failed to update task", { error });
+			throw new DatabaseError("Failed to update task:", error);
 		}
 	}
 
@@ -249,7 +251,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 			});
 			return task ? PrismaTaskMapper.toDomain(task) : null;
 		} catch (error) {
-			throw new DatabaseError("Failed to find task", { error });
+			throw new DatabaseError("Failed to find task:", error);
 		}
 	}
 
@@ -276,7 +278,7 @@ export class PrismaTaskRepository implements ITaskRepository {
 			});
 			return PrismaTaskMapper.toDomain(task);
 		} catch (error) {
-			throw new DatabaseError("Failed to create task", { error });
+			throw new DatabaseError("Failed to create task:", error);
 		}
 	}
 
@@ -285,30 +287,34 @@ export class PrismaTaskRepository implements ITaskRepository {
 		limit,
 		status,
 	}: FindLatestUserTasksOptions): Promise<TaskEntity[]> {
-		const tasks = await this.prisma.task.findMany({
-			where: {
-				AND: [
-					{
-						OR: [
-							{ userId },
-							{
-								members: {
-									some: {
-										id: userId,
+		try {
+			const tasks = await this.prisma.task.findMany({
+				where: {
+					AND: [
+						{
+							OR: [
+								{ userId },
+								{
+									members: {
+										some: {
+											id: userId,
+										},
 									},
 								},
-							},
-						],
-					},
-					{ status },
-					{ deletedAt: null },
-				],
-			},
-			include: this.defaultIncludes,
-			orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
-			take: limit,
-		});
+							],
+						},
+						{ status },
+						{ deletedAt: null },
+					],
+				},
+				include: this.defaultIncludes,
+				orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
+				take: limit,
+			});
 
-		return tasks.map((task) => PrismaTaskMapper.toDomain(task));
+			return tasks.map((task) => PrismaTaskMapper.toDomain(task));
+		} catch (error) {
+			throw new DatabaseError("Failed to find latest user tasks:", error);
+		}
 	}
 }

@@ -57,6 +57,8 @@ export const useTaskForm = (
 	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
 
 	return {
+		createState,
+		updateState,
 		IS_UPDATE_FORM,
 		IS_PENDING,
 		BUTTON_LABEL,

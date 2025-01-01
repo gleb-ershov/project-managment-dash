@@ -38,7 +38,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			return PrismaUserMapper.toDomainList(users);
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch users", error);
+			throw new DatabaseError("Failed to fetch users::", error);
 		}
 	}
 
@@ -52,7 +52,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			return user ? PrismaUserMapper.toDomain(user) : null;
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch user", error);
+			throw new DatabaseError("Failed to fetch user:", error);
 		}
 	}
 
@@ -84,7 +84,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			return user ? PrismaUserMapper.toDomain(user) : null;
 		} catch (error) {
-			throw new DatabaseError("Failed to fetch user", error);
+			throw new DatabaseError("Failed to fetch user:", error);
 		}
 	}
 
@@ -110,7 +110,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			return PrismaUserMapper.toDomain(user);
 		} catch (error) {
-			throw new DatabaseError("Failed to create user", error);
+			throw new DatabaseError("Failed to create user:", error);
 		}
 	}
 
@@ -134,7 +134,7 @@ export class PrismaUserRepository implements IUserRepository {
 
 			return PrismaUserMapper.toDomain(user);
 		} catch (error) {
-			throw new DatabaseError("Failed to update user", error);
+			throw new DatabaseError("Failed to update user:", error);
 		}
 	}
 
@@ -144,7 +144,7 @@ export class PrismaUserRepository implements IUserRepository {
 				where: { id },
 			});
 		} catch (error) {
-			throw new DatabaseError("Failed to delete user", error);
+			throw new DatabaseError("Failed to delete user:", error);
 		}
 	}
 }

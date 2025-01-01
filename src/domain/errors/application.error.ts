@@ -12,6 +12,12 @@ export class ValidationError extends BaseError {
 	}
 }
 
+export class DuplicateError extends BaseError {
+	constructor(message: string, data?: any) {
+		super(message, HttpStatus.CONFLICT, ErrorCode.DUPLICATE_ENTRY, data);
+	}
+}
+
 export class NotFoundError extends BaseError {
 	constructor(message: string, data?: any) {
 		super(message, HttpStatus.NOT_FOUND, ErrorCode.NOT_FOUND, data);
@@ -38,5 +44,16 @@ export class UnauthorizedError extends BaseError {
 export class ForbiddenError extends BaseError {
 	constructor(message: string, data?: any) {
 		super(message, HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN, data);
+	}
+}
+
+export class InternalServerError extends BaseError {
+	constructor(message: string, data?: any) {
+		super(
+			message,
+			HttpStatus.INTERNAL_SERVER_ERROR,
+			ErrorCode.INTERNAL_SERVER_ERROR,
+			data
+		);
 	}
 }

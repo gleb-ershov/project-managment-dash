@@ -3,8 +3,13 @@
 import { Container } from "@/src/infrastructure/container/container";
 import { getCurrentUser } from "../user/get-current-user";
 import { UnauthorizedError } from "@/src/domain/errors/application.error";
+import { queryErrorHandler } from "../../helpers/query-error-handler";
+import { QueryResponse } from "../../types/query-response";
+import { querySuccessHandler } from "../../helpers/query-success-handler";
 
-export const getUserFinishedProjectsCount = async (): Promise<number> => {
+export const getUserFinishedProjectsCount = async (): Promise<
+	QueryResponse<number>
+> => {
 	try {
 		const currentUser = await getCurrentUser();
 		if (!currentUser) {
@@ -15,8 +20,8 @@ export const getUserFinishedProjectsCount = async (): Promise<number> => {
 		const count = await projectService.getUserFinishedProjectsCount(
 			currentUser.id
 		);
-		return count;
+		return querySuccessHandler(count);
 	} catch (error) {
-		throw new Error("Error fetching finished projects count");
+		return queryErrorHandler(error, "Error projects count:");
 	}
 };

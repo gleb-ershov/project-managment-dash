@@ -1,11 +1,17 @@
 "server-only";
 
+import { querySuccessHandler } from "./../../helpers/query-success-handler";
+
 import { Container } from "@/src/infrastructure/container/container";
-import { ProjectViewModel } from "../../view-models/project.view-model";
 import { UnauthorizedError } from "@/src/domain/errors/application.error";
 import { getCurrentUser } from "../user/get-current-user";
+import { queryErrorHandler } from "../../helpers/query-error-handler";
+import { QueryResponse } from "../../types/query-response";
+import { ProjectViewModel } from "../../view-models/project.view-model";
 
-export const getProjectsWithMembers = async (): Promise<ProjectViewModel[]> => {
+export const getProjectsWithMembers = async (): Promise<
+	QueryResponse<ProjectViewModel[]>
+> => {
 	try {
 		const projectService =
 			Container.getInstance().resolve("ProjectService");
@@ -16,8 +22,8 @@ export const getProjectsWithMembers = async (): Promise<ProjectViewModel[]> => {
 		const projects = await projectService.findProjectsByUserId(
 			currentUser.id
 		);
-		return projects;
+		return querySuccessHandler(projects);
 	} catch (error) {
-		throw new Error("Error fetching projects");
+		return queryErrorHandler(error, "Error fetching projects:");
 	}
 };

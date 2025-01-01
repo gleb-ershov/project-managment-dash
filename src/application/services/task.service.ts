@@ -12,6 +12,14 @@ import { CreateTaskDTO, UpdateTaskDTO } from "../dtos/task.dto";
 import { UpdateTaskUseCase } from "../use-cases/task/update-task.use-case";
 import { DeleteTaskUseCase } from "../use-cases/task/delete-task.use-case";
 import { FindUsersSharedTasksUseCase } from "../use-cases/task/find-users-shared-tasks.use-case";
+import {
+	DatabaseError,
+	DuplicateError,
+	InternalServerError,
+	NotFoundError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 export interface TaskViewModelGroupWithLabel {
 	label: string;
@@ -33,48 +41,97 @@ export class TaskService {
 		currentUserId: string,
 		userId: string
 	): Promise<TaskViewModel[]> {
-		const tasks = await this.findUsersSharedTasksUseCase.execute(
-			currentUserId,
-			userId
-		);
-		return TaskMapper.toViewModels(tasks);
+		try {
+			const tasks = await this.findUsersSharedTasksUseCase.execute(
+				currentUserId,
+				userId
+			);
+			return TaskMapper.toViewModels(tasks);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async deleteTask(id: string): Promise<void> {
-		await this.deleteTaskUseCase.execute(id);
+		try {
+			await this.deleteTaskUseCase.execute(id);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async createTask(data: CreateTaskDTO): Promise<TaskViewModel> {
-		const task = await this.createTaskUseCase.execute(data);
-		return TaskMapper.toViewModel(task);
+		try {
+			const task = await this.createTaskUseCase.execute(data);
+			return TaskMapper.toViewModel(task);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async updateTask(id: string, data: UpdateTaskDTO): Promise<TaskViewModel> {
-		const task = await this.updateTaskUseCase.execute(id, data);
-		return TaskMapper.toViewModel(task);
+		try {
+			const task = await this.updateTaskUseCase.execute(id, data);
+			return TaskMapper.toViewModel(task);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async getTaskById(id: string): Promise<TaskViewModel | null> {
-		const task = await this.findTaskByIdUseCase.execute(id);
-		return task ? TaskMapper.toViewModel(task) : null;
+		try {
+			const task = await this.findTaskByIdUseCase.execute(id);
+			return task ? TaskMapper.toViewModel(task) : null;
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async getUserLatestTasks(
 		options: GetUserLatestTasksOptions
 	): Promise<TaskViewModel[]> {
-		const tasks = await this.getUserLatestTasksUseCase.execute(options);
-		return TaskMapper.toViewModels(tasks);
+		try {
+			const tasks = await this.getUserLatestTasksUseCase.execute(options);
+			return TaskMapper.toViewModels(tasks);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async getUserTasksGroupedByDate(
 		userId: string
 	): Promise<TaskViewModelGroupWithLabel[]> {
-		const groups = await this.getUserTasksGroupedByDateUseCase.execute(
-			userId
-		);
-		return groups.map((group: TaskGroup) => ({
-			label: group.label,
-			tasks: TaskMapper.toViewModels(group.tasks),
-		}));
+		try {
+			const groups = await this.getUserTasksGroupedByDateUseCase.execute(
+				userId
+			);
+			return groups.map((group: TaskGroup) => ({
+				label: group.label,
+				tasks: TaskMapper.toViewModels(group.tasks),
+			}));
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 }

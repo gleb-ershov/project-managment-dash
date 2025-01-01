@@ -12,6 +12,14 @@ import { ProjectMapper } from "../mappers/project.mapper";
 import { ProjectViewModel } from "../view-models/project.view-model";
 import { FindProjectsByQueryAndUserUseCase } from "../use-cases/project/find-projects-by-query-and-user.use-case";
 import { FindUsersSharedProjectsUseCase } from "../use-cases/project/find-users-shared-projects.use-case";
+import {
+	DatabaseError,
+	DuplicateError,
+	InternalServerError,
+	NotFoundError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
+import { BaseError } from "@/src/domain/errors/base.error";
 
 interface FindWithFiltersAndSortUseCaseRequest {
 	userId: string;
@@ -38,67 +46,141 @@ export class ProjectService {
 		currentUserId: string,
 		userId: string
 	): Promise<ProjectViewModel[]> {
-		const projects = await this.findUsersSharedProjectsUseCase.execute(
-			currentUserId,
-			userId
-		);
-		return ProjectMapper.toViewModels(projects);
+		try {
+			const projects = await this.findUsersSharedProjectsUseCase.execute(
+				currentUserId,
+				userId
+			);
+			return ProjectMapper.toViewModels(projects);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async findProjectsByQuery(
 		userId: string,
 		query: string
 	): Promise<ProjectViewModel[]> {
-		const projects = await this.findProjectsByQueryUseCase.execute(
-			userId,
-			query
-		);
-		return ProjectMapper.toViewModels(projects);
+		try {
+			const projects = await this.findProjectsByQueryUseCase.execute(
+				userId,
+				query
+			);
+			return ProjectMapper.toViewModels(projects);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async findWithFiltersAndSort(
 		params: FindWithFiltersAndSortUseCaseRequest
 	): Promise<ProjectViewModel[]> {
-		const projects = await this.findWithFiltersAndSortUseCase.execute(
-			params
-		);
-		return ProjectMapper.toViewModels(projects);
+		try {
+			const projects = await this.findWithFiltersAndSortUseCase.execute(
+				params
+			);
+			return ProjectMapper.toViewModels(projects);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async getUserFinishedProjectsCount(userId: string): Promise<number> {
-		return await this.getUserFinishedProjectsCountUseCase.execute(userId);
+		try {
+			return await this.getUserFinishedProjectsCountUseCase.execute(
+				userId
+			);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async createProject(fields: CreateProjectDTO): Promise<ProjectViewModel> {
-		const project = await this.createProjectUseCase.execute(fields);
-		return ProjectMapper.toViewModel(project);
+		try {
+			const project = await this.createProjectUseCase.execute(fields);
+			return ProjectMapper.toViewModel(project);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async updateProject(
 		id: string,
 		fields: UpdateProjectDTO
 	): Promise<ProjectViewModel> {
-		const project = await this.updateProjectUseCase.execute(id, {
-			...fields,
-		});
-		return ProjectMapper.toViewModel(project);
+		try {
+			const project = await this.updateProjectUseCase.execute(id, {
+				...fields,
+			});
+			return ProjectMapper.toViewModel(project);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async deleteProject(id: string): Promise<void> {
-		await this.deleteProjectUseCase.execute(id);
+		try {
+			await this.deleteProjectUseCase.execute(id);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async softDeleteProject(id: string): Promise<void> {
-		await this.softDeleteProjectUseCase.execute(id);
+		try {
+			await this.softDeleteProjectUseCase.execute(id);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async findProjectById(id: string): Promise<ProjectViewModel | null> {
-		const project = await this.findProjectByIdUseCase.execute(id);
-		return project ? ProjectMapper.toViewModel(project) : null;
+		try {
+			const project = await this.findProjectByIdUseCase.execute(id);
+			return project ? ProjectMapper.toViewModel(project) : null;
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 
 	async findProjectsByUserId(userId: string): Promise<ProjectViewModel[]> {
-		const projects = await this.findProjectsByUserIdUseCase.execute(userId);
-		return ProjectMapper.toViewModels(projects);
+		try {
+			const projects = await this.findProjectsByUserIdUseCase.execute(
+				userId
+			);
+			return ProjectMapper.toViewModels(projects);
+		} catch (error) {
+			if (error instanceof BaseError) {
+				throw error;
+			}
+			throw new InternalServerError("An unexpected error occured", error);
+		}
 	}
 }
