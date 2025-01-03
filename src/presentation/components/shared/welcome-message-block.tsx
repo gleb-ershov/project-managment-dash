@@ -9,12 +9,41 @@ interface WelcomeMessageBlockProps {
 	className?: string;
 }
 
+const WelcomeMessageBlockSkeleton = () => {
+	return (
+		<div className={cn("flex flex-col gap-2")}>
+			<h1
+				className={cn(
+					"h-[32px] my-2 w-[500px] rounded-md",
+					"bg-[#e3e3eb]",
+					"animate-pulse"
+				)}
+			>
+				<span
+					className={cn(
+						"rounded-md",
+						"bg-[#e3e3eb]",
+						"animate-pulse"
+					)}
+				/>
+			</h1>
+			<span
+				className={cn(
+					"h-[19px] my-1 w-[370px] rounded-md",
+					"bg-[#e3e3eb]",
+					"animate-pulse"
+				)}
+			/>
+		</div>
+	);
+};
+
 export const WelcomeMessageBlock = memo(
 	({ className }: WelcomeMessageBlockProps) => {
 		const { user } = useAuth();
 
 		if (!user) {
-			return null;
+			return <WelcomeMessageBlockSkeleton />;
 		}
 
 		const formattedName = formatUserName(user.name, user.surname);
