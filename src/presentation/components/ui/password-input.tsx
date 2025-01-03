@@ -5,7 +5,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { Button } from "@/src/presentation/components/ui/button";
 import { Input } from "@/src/presentation/components/ui/input";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 const PasswordInput = forwardRef<
 	HTMLInputElement,

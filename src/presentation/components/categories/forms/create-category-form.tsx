@@ -1,18 +1,8 @@
 "use client";
 
-import { useActionState, useEffect, useMemo } from "react";
-
-import { createProjectCategoryAction } from "@/app/actions/project-category/create-project-category.action";
-import { updateProjectCategoryAction } from "@/app/actions/project-category/update-project-category.action";
-
-import { toast } from "sonner";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
-
-import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
-import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
-import { useRouter } from "next/navigation";
-import { FormValidationErrorNotification } from "../../shared/form-validation-error-notification";
+import { useCategoryForm } from "@/src/presentation/hooks/project-categories/use-category-form";
 
 interface CreateCategoryInitialState {
 	name: string;
@@ -27,50 +17,14 @@ interface CreateCategoryFormProps {
 
 export const CreateCategoryForm = (props: CreateCategoryFormProps) => {
 	const { initialState, mode = "create", onSuccess, categoryId } = props;
-
-	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
+	const { formAction, formError, BUTTON_LABEL, IS_PENDING } = useCategoryForm(
+		mode,
+		categoryId,
+		onSuccess
 	);
-	const boundUpdateAction = useMemo(
-		() => updateProjectCategoryAction.bind(null, categoryId || ""),
-		[categoryId]
-	);
-
-	const [createState, createAction, isCreatePending] = useActionState(
-		createProjectCategoryAction,
-		undefined
-	);
-
-	const [updateState, updateAction, isUpdatePending] = useActionState(
-		boundUpdateAction,
-		undefined
-	);
-
-	const IS_PENDING = isCreatePending || isUpdatePending;
-	const { back } = useRouter();
-
-	useEffect(() => {
-		const hasResult = updateState?.success || createState?.success;
-		if (hasResult) {
-			onSuccess?.();
-			back();
-			toast.success(
-				`Project category ${
-					IS_UPDATE_FORM
-						? updateState?.data?.name
-						: createState?.data?.name
-				} was successfully ${IS_UPDATE_FORM ? "updated" : "created"}!`
-			);
-		}
-	}, [updateState?.success, createState?.success, IS_UPDATE_FORM, onSuccess]);
 
 	return (
-		<form action={IS_UPDATE_FORM ? updateAction : createAction}>
-			<FormValidationErrorNotification
-				error={IS_UPDATE_FORM ? updateState?.error : createState?.error}
-			/>
+		<form action={formAction}>
 			<Input
 				type="text"
 				placeholder="Category Name"

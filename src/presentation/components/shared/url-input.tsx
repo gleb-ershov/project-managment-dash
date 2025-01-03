@@ -4,7 +4,7 @@ import { useState, useCallback, useTransition } from "react";
 import { X, Link as LinkIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea"; // Changed to Textarea for better multi-line support
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 interface UrlInputProps {
 	name: string;

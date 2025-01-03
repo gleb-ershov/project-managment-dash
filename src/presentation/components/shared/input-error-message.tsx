@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import { cn } from "../../utils/shared/cn";
+import { cn } from "../../utils/cn";
 import { memo } from "react";
 
 interface InputErrorMessageProps {

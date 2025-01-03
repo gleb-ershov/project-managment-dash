@@ -6,7 +6,7 @@ import { useActionState, useEffect, useMemo } from "react";
 import { FORM_STATES } from "../../consts/forms-consts";
 import { useAuth } from "../auth/use-auth";
 import { useRouter } from "next/navigation";
-import { generateButtonLabel } from "../../utils/shared/generate-button-label";
+import { generateButtonLabel } from "../../utils/generate-button-label";
 import { toast } from "sonner";
 
 export const useTaskForm = (

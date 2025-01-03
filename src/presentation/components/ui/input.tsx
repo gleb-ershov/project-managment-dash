@@ -1,4 +1,4 @@
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import * as React from "react";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(

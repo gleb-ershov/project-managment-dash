@@ -41,12 +41,12 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { CurrentUserCard } from "../user/cards/current-user-card";
 import { useAuth } from "../../hooks/auth/use-auth";
-import { ICON_PROPS_DEFAULT } from "../../consts";
-import { ThemeToggle } from "../theme/theme-toggle";
-import { useTheme } from "../../providers/theme/theme-provider";
+import { ICON_PROPS_DEFAULT } from "../../consts/icon-consts";
+import { ThemeToggle } from "./theme-toggle";
+import { useTheme } from "../../providers/theme-provider";
 
 export const Sidebar = memo(({ children }: { children: ReactNode }) => {
 	const { state: isSidebarOpened, toggleSidebar } = useSidebar();

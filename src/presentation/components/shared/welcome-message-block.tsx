@@ -2,8 +2,8 @@
 
 import { memo } from "react";
 import { useAuth } from "../../hooks/auth/use-auth";
-import { formatUserName } from "../../utils/user/format-user-name";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { formatUserName } from "../../utils/format-user-name";
+import { cn } from "@/src/presentation/utils/cn";
 
 interface WelcomeMessageBlockProps {
 	className?: string;

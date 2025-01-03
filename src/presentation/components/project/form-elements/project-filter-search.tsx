@@ -4,7 +4,7 @@ import { useSearch } from "@/src/presentation/hooks/shared/use-search";
 import { Search } from "lucide-react";
 import { Input } from "../../ui/input";
 import { InputHTMLAttributes } from "react";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 interface SearchInputProps
 	extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {

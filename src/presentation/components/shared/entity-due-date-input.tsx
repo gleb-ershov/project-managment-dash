@@ -4,8 +4,8 @@ import { memo, useCallback, useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { format, isValid, parse, parseISO } from "date-fns";
-import { cn } from "@/src/presentation/utils/shared/cn";
-import { createInputErrorStyles } from "../../utils/shared/createInputErrorStyles";
+import { cn } from "@/src/presentation/utils/cn";
+import { createInputErrorStyles } from "../../utils/createInputErrorStyles";
 
 interface EntityDueDateInputProps {
 	id?: string;

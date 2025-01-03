@@ -4,7 +4,7 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, XCircle, ChevronDown, XIcon, Search } from "lucide-react";
 
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { Separator } from "@/src/presentation/components/ui/separator";
 import { Button } from "@/src/presentation/components/ui/button";
 import { Badge } from "@/src/presentation/components/ui/badge";

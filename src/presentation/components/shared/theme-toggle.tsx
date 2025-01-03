@@ -1,7 +1,7 @@
 "use client";
 
 import { Switch } from "../ui/switch";
-import { useTheme } from "../../providers/theme/theme-provider";
+import { useTheme } from "../../providers/theme-provider";
 import { ComponentPropsWithoutRef } from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 

@@ -3,7 +3,7 @@
 import { memo } from "react";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 interface AddTaskButtonProps {
 	className?: string;

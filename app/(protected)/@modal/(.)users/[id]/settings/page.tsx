@@ -8,6 +8,7 @@ import {
 import { UpdateUserForm } from "@/src/presentation/components/user/forms/update-user-form";
 
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 const Modal = dynamic(() =>
 	import("@/src/presentation/components/shared/modal").then(
@@ -15,15 +16,11 @@ const Modal = dynamic(() =>
 	)
 );
 
-export default async function UserSettingsPage({
-	params,
-}: {
-	params: Promise<{ id: string }>;
-}) {
-	const USER_ID = (await params).id;
+export default async function UserSettingsPage() {
 	const CURRENT_USER = await getCurrentUser();
 
 	return (
+		<Suspense fallback={<>}>
 		<Modal title="User Settings">
 			<Tabs className="flex flex-col gap-2">
 				<TabsList>
@@ -41,5 +38,6 @@ export default async function UserSettingsPage({
 				</TabsContent>
 			</Tabs>
 		</Modal>
+		</Suspense>
 	);
 }

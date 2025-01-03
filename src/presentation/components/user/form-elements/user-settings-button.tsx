@@ -1,5 +1,5 @@
 import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import Link, { LinkProps } from "next/link";
 
 interface UserSettingsButtonProps extends Partial<LinkProps> {
@@ -9,7 +9,7 @@ interface UserSettingsButtonProps extends Partial<LinkProps> {
 }
 
 export const UserSettingsButton = (props: UserSettingsButtonProps) => {
-	const { userId, className,currentUserId } = props;
+	const { userId, className, currentUserId } = props;
 	return (
 		<>
 			{currentUserId === userId ? (

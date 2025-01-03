@@ -51,56 +51,6 @@ export class UserEntity {
 		return this._teamMembers;
 	}
 
-	// // Methods to manage tasks created by user
-	// addTask(task: TaskEntity): void {
-	// 	if (!this._tasks.some((t) => t.id === task.id)) {
-	// 		this._tasks.push(task);
-	// 	}
-	// }
-
-	// removeTask(taskId: string): void {
-	// 	this._tasks = this._tasks.filter((task) => task.id !== taskId);
-	// }
-
-	// // Methods to manage projects created by user
-	// addProject(project: ProjectEntity): void {
-	// 	if (!this._projects.some((p) => p.id === project.id)) {
-	// 		this._projects.push(project);
-	// 	}
-	// }
-
-	// removeProject(projectId: string): void {
-	// 	this._projects = this._projects.filter(
-	// 		(project) => project.id !== projectId
-	// 	);
-	// }
-
-	// // Methods to manage task comments
-	// addTaskComment(comment: TaskCommentEntity): void {
-	// 	if (!this._taskComments.some((c) => c.id === comment.id)) {
-	// 		this._taskComments.push(comment);
-	// 	}
-	// }
-
-	// removeTaskComment(commentId: string): void {
-	// 	this._taskComments = this._taskComments.filter(
-	// 		(comment) => comment.id !== commentId
-	// 	);
-	// }
-
-	// // Methods to manage team memberships
-	// addTeamMembership(teamMember: TeamMemberEntity): void {
-	// 	if (!this._teamMembers.some((tm) => tm.id === teamMember.id)) {
-	// 		this._teamMembers.push(teamMember);
-	// 	}
-	// }
-
-	// removeTeamMembership(teamMemberId: string): void {
-	// 	this._teamMembers = this._teamMembers.filter(
-	// 		(member) => member.id !== teamMemberId
-	// 	);
-	// }
-
 	static create(props: {
 		email: Email;
 		password: Password;

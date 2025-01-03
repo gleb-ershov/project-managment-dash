@@ -1,7 +1,7 @@
 import { Card, CardContent } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import Image from "next/image";
-import { formatUserName } from "@/src/presentation/utils/user/format-user-name";
+import { formatUserName } from "@/src/presentation/utils/format-user-name";
 import { getUser } from "@/src/application/queries/user/get-user";
 import { ShareButton } from "../../shared/share-button";
 

@@ -8,7 +8,7 @@ import {
 	SelectValue,
 } from "../../ui/select";
 import { Label } from "../../ui/label";
-import { capitalize } from "@/src/presentation/utils/shared/capitalize";
+import { capitalize } from "@/src/presentation/utils/capitalize";
 
 interface ProjectStatusSelectProps {
 	id?: string;

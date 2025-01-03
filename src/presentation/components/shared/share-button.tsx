@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { Share2 } from "lucide-react";
 import { memo } from "react";
 

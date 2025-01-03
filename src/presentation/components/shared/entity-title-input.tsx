@@ -3,8 +3,8 @@
 import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { cn } from "@/src/presentation/utils/shared/cn";
-import { createInputErrorStyles } from "../../utils/shared/createInputErrorStyles";
+import { cn } from "@/src/presentation/utils/cn";
+import { createInputErrorStyles } from "../../utils/createInputErrorStyles";
 
 interface EntityTitleInputProps {
 	id?: string;

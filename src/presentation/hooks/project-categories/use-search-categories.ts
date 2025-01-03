@@ -1,5 +1,5 @@
 import useSWR, { Key } from "swr";
-import { createFetcher } from "../../utils/shared/fetcher";
+import { createFetcher } from "../../utils/fetcher";
 import { ProjectCategory } from "@prisma/client";
 
 interface UseSearchProjectsOptions {
@@ -13,7 +13,9 @@ export const useSearchCategories = (
 	const categoriesFetcher = createFetcher<ProjectCategory>();
 
 	const { data, error, isLoading } = useSWR<ProjectCategory[], Error, Key>(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/api/project-categories${query ? `?search=${query}` : ""}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/project-categories${
+			query ? `?search=${query}` : ""
+		}`,
 		(url: string) => categoriesFetcher(url, { entityKey: "categories" }),
 		{
 			revalidateOnFocus: false,

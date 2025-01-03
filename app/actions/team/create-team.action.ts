@@ -5,7 +5,7 @@ import { querySuccessHandler } from "@/src/application/helpers/query-success-han
 import { QueryResponse } from "@/src/application/types/query-response";
 import { TeamViewModel } from "@/src/application/view-models/team.view-model";
 import { Container } from "@/src/infrastructure/container/container";
-import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
+import { parseMultipleValues } from "@/src/presentation/utils/parse-multiple-values";
 import { revalidatePath } from "next/cache";
 
 export const createTeamAction = async (

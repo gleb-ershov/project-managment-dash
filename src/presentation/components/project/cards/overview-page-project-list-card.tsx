@@ -8,7 +8,7 @@ import {
 	TooltipTrigger,
 } from "../../ui/tooltip";
 import { LinkedUsersAvatarList } from "../../shared/linked-users-avatar-list";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 
 // Separate status configuration for better maintainability

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Label } from "../ui/label";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { Textarea } from "../ui/textarea";
 
 interface EntityDescriptionProps {

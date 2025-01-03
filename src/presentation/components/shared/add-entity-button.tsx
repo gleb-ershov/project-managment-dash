@@ -1,7 +1,7 @@
 import { PlusSquare } from "lucide-react";
 import Link from "next/link";
 import { memo } from "react";
-import { cn } from "../../utils/shared/cn";
+import { cn } from "../../utils/cn";
 
 interface AddEntityButtonProps {
 	path: string;

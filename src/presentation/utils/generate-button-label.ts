@@ -1,4 +1,4 @@
-import { BUTTON_LABELS } from "../../consts/forms-consts";
+import { BUTTON_LABELS } from "../consts/forms-consts";
 
 export const generateButtonLabel = (
 	isPending: boolean,

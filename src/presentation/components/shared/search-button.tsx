@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import { memo } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 interface SearchButtonProps {
 	className?: string;

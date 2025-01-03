@@ -1,5 +1,5 @@
 import useSWR, { Key } from "swr";
-import { createFetcher } from "../../utils/shared/fetcher";
+import { createFetcher } from "../../utils/fetcher";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";
 
 interface UseSearchProjectsOptions {
@@ -14,7 +14,9 @@ export const useSearchProjects = (
 	const projectFetcher = createFetcher<ProjectViewModel>();
 
 	const { data, error, isLoading } = useSWR<ProjectViewModel[], Error, Key>(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects${query ? `?search=${query}&userId=${userId}` : ""}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects${
+			query ? `?search=${query}&userId=${userId}` : ""
+		}`,
 		(url: string) => projectFetcher(url, { entityKey: "projects" }),
 		{
 			fallbackData: options?.fallbackData,

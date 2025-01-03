@@ -11,7 +11,7 @@ import { Button } from "../../ui/button";
 import { ProjectStatus } from "@prisma/client";
 import { ProjectCategoryViewModel } from "@/src/application/view-models/project-category.view-model";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
-import { useProjectForm } from "@/src/presentation/hooks/shared/use-project-form";
+import { useProjectForm } from "@/src/presentation/hooks/projects/use-project-form";
 import { InputErrorMessage } from "../../shared/input-error-message";
 interface CreateProjectFormInitialState {
 	title: string;

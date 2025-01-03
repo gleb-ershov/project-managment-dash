@@ -2,7 +2,7 @@
 
 import { Badge } from "@/src/presentation/components/ui/badge";
 import { Input } from "@/src/presentation/components/ui/input";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { X as RemoveIcon } from "lucide-react";
 import React from "react";
 import { Label } from "./label";

@@ -6,7 +6,7 @@ import { Textarea } from "../../ui/textarea";
 import { Label } from "../../ui/label";
 import { Edit } from "lucide-react";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { useUpdateUserForm } from "@/src/presentation/hooks/user/use-update-user-form";
 import { Button } from "../../ui/button";
 import { useEffect } from "react";

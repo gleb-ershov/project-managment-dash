@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getTheme } from "@/lib/utils/theme";
-import { ThemeProvider } from "@/src/presentation/providers/theme/theme-provider";
+import { ThemeProvider } from "@/src/presentation/providers/theme-provider";
 import { Poppins } from "next/font/google";
-import { ErrorBoundaryProvider } from "@/src/presentation/providers/error-boundary";
+import { ErrorBoundaryProvider } from "@/src/presentation/providers/error-boundary-provider";
 
 const font = Poppins({
 	weight: ["300", "400", "500", "600", "700"],

@@ -1,5 +1,5 @@
 import useSWR, { Key } from "swr";
-import { createFetcher } from "../../utils/shared/fetcher";
+import { createFetcher } from "../../utils/fetcher";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
 
 export const useSearchUsers = (query: string) => {

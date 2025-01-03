@@ -4,7 +4,7 @@ import {
 	STAT_CARD_BASE_STYLES,
 	STAT_LABEL_STYLES,
 	STAT_VALUE_STYLES,
-} from "../../consts/stat-card-styles";
+} from "../../consts/stat-card-consts";
 
 interface StatCardProps {
 	icon: React.ReactNode;

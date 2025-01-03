@@ -6,7 +6,7 @@ import { VariantProps, cva } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { useIsMobile } from "@/lib/hooks/use-mobile";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 import { Button } from "@/src/presentation/components/ui/button";
 import { Input } from "@/src/presentation/components/ui/input";
 import { Separator } from "@/src/presentation/components/ui/separator";

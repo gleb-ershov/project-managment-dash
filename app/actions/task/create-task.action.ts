@@ -4,8 +4,8 @@ import { TaskViewModel } from "@/src/application/view-models/task.view-model";
 import { TaskMapper } from "../../../src/application/mappers/task.mapper";
 
 import { Container } from "@/src/infrastructure/container/container";
-import { parseExternalLinks } from "@/src/presentation/utils/shared/parse-external-links";
-import { parseMultipleValues } from "@/src/presentation/utils/shared/parse-multiple-values";
+import { parseExternalLinks } from "@/src/presentation/utils/parse-external-links";
+import { parseMultipleValues } from "@/src/presentation/utils/parse-multiple-values";
 import { TaskPriority, TaskStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { QueryResponse } from "@/src/application/types/query-response";

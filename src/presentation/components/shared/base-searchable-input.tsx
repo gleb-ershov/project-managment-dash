@@ -16,7 +16,7 @@ import {
 	CommandList,
 } from "../ui/command";
 import { Input } from "../ui/input";
-import { cn } from "@/src/presentation/utils/shared/cn";
+import { cn } from "@/src/presentation/utils/cn";
 
 export interface BaseItem {
 	id: string;
