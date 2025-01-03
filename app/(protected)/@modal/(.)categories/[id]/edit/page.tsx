@@ -8,11 +8,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateCategoryForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/categories/forms/create-category-form"
-		).then((mod) => mod.CreateCategoryForm),
+const CreateCategoryForm = dynamic(() =>
+	import(
+		"@/src/presentation/components/categories/forms/create-category-form"
+	).then((mod) => mod.CreateCategoryForm)
 );
 
 export default async function EditProjectPage({
@@ -23,16 +22,23 @@ export default async function EditProjectPage({
 	const { id } = await params;
 	const CURRENT_CATEGORY = await getProjectCategoryById(id);
 
-	if (!CURRENT_CATEGORY) {
+	if (!CURRENT_CATEGORY.data) {
 		notFound();
 	}
 	return (
 		<Modal title="Update project">
-			<CreateCategoryForm
-				mode="update"
-				categoryId={id}
-				initialState={CURRENT_CATEGORY}
-			/>
+			{CURRENT_CATEGORY.data && !CURRENT_CATEGORY.error ? (
+				<CreateCategoryForm
+					mode="update"
+					categoryId={id}
+					initialState={CURRENT_CATEGORY.data}
+				/>
+			) : (
+				<div>
+					<span>{CURRENT_CATEGORY.error?.name}</span>
+					<span>{CURRENT_CATEGORY.error?.message}</span>
+				</div>
+			)}
 		</Modal>
 	);
 }

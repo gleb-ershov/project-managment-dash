@@ -30,7 +30,6 @@ export const AddMembersForm = (props: AddMembersFormProps) => {
 		boundAction,
 		undefined
 	);
-	useEffect(() => console.log(formState), [formState]);
 
 	return (
 		<form action={action}>

@@ -9,6 +9,7 @@ import { OngoingTasksWrapper } from "@/src/presentation/components/task/wrappers
 import { OverviewPageTeamsList } from "@/src/presentation/components/team/lists/overview-page-teams-list";
 import { getUserLatestTasks } from "@/src/application/queries/task/get-latest-tasks";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default async function OverviewPage(props: {
 	searchParams?: Promise<{
@@ -25,7 +26,12 @@ export default async function OverviewPage(props: {
 		sortBy: SEARCH_PARAMS?.sortBy || "",
 	};
 
-	const TASKS = await getUserLatestTasks();
+	const TASKS = await getUserLatestTasks().then((result) => {
+		if (!result.success && result.error) {
+			toast.error(result.error.message);
+		}
+		return result;
+	});
 
 	return (
 		<div className="flex w-full justify-between dark:bg-[#212125]">
@@ -47,7 +53,7 @@ export default async function OverviewPage(props: {
 			<div className="ml-auto w-[22%] border-l-[1px] border-[#eeeeeeee] dark:border-[#555556a8]">
 				<section className="mx-auto mt-6 flex w-[90%] flex-col gap-4">
 					<h5 className="text-gray-700">Tasks by day</h5>
-					<TasksByDay tasks={TASKS} />
+					{TASKS.data ? <TasksByDay tasks={TASKS.data} /> : null}
 				</section>
 				<section className="mx-auto mt-6 flex w-[90%] flex-col gap-4">
 					<div className="flex items-center justify-between">

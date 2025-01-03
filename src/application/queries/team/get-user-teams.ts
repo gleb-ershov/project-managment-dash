@@ -16,7 +16,7 @@ export const getUserTeams = async (): Promise<
 			throw new UnauthorizedError("Current user not found");
 		}
 		const teamService = Container.getInstance().resolve("TeamService");
-		const teams = teamService.getUserTeams(currentUser.id);
+		const teams = await teamService.getUserTeams(currentUser.id);
 		return querySuccessHandler(teams);
 	} catch (error) {
 		return queryErrorHandler(error, "Error fetching users teams");

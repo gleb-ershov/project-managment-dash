@@ -9,13 +9,11 @@ const Modal = dynamic(() =>
 	)
 );
 
-const CreateTeamForm = dynamic(
-	() =>
-		import(
-			"@/src/presentation/components/team/forms/create-team-form"
-		).then((component) => component.CreateTeamForm),
+const CreateTeamForm = dynamic(() =>
+	import("@/src/presentation/components/team/forms/create-team-form").then(
+		(component) => component.CreateTeamForm
+	)
 );
-
 
 export default async function EditTeamPage({
 	params,
@@ -25,16 +23,23 @@ export default async function EditTeamPage({
 	const { id } = await params;
 	const CURRENT_TEAM = await findTeamById(id);
 
-	if (!CURRENT_TEAM) {
+	if (!CURRENT_TEAM.data) {
 		notFound();
 	}
 	return (
 		<Modal title="Update team">
-			<CreateTeamForm
-				mode="update"
-				teamId={id}
-				initialState={CURRENT_TEAM}
-			/>
+			{CURRENT_TEAM.data && !CURRENT_TEAM.error ? (
+				<CreateTeamForm
+					mode="update"
+					teamId={id}
+					initialState={CURRENT_TEAM.data}
+				/>
+			) : (
+				<div>
+					<span>{CURRENT_TEAM.error?.name}</span>
+					<span>{CURRENT_TEAM.error?.message}</span>
+				</div>
+			)}
 		</Modal>
 	);
 }

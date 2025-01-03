@@ -370,7 +370,7 @@ export class PrismaProjectRepository implements IProjectRepository {
 				},
 			});
 		} catch (error) {
-			throw new DatabaseError("Failed to soft delete project", error);
+			throw new DatabaseError("Failed to soft delete project:", error);
 		}
 	}
 }

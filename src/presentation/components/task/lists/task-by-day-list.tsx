@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Calendar } from "../../ui/calendar";
-import { TaskByDayCardSkeleton } from "../../skeletons/TaskByDayCardSkeleton";
+import { TaskByDayCardSkeleton } from "../../skeletons/task-by-day-card-skeleton";
 import { format } from "date-fns";
 import { TaskViewModel } from "@/src/application/view-models/task.view-model";
 

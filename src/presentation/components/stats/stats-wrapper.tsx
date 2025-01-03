@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Clock, DollarSign } from "lucide-react";
-import { StatsBlockSkeleton } from "../skeletons/StatsBlockSkeleton";
+import { StatsBlockSkeleton } from "../skeletons/stats-block-skeleton";
 import { StatsFinishedProjectsBlock } from "./stats-finished-projects";
 import { StatsTotalTeams } from "./stats-total-teams";
 import { StatCard } from "./stat-card";

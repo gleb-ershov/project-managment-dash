@@ -1,7 +1,29 @@
 import { BaseError } from "@/src/domain/errors/base.error";
+import { SerializedError } from "../types/query-response";
+import { ValidationError } from "@/src/domain/errors/application.error";
 
-export const queryErrorHandler = (error: unknown, consoleMsg = "Error:") => {
+interface QueryErrorHandlerResponse {
+	data: null;
+	success: false;
+	error: SerializedError;
+}
+
+export const queryErrorHandler = (
+	error: unknown,
+	consoleMsg = "Error:"
+): QueryErrorHandlerResponse => {
 	console.error(consoleMsg, error);
+	if (error instanceof ValidationError && error.data?.fieldErrors) {
+		return {
+			data: null,
+			success: false,
+			error: {
+				name: "Validation Error",
+				message: error.message,
+				formFieldErrors: error.data?.fieldErrors,
+			},
+		};
+	}
 	if (error instanceof BaseError) {
 		return {
 			data: null,
@@ -9,9 +31,19 @@ export const queryErrorHandler = (error: unknown, consoleMsg = "Error:") => {
 			error,
 		};
 	}
+
 	return {
 		data: null,
 		success: false,
-		error: new Error("An unexpected error occured"),
+		error:
+			error instanceof Error
+				? {
+						name: error.name,
+						message: error.message,
+				  }
+				: {
+						name: "Unexpected Error",
+						message: "An unexpected error occurred",
+				  },
 	};
 };

@@ -42,8 +42,11 @@ export const useTaskForm = (
 		() => generateButtonLabel(IS_PENDING, mode),
 		[mode]
 	);
+
+	const formState = IS_UPDATE_FORM ? updateState : createState;
+
 	useEffect(() => {
-		const hasResult = updateState?.id || createState?.id;
+		const hasResult = updateState?.success || createState?.success;
 		if (hasResult) {
 			onSuccess?.();
 			back();
@@ -53,16 +56,23 @@ export const useTaskForm = (
 						IS_UPDATE_FORM ? "updated" : "created"
 					}!`
 			);
+		} else if (formState?.error?.message) {
+			toast.error(formState?.error?.message);
 		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
+	}, [updateState?.success, createState?.success, IS_UPDATE_FORM, onSuccess]);
+
+	const createError = createState?.error?.formFieldErrors;
+	const updateError = updateState?.error?.formFieldErrors;
+	const formError = IS_UPDATE_FORM ? updateError : createError;
+
+	const formAction = IS_UPDATE_FORM ? updateAction : createAction;
 
 	return {
 		createState,
 		updateState,
-		IS_UPDATE_FORM,
 		IS_PENDING,
 		BUTTON_LABEL,
-		createAction,
-		updateAction,
+		formAction,
+		formError,
 	};
 };

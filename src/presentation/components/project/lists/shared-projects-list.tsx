@@ -19,14 +19,14 @@ export const SharedProjectsList = async ({
 			<CardHeader className="py-4 flex items-center justify-between flex-row">
 				Shared projects
 				<FolderCheck
-				size={20}
+					size={20}
 					strokeWidth={1.5}
 					className="text-muted-foreground"
 				/>
 			</CardHeader>
 			<Separator className="w-[90%] mx-auto" />
 			<CardContent className="overflow-y-auto max-h-[80%] flex flex-col gap-4 w-[95%] pt-4">
-				{projects.map((project) => (
+				{projects?.data?.map((project) => (
 					<SharedEntityListCard
 						key={project.id}
 						entity={project}

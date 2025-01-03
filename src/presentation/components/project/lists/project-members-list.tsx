@@ -1,5 +1,4 @@
 import { Button } from "../../ui/button";
-import { Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Badge } from "../../ui/badge";
 import { ProjectViewModel } from "@/src/application/view-models/project.view-model";

@@ -1,7 +1,10 @@
-import { memo } from "react";
+"use client";
+
+import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { cn } from "@/src/presentation/utils/shared/cn";
+import { createInputErrorStyles } from "../../utils/shared/createInputErrorStyles";
 
 interface EntityTitleInputProps {
 	id?: string;
@@ -16,6 +19,7 @@ interface EntityTitleInputProps {
 	inputCn?: string;
 	onChange?: (value: string) => void;
 	onBlur?: () => void;
+	isInvalid?: boolean;
 }
 
 export const EntityTitleInput = memo(
@@ -32,7 +36,18 @@ export const EntityTitleInput = memo(
 		inputCn = "",
 		onChange,
 		onBlur,
+		isInvalid = false,
 	}: EntityTitleInputProps) => {
+		const onInputChangeHandler = (value: string) => {
+			onChange?.(value);
+			setInputValue(value);
+		};
+		const [inputValue, setInputValue] = useState<string>(defaultValue);
+		const INPUT_ERROR_STYLES = createInputErrorStyles(
+			isInvalid,
+			inputValue
+		);
+
 		return (
 			<div className={cn("space-y-2", containerCn)}>
 				<Label htmlFor={id} className={cn("space-y-2", labelCn)}>
@@ -46,9 +61,13 @@ export const EntityTitleInput = memo(
 					placeholder={placeholder}
 					required={required}
 					disabled={disabled}
-					onChange={(e) => onChange?.(e.target.value)}
+					onChange={(e) => onInputChangeHandler(e.target.value)}
 					onBlur={onBlur}
-					className={cn("w-full", inputCn)}
+					className={cn(
+						"w-full focus-visible:ring-[none]",
+						inputCn,
+						INPUT_ERROR_STYLES
+					)}
 				/>
 			</div>
 		);

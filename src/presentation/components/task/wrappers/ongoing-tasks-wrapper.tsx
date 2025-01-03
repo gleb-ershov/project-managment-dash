@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { OngoingTasksListSkeleton } from "../../skeletons/OngoingTasksListSkeleton";
+import { OngoingTasksListSkeleton } from "../../skeletons/ongoing-tasks-list-skeleton";
 import { OngoingTasksList } from "../lists/ongoing-tasks-list";
 
 export const OngoingTasksWrapper = async () => {

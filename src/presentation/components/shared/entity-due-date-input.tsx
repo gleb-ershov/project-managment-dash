@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { format, isValid, parse, parseISO } from "date-fns";
 import { cn } from "@/src/presentation/utils/shared/cn";
+import { createInputErrorStyles } from "../../utils/shared/createInputErrorStyles";
 
 interface EntityDueDateInputProps {
 	id?: string;
@@ -20,6 +21,7 @@ interface EntityDueDateInputProps {
 	dateFormat?: string;
 	onChange?: (value: string) => void;
 	onBlur?: () => void;
+	isInvalid?: boolean;
 }
 
 const formatDate = (date: Date | string): string => {
@@ -47,6 +49,7 @@ export const EntityDueDateInput = memo(
 		maxDate,
 		onChange,
 		onBlur,
+		isInvalid = false,
 	}: EntityDueDateInputProps) => {
 		const formattedMinDate = formatDate(minDate);
 		const formattedMaxDate = maxDate ? formatDate(maxDate) : undefined;
@@ -65,13 +68,15 @@ export const EntityDueDateInput = memo(
 			[onChange]
 		);
 
+		const INPUT_ERROR_STYLES = createInputErrorStyles(
+			isInvalid,
+			inputValue
+		);
+
 		return (
 			<div className={cn("space-y-2", className)}>
 				<div className="flex items-center justify-between">
-					<Label
-						htmlFor={id}
-						className={cn(error && "text-destructive")}
-					>
+					<Label htmlFor={id}>
 						{label}
 						{required && (
 							<span className="text-destructive ml-1">*</span>
@@ -89,20 +94,12 @@ export const EntityDueDateInput = memo(
 						min={formattedMinDate}
 						max={formattedMaxDate}
 						onChange={handleChange}
+						placeholder="Choose a Date"
 						onBlur={onBlur}
-						className={cn(
-							"w-full",
-							error &&
-								"border-destructive focus-visible:ring-destructive"
-						)}
+						className={cn("w-full", INPUT_ERROR_STYLES)}
 						aria-describedby={error ? `${id}-error` : undefined}
 					/>
 				</div>
-				{error && (
-					<p id={`${id}-error`} className="text-sm text-destructive">
-						{error}
-					</p>
-				)}
 			</div>
 		);
 	}

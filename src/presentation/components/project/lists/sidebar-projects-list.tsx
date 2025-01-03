@@ -9,8 +9,8 @@ export const SidebarProjectsList = memo(async () => {
 
 	return (
 		<>
-			{projects?.length ? (
-				projects.map(({ id, title }) => (
+			{projects.data ? (
+				projects.data.map(({ id, title }) => (
 					<SidebarProjectsListCard key={id} id={id} title={title} />
 				))
 			) : (

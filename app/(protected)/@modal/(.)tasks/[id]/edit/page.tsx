@@ -22,24 +22,31 @@ export default async function EditTaskPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const CURRENT_TAKS = await getTaskById(id);
+	const CURRENT_TASK = await getTaskById(id);
 
-	if (!CURRENT_TAKS) {
+	if (!CURRENT_TASK.data) {
 		notFound();
 	}
 
 	const UPDATE_FORM_INITIAL_STATE = {
-		...CURRENT_TAKS,
-		status: CURRENT_TAKS.status as ProjectStatus,
+		...CURRENT_TASK,
+		status: CURRENT_TASK?.data?.status as ProjectStatus,
 	};
 
 	return (
 		<Modal title="Update task">
-			<CreateTaskForm
-				mode="update"
-				taskId={id}
-				initialState={UPDATE_FORM_INITIAL_STATE}
-			/>
+			{CURRENT_TASK.data && !CURRENT_TASK.error ? (
+				<CreateTaskForm
+					mode="update"
+					taskId={id}
+					initialState={UPDATE_FORM_INITIAL_STATE}
+				/>
+			) : (
+				<div>
+					<span>{CURRENT_TASK.error?.name}</span>
+					<span>{CURRENT_TASK.error?.message}</span>
+				</div>
+			)}
 		</Modal>
 	);
 }

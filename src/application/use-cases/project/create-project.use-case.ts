@@ -16,8 +16,8 @@ export class CreateProjectUseCase {
 
 			if (parseResult.error) {
 				throw new ValidationError(
-					"Validation error",
-					parseResult.error
+					"Form validation error",
+					parseResult.error.flatten()
 				);
 			}
 

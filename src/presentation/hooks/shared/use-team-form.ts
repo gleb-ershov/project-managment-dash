@@ -1,50 +1,43 @@
-"use client";
-
 import { useActionState, useEffect, useMemo } from "react";
 import { FORM_STATES } from "../../consts/forms-consts";
-import { useAuth } from "../auth/use-auth";
 import { useRouter } from "next/navigation";
 import { generateButtonLabel } from "../../utils/shared/generate-button-label";
 import { toast } from "sonner";
-import { updateProjectAction } from "@/app/actions/project/update-project.action";
-import { createProjectAction } from "@/app/actions/project/create-project.action";
+import { createTeamAction } from "@/app/actions/team/create-team.action";
+import { updateTeamAction } from "@/app/actions/team/update-team.action";
 
-export const useProjectForm = (
+export const useTeamForm = (
+	userId: string,
 	mode: "create" | "update",
-	projectId?: string,
+	teamId?: string,
 	onSuccess?: () => void,
 	toastMessage?: string
 ) => {
-	const { user } = useAuth();
-	const { back } = useRouter();
-
 	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
 
-	const boundAction = useMemo(() => {
-		if (mode === "create") {
-			return createProjectAction.bind(null, user?.id || "");
-		} else {
-			return updateProjectAction.bind(null, projectId || "");
-		}
-	}, [mode, projectId, user?.id]);
+	const boundUpdateAction = useMemo(
+		() => updateTeamAction.bind(null, teamId || ""),
+		[teamId]
+	);
 
 	const [createState, createAction, isCreatePending] = useActionState(
-		boundAction,
-		{ success: false, error: null, data: null }
+		createTeamAction.bind(null, userId),
+		undefined
 	);
 
 	const [updateState, updateAction, isUpdatePending] = useActionState(
-		boundAction,
-		{ success: false, error: null, data: null }
+		boundUpdateAction,
+		undefined
 	);
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
-
 	const BUTTON_LABEL = useMemo(
 		() => generateButtonLabel(IS_PENDING, mode),
 		[mode]
 	);
+	const { back } = useRouter();
 	const formState = IS_UPDATE_FORM ? updateState : createState;
+
 	useEffect(() => {
 		const hasResult = updateState?.success || createState?.success;
 		if (hasResult) {
@@ -52,7 +45,7 @@ export const useProjectForm = (
 			back();
 			toast.success(
 				toastMessage ||
-					`Project was successfully ${
+					`Team was successfully ${
 						IS_UPDATE_FORM ? "updated" : "created"
 					}!`
 			);
@@ -68,8 +61,9 @@ export const useProjectForm = (
 	const formAction = IS_UPDATE_FORM ? updateAction : createAction;
 
 	return {
-		updateState,
+        IS_UPDATE_FORM,
 		createState,
+		updateState,
 		IS_PENDING,
 		BUTTON_LABEL,
 		formAction,

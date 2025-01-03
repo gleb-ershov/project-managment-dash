@@ -8,6 +8,7 @@ import {
 	SelectValue,
 } from "../../ui/select";
 import { Label } from "../../ui/label";
+import { capitalize } from "@/src/presentation/utils/shared/capitalize";
 
 interface ProjectStatusSelectProps {
 	id?: string;
@@ -53,7 +54,7 @@ export const ProjectStatusSelect = memo(
 					<SelectContent>
 						{statusOptions.map(({ value, label }) => (
 							<SelectItem key={value} value={value}>
-								{label}
+								{capitalize(label)}
 							</SelectItem>
 						))}
 					</SelectContent>

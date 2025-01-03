@@ -13,6 +13,8 @@ import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
 import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
 import { updateTeamAction } from "@/app/actions/team/update-team.action";
 import { useRouter } from "next/navigation";
+import { useTeamForm } from "@/src/presentation/hooks/shared/use-team-form";
+import { InputErrorMessage } from "../../shared/input-error-message";
 
 interface CreateTeamFormInitialState {
 	name: string;
@@ -30,51 +32,20 @@ interface CreateTeamFormProps {
 export const CreateTeamForm = (props: CreateTeamFormProps) => {
 	const { user } = useAuth();
 	const { initialState, mode = "create", onSuccess, teamId } = props;
-
-	const IS_UPDATE_FORM = useMemo(() => mode === FORM_STATES.UPDATE, [mode]);
-
-	const boundUpdateAction = useMemo(
-		() => updateTeamAction.bind(null, teamId || ""),
-		[teamId]
-	);
-
-	const [createState, createAction, isCreatePending] = useActionState(
-		createTeamAction.bind(null, user?.id || ""),
-		undefined
-	);
-
-	const [updateState, updateAction, isUpdatePending] = useActionState(
-		boundUpdateAction,
-		undefined
-	);
-
-	const IS_PENDING = isCreatePending || isUpdatePending;
-	const BUTTON_LABEL = useMemo(
-		() => generateButtonLabel(IS_PENDING, mode),
-		[mode]
-	);
-	const { back } = useRouter();
-	useEffect(() => {
-		const hasResult = updateState?.id || createState?.id;
-		if (hasResult) {
-			onSuccess?.();
-			back();
-			toast.success(
-				`Team was successfully ${
-					IS_UPDATE_FORM ? "updated" : "created"
-				}!`
-			);
-		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
+	const { IS_PENDING, IS_UPDATE_FORM, BUTTON_LABEL, formError, formAction } =
+		useTeamForm(user?.id || "", mode, teamId, onSuccess);
 
 	return (
-		<form action={IS_UPDATE_FORM ? updateAction : createAction}>
+		<form action={formAction} className="w-[320px] space-y-4 mx-auto">
 			<Label htmlFor="create_team_form--name">Team name</Label>
-			<Input
-				name="name"
-				id="create_team_form--name"
-				defaultValue={initialState?.name}
-			/>
+			<div>
+				<Input
+					name="name"
+					id="create_team_form--name"
+					defaultValue={initialState?.name}
+				/>
+				<InputErrorMessage message={formError?.name} />
+			</div>
 			<EntityDescriptionInput
 				name="description"
 				defaultValue={initialState?.description}

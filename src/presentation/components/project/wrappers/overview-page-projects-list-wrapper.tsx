@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { AddEntityButton } from "../../shared/add-entity-button";
-import { ProjectCardSkeleton } from "../../skeletons/ProjectCardSkeleton";
+import { ProjectCardSkeleton } from "../../skeletons/project-card-skeleton";
 import { OverviewPageProjectsList } from "../lists/overview-page-projects-list";
 import { ProjectsFilterSelect } from "../form-elements/project-filter-select";
 import { ProjectsSortSelect } from "../form-elements/project-sort-select";

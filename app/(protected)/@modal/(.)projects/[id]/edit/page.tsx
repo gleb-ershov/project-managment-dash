@@ -24,22 +24,29 @@ export default async function EditProjectPage({
 	const { id } = await params;
 	const CURRENT_PROJECT = await getProjectById(id);
 
-	if (!CURRENT_PROJECT) {
+	if (!CURRENT_PROJECT.data) {
 		notFound();
 	}
 
 	const UPDATE_FORM_INITIAL_STATE = {
 		...CURRENT_PROJECT,
-		status: CURRENT_PROJECT.status as ProjectStatus,
+		status: CURRENT_PROJECT.data?.status as ProjectStatus,
 	};
 
 	return (
 		<Modal title="Update project">
-			<CreateProjectForm
-				mode="update"
-				projectId={id}
-				initialState={UPDATE_FORM_INITIAL_STATE}
-			/>
+			{CURRENT_PROJECT.data && !CURRENT_PROJECT.error ? (
+				<CreateProjectForm
+					mode="update"
+					projectId={id}
+					initialState={UPDATE_FORM_INITIAL_STATE}
+				/>
+			) : (
+				<div>
+					<span>{CURRENT_PROJECT.error?.name}</span>
+					<span>{CURRENT_PROJECT.error?.message}</span>
+				</div>
+			)}
 		</Modal>
 	);
 }

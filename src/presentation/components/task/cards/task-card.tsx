@@ -1,6 +1,5 @@
 import { Badge } from "../../ui/badge";
 import { CalendarDays, Clock, Link as LinkIcon, Flag } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { LinkedUsersAvatarList } from "../../shared/linked-users-avatar-list";
 import { TaskViewModel } from "@/src/application/view-models/task.view-model";

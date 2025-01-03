@@ -37,8 +37,6 @@ export const updateProjectAction = async (
 			}),
 		};
 
-		console.log("UPDATED PROJ DATA", updatedProjectData);
-
 		const UPDATED_PROJECT = await PROJECT_SERVICE.updateProject(
 			projectId,
 			updatedProjectData

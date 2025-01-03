@@ -26,7 +26,7 @@ export const SharedTasksList = async ({
 			</CardHeader>
 			<Separator className="w-[90%] mx-auto" />
 			<CardContent className="overflow-y-auto max-h-[80%] flex flex-col gap-4 w-[95%] pt-4">
-				{tasks.map((task) => (
+				{tasks?.data?.map((task) => (
 					<SharedEntityListCard
 						key={task.id}
 						entity={task}

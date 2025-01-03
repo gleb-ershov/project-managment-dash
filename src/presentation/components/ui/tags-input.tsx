@@ -5,6 +5,7 @@ import { Input } from "@/src/presentation/components/ui/input";
 import { cn } from "@/src/presentation/utils/shared/cn";
 import { X as RemoveIcon } from "lucide-react";
 import React from "react";
+import { Label } from "./label";
 
 /**
  * used for identifying the split char and use will pasting
@@ -18,6 +19,7 @@ const SPLITTER_REGEX = /[\n#?=&\t,./-]+/;
 const FORMATTING_REGEX = /^[^a-zA-Z0-9]*|[^a-zA-Z0-9]*$/g;
 
 interface TagsInputProps extends React.HTMLAttributes<HTMLDivElement> {
+	id?: string;
 	name?: string;
 	value: string[];
 	onValueChange?: (value: string[]) => void;
@@ -40,6 +42,7 @@ const TagInputContext = React.createContext<TagsInputContextProps | null>(null);
 export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 	(
 		{
+			id = "tags_input",
 			name,
 			value,
 			onValueChange,
@@ -284,6 +287,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 						className
 					)}
 				>
+					<Label htmlFor={id}>Tags</Label>
 					<input
 						name={name}
 						value={value}
@@ -319,6 +323,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 						</Badge>
 					))}
 					<Input
+						id={id}
 						tabIndex={0}
 						aria-label="input tag"
 						disabled={disableInput}

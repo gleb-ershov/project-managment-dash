@@ -5,8 +5,7 @@ import { AddEntityButton } from "../../shared/add-entity-button";
 
 export const OverviewPageTeamsList = async () => {
 	const teams = await getUserTeams();
-
-	if (!teams?.length) {
+	if (!teams.data) {
 		return (
 			<div className="flex flex-col gap-4 h-full w-full items-center justify-center">
 				<Link
@@ -27,7 +26,7 @@ export const OverviewPageTeamsList = async () => {
 				label="Create new team"
 				className="h-[32px]"
 			/>
-			{teams.flatMap((team) => (
+			{teams.data.map((team) => (
 				<OverviewPageTeamsListCard key={team.id} {...team} />
 			))}
 		</div>

@@ -136,16 +136,6 @@ or: https://example1.com, https://example2.com`}
 						}
 						className="flex-1 min-h-[100px]"
 					/>
-					<Button
-						type="button"
-						onClick={handleAddLinks}
-						disabled={
-							disabled || isPending || value.length >= maxLinks
-						}
-						variant="secondary"
-					>
-						Add URLs
-					</Button>
 				</div>
 
 				{error && <p className="text-sm text-destructive">{error}</p>}

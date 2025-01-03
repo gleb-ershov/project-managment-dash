@@ -24,8 +24,8 @@ export const OverviewPageProjectsList = async (
 	const projects = await getFilteredAndSortedProjects(requestParams);
 	return (
 		<>
-			{projects!.length > 0 ? (
-				projects?.map((project) => (
+			{projects.data ? (
+				projects.data.map((project) => (
 					<OverviewPageProjectsListCard
 						key={project.id}
 						{...project}

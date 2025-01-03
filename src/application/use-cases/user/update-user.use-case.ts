@@ -20,8 +20,8 @@ export class UpdateUserUseCase {
 
 			if (parseResult.error) {
 				throw new ValidationError(
-					"Validation Error",
-					parseResult.error
+					"Form validation error",
+					parseResult.error.flatten()
 				);
 			}
 
@@ -35,7 +35,7 @@ export class UpdateUserUseCase {
 				throw new ValidationError("Current password does not exist");
 			}
 
-			let updateData: {
+			const updateData: {
 				[key: string]: any;
 			} = {};
 			const {

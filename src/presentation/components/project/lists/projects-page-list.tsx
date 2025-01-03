@@ -36,11 +36,11 @@ export const ProjectsList = async (props: ProjectsListProps) => {
 				</div>
 			</div>
 
-			{projects.length === 0 ? (
+			{!projects.data ? (
 				<EmptyState />
 			) : (
 				<div className="grid gap-4">
-					{projects.map((project) => (
+					{projects.data.map((project) => (
 						<ProjectListCard key={project.id} project={project} />
 					))}
 				</div>

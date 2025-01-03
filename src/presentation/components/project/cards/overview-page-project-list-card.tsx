@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { FolderKanban, FolderOpen } from "lucide-react";
-import { format } from "date-fns";
 import Link from "next/link";
 import {
 	Tooltip,
@@ -128,9 +127,7 @@ ProjectStatus.displayName = "ProjectStatus";
 const ProjectDeadline = memo(({ date }: { date: string }) => (
 	<div className="flex flex-col gap-1">
 		<span className="text-sm text-[#777778]">Deadline</span>
-		<span className="flex items-center gap-2 text-[12px]">
-			{date}
-		</span>
+		<span className="flex items-center gap-2 text-[12px]">{date}</span>
 	</div>
 ));
 ProjectDeadline.displayName = "ProjectDeadline";
@@ -165,10 +162,16 @@ export const OverviewPageProjectsListCard = memo(
 					</div>
 				</div>
 				<div className="grid grid-cols-4 h-[50px] w-1/2">
-					{categories ? <ProjectCategories categories={categories} /> : null}
-					<ProjectStatus status={status as keyof typeof STATUS_CONFIG} />
+					{categories ? (
+						<ProjectCategories categories={categories} />
+					) : null}
+					<ProjectStatus
+						status={status as keyof typeof STATUS_CONFIG}
+					/>
 					<ProjectDeadline date={dueDate} />
-					{members ? <LinkedUsersAvatarList members={members} /> : null}
+					{members ? (
+						<LinkedUsersAvatarList members={members} />
+					) : null}
 				</div>
 			</div>
 		);

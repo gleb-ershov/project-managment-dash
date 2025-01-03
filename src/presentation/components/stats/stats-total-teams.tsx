@@ -13,7 +13,7 @@ export const StatsTotalTeams = async () => {
 				<Ellipsis size={22} color="#8A8A8E" />
 			</div>
 			<span className="text-xl font-semibold text-[#050402]">
-				{totalTeamsCount}
+				{totalTeamsCount.data}
 			</span>
 			<span className="text-[#8A8A8E]">Total Teams</span>
 		</div>

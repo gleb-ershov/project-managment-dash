@@ -11,7 +11,7 @@ export async function getTaskById(
 ): Promise<QueryResponse<TaskViewModel>> {
 	try {
 		const taskService = Container.getInstance().resolve("TaskService");
-		const task = taskService.getTaskById(id);
+		const task = await taskService.getTaskById(id);
 		return querySuccessHandler(task);
 	} catch (error) {
 		return queryErrorHandler(error, "Error fetching task:");

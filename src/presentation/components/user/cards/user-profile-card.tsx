@@ -7,8 +7,9 @@ import { ShareButton } from "../../shared/share-button";
 
 export const UserProfile = async ({ userId }: { userId: string }) => {
 	const USER_DATA = await getUser(userId);
-	const USER_FULL_NAME = formatUserName(USER_DATA?.name, USER_DATA?.surname);
-	const IMG_URL = USER_DATA?.imageUrl || "/avatar-placeholder.png";
+	const { data } = USER_DATA;
+	const USER_FULL_NAME = formatUserName(data?.name, data?.surname);
+	const IMG_URL = data?.name || "/avatar-placeholder.png";
 
 	return (
 		<Card className="dark:bg-[#18181B] p-4">
@@ -35,11 +36,11 @@ export const UserProfile = async ({ userId }: { userId: string }) => {
 								Email
 							</span>
 							<span className="font-medium text-white">
-								{USER_DATA?.email}
+								{data?.email}
 							</span>
 						</div>
 						<Badge variant="outline" className="ml-auto">
-							{USER_DATA?.plan}
+							{data?.plan}
 						</Badge>
 					</div>
 					<div className="flex flex-col gap-2">
@@ -47,8 +48,8 @@ export const UserProfile = async ({ userId }: { userId: string }) => {
 							Bio
 						</span>
 						<p className="font-normal text-muted-foreground">
-							{USER_DATA?.description?.length
-								? USER_DATA.description
+							{data?.description?.length
+								? data.description
 								: "No additional info about this user."}
 						</p>
 					</div>

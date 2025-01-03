@@ -7,6 +7,7 @@ import { ProjectViewModel } from "@/src/application/view-models/project.view-mod
 import { Container } from "@/src/infrastructure/container/container";
 import { ProjectStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+
 export const createProjectAction = async (
 	userId: string,
 	currentState: unknown,
@@ -39,7 +40,7 @@ export const createProjectAction = async (
 	} catch (error) {
 		return queryErrorHandler(
 			error,
-			"Error occurred whilte creating new project"
+			"Error occurred while creating new project"
 		);
 	}
 };

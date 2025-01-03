@@ -26,8 +26,6 @@ export const UpdateUserForm = (props: UpdateUserForm) => {
 		updateFormState,
 	} = useUpdateUserForm(user.id);
 
-	useEffect(() => console.log(updateFormState), [updateFormState]);
-
 	return (
 		<form action={action} className="flex flex-col gap-6">
 			<Image

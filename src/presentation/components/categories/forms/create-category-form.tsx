@@ -12,6 +12,7 @@ import { Button } from "../../ui/button";
 import { FORM_STATES } from "@/src/presentation/consts/forms-consts";
 import { generateButtonLabel } from "@/src/presentation/utils/shared/generate-button-label";
 import { useRouter } from "next/navigation";
+import { FormValidationErrorNotification } from "../../shared/form-validation-error-notification";
 
 interface CreateCategoryInitialState {
 	name: string;
@@ -49,21 +50,27 @@ export const CreateCategoryForm = (props: CreateCategoryFormProps) => {
 
 	const IS_PENDING = isCreatePending || isUpdatePending;
 	const { back } = useRouter();
+
 	useEffect(() => {
-		const hasResult = updateState?.id || createState?.id;
+		const hasResult = updateState?.success || createState?.success;
 		if (hasResult) {
 			onSuccess?.();
 			back();
 			toast.success(
 				`Project category ${
-					IS_UPDATE_FORM ? updateState?.name : createState?.name
+					IS_UPDATE_FORM
+						? updateState?.data?.name
+						: createState?.data?.name
 				} was successfully ${IS_UPDATE_FORM ? "updated" : "created"}!`
 			);
 		}
-	}, [updateState?.id, createState?.id, IS_UPDATE_FORM, onSuccess]);
+	}, [updateState?.success, createState?.success, IS_UPDATE_FORM, onSuccess]);
 
 	return (
 		<form action={IS_UPDATE_FORM ? updateAction : createAction}>
+			<FormValidationErrorNotification
+				error={IS_UPDATE_FORM ? updateState?.error : createState?.error}
+			/>
 			<Input
 				type="text"
 				placeholder="Category Name"

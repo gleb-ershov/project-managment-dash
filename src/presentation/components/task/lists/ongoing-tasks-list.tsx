@@ -7,12 +7,12 @@ export const OngoingTasksList = async () => {
 
 	return (
 		<div className="mt-4 grid h-fit auto-rows-auto grid-cols-2 gap-4">
-			{!ongoingTasksResponse || ongoingTasksResponse.length === 0 ? (
+			{!ongoingTasksResponse.data ? (
 				<span className="col-span-2 flex h-full w-full items-center justify-center text-[#BBBBBC]">
 					There is no ongoing tasks
 				</span>
-			) : (
-				ongoingTasksResponse.map((task) => (
+			) : (	
+				ongoingTasksResponse.data.map((task) => (
 					<OngoingTaskCard {...task} key={task.id} />
 				))
 			)}

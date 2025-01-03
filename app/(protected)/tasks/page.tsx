@@ -1,8 +1,14 @@
 import { TaskGroupList } from "@/src/presentation/components/task/lists/task-group-list";
 import { getUserTasksGroupedByDate } from "@/src/application/queries/task/get-tasks-grouped-by-date";
+import { toast } from "sonner";
 
 export default async function TasksPage() {
-	const TASKS_GROUPS = await getUserTasksGroupedByDate();
+	const TASKS_GROUPS = await getUserTasksGroupedByDate().then((result) => {
+		if (!result.success && result.error) {
+			toast.error(result.error?.message);
+		}
+		return result;
+	});
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -13,7 +19,9 @@ export default async function TasksPage() {
 						Manage and track your tasks
 					</p>
 				</header>
-				<TaskGroupList groups={TASKS_GROUPS} />
+				{TASKS_GROUPS.success && TASKS_GROUPS.data ? (
+					<TaskGroupList groups={TASKS_GROUPS.data} />
+				) : null}
 			</div>
 		</div>
 	);

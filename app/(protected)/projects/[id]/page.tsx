@@ -11,6 +11,7 @@ import {
 import { getProjectById } from "@/src/application/queries/project/get-project-by-id";
 import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 import { notFound } from "next/navigation";
+import { toast } from "sonner";
 
 export default async function ProjectPage({
 	params,
@@ -19,16 +20,24 @@ export default async function ProjectPage({
 }) {
 	const PROJECT_ID = (await params).id;
 	const USER = await getCurrentUser();
-	const PROJECT = await getProjectById(PROJECT_ID);
+	const PROJECT = await getProjectById(PROJECT_ID).then((result) => {
+		if (!result.success && result.error) {
+			toast.error(result.error?.message);
+		}
+		return result;
+	});
 
-	if (!PROJECT) {
+	if (!PROJECT.data) {
 		notFound();
 	}
 
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="max-w-6xl mx-auto space-y-8">
-				<ProjectHeader project={PROJECT} currentUserId={USER?.id} />
+				<ProjectHeader
+					project={PROJECT.data}
+					currentUserId={USER?.id}
+				/>
 
 				<Tabs defaultValue="overview" className="w-full">
 					<TabsList>
@@ -38,16 +47,16 @@ export default async function ProjectPage({
 					</TabsList>
 
 					<TabsContent value="overview" className="mt-6">
-						<ProjectOverview {...PROJECT} />
+						<ProjectOverview {...PROJECT.data} />
 					</TabsContent>
 
 					<TabsContent value="tasks" className="mt-6">
-						<ProjectTasks project={PROJECT} />
+						<ProjectTasks project={PROJECT.data} />
 					</TabsContent>
 
 					<TabsContent value="members" className="mt-6">
 						<ProjectMembers
-							project={PROJECT}
+							project={PROJECT.data}
 							currentUserId={USER?.id}
 						/>
 					</TabsContent>

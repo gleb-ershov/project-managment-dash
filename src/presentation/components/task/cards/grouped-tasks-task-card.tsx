@@ -1,6 +1,4 @@
-import { format } from "date-fns";
 import { Badge } from "@/src/presentation/components/ui/badge";
-import { Task } from "@prisma/client";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 import { LinkedUsersAvatarList } from "../../shared/linked-users-avatar-list";
 import { TaskViewModel } from "@/src/application/view-models/task.view-model";

@@ -26,13 +26,15 @@ export const SharedTeamsList = async ({
 			</CardHeader>
 			<Separator className="w-[90%] mx-auto" />
 			<CardContent className="overflow-y-auto max-h-[80%] flex flex-col gap-4 w-[95%] pt-4">
-				{teams.map((team) => (
-					<SharedEntityListCard
-						key={team.id}
-						entity={team}
-						type="team"
-					/>
-				))}
+				{teams.data
+					? teams.data.map((team) => (
+							<SharedEntityListCard
+								key={team.id}
+								entity={team}
+								type="team"
+							/>
+					  ))
+					: null}
 			</CardContent>
 		</Card>
 	);

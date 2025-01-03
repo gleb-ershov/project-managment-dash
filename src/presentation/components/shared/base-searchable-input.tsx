@@ -24,6 +24,7 @@ export interface BaseItem {
 }
 
 interface BaseSearchableInputProps<T extends BaseItem> {
+	id: string;
 	name?: string;
 	inputValue: string;
 	onInputChangeHandler: (value: string) => void;
@@ -45,6 +46,7 @@ interface BaseSearchableInputProps<T extends BaseItem> {
 export const BaseSearchableInput = memo(function BaseSearchableInput<
 	T extends BaseItem
 >({
+	id,
 	name,
 	inputValue,
 	onInputChangeHandler,
@@ -119,6 +121,7 @@ export const BaseSearchableInput = memo(function BaseSearchableInput<
 		<div className={cn("flex flex-col gap-2 relative", className)}>
 			<div className="relative">
 				<Input
+					id={id}
 					ref={inputRef}
 					placeholder={placeholder}
 					value={inputValue}
