@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
-
+import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
+import { Suspense } from "react";
 const Modal = dynamic(() =>
 	import("@/src/presentation/components/shared/modal").then(
 		(mod) => mod.Modal
@@ -20,8 +21,10 @@ export default async function AddProjectMemberPage({
 	const PROJECT_ID = (await params).id;
 
 	return (
-		<Modal title="Add members">
-			<AddMembersForm entity="project" entityId={PROJECT_ID} />
-		</Modal>
+		<Suspense fallback={<ModalLoadingFallback />}>
+			<Modal title="Add members">
+				<AddMembersForm entity="project" entityId={PROJECT_ID} />
+			</Modal>
+		</Suspense>
 	);
 }

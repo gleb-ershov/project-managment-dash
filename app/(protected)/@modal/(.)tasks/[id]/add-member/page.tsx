@@ -1,4 +1,6 @@
+import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 const Modal = dynamic(() =>
 	import("@/src/presentation/components/shared/modal").then(
@@ -6,12 +8,10 @@ const Modal = dynamic(() =>
 	)
 );
 
-const AddMembersForm = dynamic(
-	() =>
-		import("@/src/presentation/components/shared/add-members-form").then(
-			(component) => component.AddMembersForm
-		),
-
+const AddMembersForm = dynamic(() =>
+	import("@/src/presentation/components/shared/add-members-form").then(
+		(component) => component.AddMembersForm
+	)
 );
 
 export default async function AddTaskMemberPage({
@@ -22,8 +22,10 @@ export default async function AddTaskMemberPage({
 	const TASK_ID = (await params).id;
 
 	return (
-		<Modal>
-			<AddMembersForm entity="task" entityId={TASK_ID} />
-		</Modal>
+		<Suspense fallback={<ModalLoadingFallback />}>
+			<Modal>
+				<AddMembersForm entity="task" entityId={TASK_ID} />
+			</Modal>
+		</Suspense>
 	);
 }

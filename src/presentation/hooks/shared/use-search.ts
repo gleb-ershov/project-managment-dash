@@ -25,7 +25,7 @@ export const useSearch = ({
 			} else {
 				params.delete(queryName);
 			}
-			replace(`${pathname}?${params.toString()}`);
+			replace(`${pathname}?${params.toString()}`, { scroll: false });
 		}, delay),
 		[pathname, queryName, replace, searchParams]
 	);

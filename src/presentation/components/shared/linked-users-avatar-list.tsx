@@ -13,7 +13,7 @@ export const LinkedUserAvatar = memo(
 	({ id, name, surname, imageUrl }: UserViewModel) => (
 		<Tooltip key={id}>
 			<TooltipTrigger>
-				<Link href={`/users/${id}/profile`}>
+				<Link href={`/users/${id}`}>
 					<Image
 						src={imageUrl || "/avatar-placeholder.png"}
 						width={24}

@@ -1,3 +1,5 @@
+import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const Modal = dynamic(() =>
@@ -14,8 +16,10 @@ const CreateTeamForm = dynamic(() =>
 
 export default function CreateTeamPage() {
 	return (
+		<Suspense fallback={<ModalLoadingFallback />}>
 		<Modal title="Create New Team">
 			<CreateTeamForm />
 		</Modal>
+		</Suspense>
 	);
 }

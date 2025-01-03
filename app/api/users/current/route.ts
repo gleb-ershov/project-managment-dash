@@ -6,7 +6,7 @@ import { AuthenticatedRequest } from "@/src/types/requests";
 export const GET = withAuth(async (request: AuthenticatedRequest) => {
 	try {
 		const userService = Container.getInstance().resolve("UserService");
-
+		console.log("ASDADSDASDASDDSADS___________");
 		if (!request.user?.userId) {
 			return NextResponse.json(
 				{ error: "User not found" },

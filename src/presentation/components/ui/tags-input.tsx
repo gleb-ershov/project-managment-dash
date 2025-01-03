@@ -275,70 +275,75 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
 					setActiveIndex,
 				}}
 			>
-				<div
-					{...props}
-					ref={ref}
-					dir={dir}
-					className={cn(
-						"flex flex-wrap items-center gap-1 overflow-hidden rounded-lg bg-background p-1 ring-1 ring-muted",
-						{
-							"focus-within:ring-ring": activeIndex === -1,
-						},
-						className
-					)}
-				>
+				<div className="flex flex-col gap-2">
 					<Label htmlFor={id}>Tags</Label>
-					<input
-						name={name}
-						value={value}
-						className="hidden"
-						readOnly
-					/>
-					{value.map((item, index) => (
-						<Badge
-							tabIndex={activeIndex !== -1 ? 0 : activeIndex}
-							key={item}
-							aria-disabled={disableButton}
-							data-active={activeIndex === index}
-							className={cn(
-								"relative flex items-center gap-1 truncate rounded px-1 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[active='true']:ring-2 data-[active='true']:ring-muted-foreground"
-							)}
-							variant={"secondary"}
-						>
-							<span className="text-xs">{item}</span>
-							<button
-								type="button"
-								aria-label={`Remove ${item} option`}
-								aria-roledescription="button to remove option"
-								disabled={disableButton}
-								onMouseDown={mousePreventDefault}
-								onClick={() => RemoveValue(item)}
-								className="disabled:cursor-not-allowed"
-							>
-								<span className="sr-only">
-									Remove {item} option
-								</span>
-								<RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
-							</button>
-						</Badge>
-					))}
-					<Input
-						id={id}
-						tabIndex={0}
-						aria-label="input tag"
-						disabled={disableInput}
-						onKeyDown={handleKeyDown}
-						onPaste={handlePaste}
-						value={inputValue}
-						onSelect={handleSelect}
-						onChange={activeIndex === -1 ? handleChange : undefined}
-						placeholder={placeholder}
-						onClick={() => setActiveIndex(-1)}
+
+					<div
+						{...props}
+						ref={ref}
+						dir={dir}
 						className={cn(
-							"h-7 min-w-fit flex-1 border-none px-1 outline-0 placeholder:text-muted-foreground focus-visible:border-0 focus-visible:outline-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-							activeIndex !== -1 && "caret-transparent"
+							"flex flex-wrap items-center gap-1 overflow-hidden rounded-lg bg-background p-1 ring-1 ring-muted",
+							{
+								"focus-within:ring-ring": activeIndex === -1,
+							},
+							className
 						)}
-					/>
+					>
+						<input
+							name={name}
+							value={value}
+							className="hidden"
+							readOnly
+						/>
+						{value.map((item, index) => (
+							<Badge
+								tabIndex={activeIndex !== -1 ? 0 : activeIndex}
+								key={item}
+								aria-disabled={disableButton}
+								data-active={activeIndex === index}
+								className={cn(
+									"relative flex items-center gap-1 truncate rounded px-1 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 data-[active='true']:ring-2 data-[active='true']:ring-muted-foreground"
+								)}
+								variant={"secondary"}
+							>
+								<span className="text-xs">{item}</span>
+								<button
+									type="button"
+									aria-label={`Remove ${item} option`}
+									aria-roledescription="button to remove option"
+									disabled={disableButton}
+									onMouseDown={mousePreventDefault}
+									onClick={() => RemoveValue(item)}
+									className="disabled:cursor-not-allowed"
+								>
+									<span className="sr-only">
+										Remove {item} option
+									</span>
+									<RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+								</button>
+							</Badge>
+						))}
+						<Input
+							id={id}
+							tabIndex={0}
+							aria-label="input tag"
+							disabled={disableInput}
+							onKeyDown={handleKeyDown}
+							onPaste={handlePaste}
+							value={inputValue}
+							onSelect={handleSelect}
+							onChange={
+								activeIndex === -1 ? handleChange : undefined
+							}
+							placeholder={placeholder}
+							onClick={() => setActiveIndex(-1)}
+							className={cn(
+								"h-7 min-w-fit flex-1 border-none px-1 outline-0 placeholder:text-muted-foreground focus-visible:border-0 focus-visible:outline-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+								activeIndex !== -1 && "caret-transparent"
+							)}
+						/>
+					</div>
 				</div>
 			</TagInputContext.Provider>
 		);

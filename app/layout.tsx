@@ -22,14 +22,12 @@ export default async function RootLayout({
 }>) {
 	const theme = await getTheme();
 	return (
-		<ErrorBoundaryProvider>
-			<html lang="en">
-				<body className={`${font.className} antialiased`}>
-					<ThemeProvider defaultTheme={theme}>
-						{children}
-					</ThemeProvider>
-				</body>
-			</html>
-		</ErrorBoundaryProvider>
+		// <ErrorBoundaryProvider>
+		<html lang="en">
+			<body className={`${font.className} antialiased`}>
+				<ThemeProvider defaultTheme={theme}>{children}</ThemeProvider>
+			</body>
+		</html>
+		// </ErrorBoundaryProvider>
 	);
 }

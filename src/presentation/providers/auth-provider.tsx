@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		try {
 			// Call API endpoint to verify auth status
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/current`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}api/users/current`,
 				{
 					method: "GET",
 					credentials: "include", // Important for cookies

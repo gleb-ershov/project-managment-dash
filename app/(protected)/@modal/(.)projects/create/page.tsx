@@ -14,6 +14,7 @@ const CreateProjectForm = dynamic(() =>
 
 export default function CreateProjectPage() {
 	return (
+		<Suspense fallback={<ModalLoadingFallback />}></Suspense>
 		<Modal title="Create New Project">
 			<CreateProjectForm />
 		</Modal>

@@ -63,6 +63,7 @@ export const useTeamForm = (
 	const formAction = IS_UPDATE_FORM ? updateAction : createAction;
 
 	return {
+		formState,
 		IS_UPDATE_FORM,
 		createState,
 		updateState,

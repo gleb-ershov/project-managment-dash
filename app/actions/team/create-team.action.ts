@@ -1,5 +1,6 @@
 "use server";
 
+import { CreateTeamDTO } from "@/src/application/dtos/team.dto";
 import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
 import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
 import { QueryResponse } from "@/src/application/types/query-response";
@@ -18,15 +19,14 @@ export const createTeamAction = async (
 
 		const members = parseMultipleValues(formData.get("members") as string);
 
-		const payload = {
+		const payload: CreateTeamDTO = {
 			name: formData.get("name") as string,
 			description: formData.get("description") as string,
-			members,
+			membersIds: members,
 		};
 
 		const team = await teamService.createTeamWithMembers(payload, userId);
 		revalidatePath("/");
-
 		return querySuccessHandler(team);
 	} catch (error) {
 		return queryErrorHandler(error);

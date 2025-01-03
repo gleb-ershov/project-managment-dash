@@ -1,5 +1,4 @@
 import { getUserLatestTasks } from "@/src/application/queries/task/get-latest-tasks";
-import { getCurrentUser } from "@/src/application/queries/user/get-current-user";
 import { OngoingTaskCard } from "../cards/ongoing-task-card";
 
 export const OngoingTasksList = async () => {

@@ -39,9 +39,10 @@ export const ProjectFilterSearch = (props: SearchInputProps) => {
 				{...props}
 				type="search"
 				value={value}
-				onChange={(event) =>
-					handleSearchChange(event?.currentTarget.value)
-				}
+				onChange={(event) => {
+					
+					handleSearchChange(event?.currentTarget.value);
+				}}
 				placeholder={placeholder}
 				className={cn(
 					"pl-9 transition-colors",

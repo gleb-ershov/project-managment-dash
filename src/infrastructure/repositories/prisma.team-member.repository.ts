@@ -49,9 +49,10 @@ export class PrismaTeamMemberRepository implements ITeamMemberRepository {
 			const created = await prisma.teamMember.create({
 				data: PrismaTeamMemberMapper.toPrisma(teamMember),
 			});
-
+			console.log(created, "CREATED");
 			return PrismaTeamMemberMapper.toDomain(created);
 		} catch (error) {
+			console.log("ERROR IN TM CREATE", error)
 			throw new DatabaseError("Failed to create team member:", error);
 		}
 	}

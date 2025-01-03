@@ -14,7 +14,7 @@ const CreateCategoryForm = dynamic(() =>
 	).then((mod) => mod.CreateCategoryForm)
 );
 
-export default async function EditProjectPage({
+export default async function EditProjectCategoryPage({
 	params,
 }: {
 	params: Promise<{ id: string }>;
@@ -26,6 +26,7 @@ export default async function EditProjectPage({
 		notFound();
 	}
 	return (
+		<Suspense fallback={<ModalLoadingFallback />}></Suspense>
 		<Modal title="Update project">
 			{CURRENT_CATEGORY.data && !CURRENT_CATEGORY.error ? (
 				<CreateCategoryForm

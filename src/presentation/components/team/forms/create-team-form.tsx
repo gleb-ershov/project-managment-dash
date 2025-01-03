@@ -7,6 +7,7 @@ import { EntityDescriptionInput } from "../../shared/entity-description-input";
 import { Button } from "../../ui/button";
 import { useTeamForm } from "@/src/presentation/hooks/shared/use-team-form";
 import { InputErrorMessage } from "../../shared/input-error-message";
+import { useEffect } from "react";
 
 interface CreateTeamFormInitialState {
 	name: string;
@@ -23,9 +24,15 @@ interface CreateTeamFormProps {
 
 export const CreateTeamForm = (props: CreateTeamFormProps) => {
 	const { initialState, mode = "create", onSuccess, teamId } = props;
-	const { IS_PENDING, IS_UPDATE_FORM, BUTTON_LABEL, formError, formAction } =
-		useTeamForm(mode, teamId, onSuccess);
-
+	const {
+		formState,
+		IS_PENDING,
+		IS_UPDATE_FORM,
+		BUTTON_LABEL,
+		formError,
+		formAction,
+	} = useTeamForm(mode, teamId, onSuccess);
+	useEffect(() => console.log(formState), [formState]);
 	return (
 		<form action={formAction} className="w-[320px] space-y-4 mx-auto">
 			<Label htmlFor="create_team_form--name">Team name</Label>

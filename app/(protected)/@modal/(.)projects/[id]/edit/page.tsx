@@ -34,6 +34,7 @@ export default async function EditProjectPage({
 	};
 
 	return (
+		<Suspense fallback={<ModalLoadingFallback />}></Suspense>
 		<Modal title="Update project">
 			{CURRENT_PROJECT.data && !CURRENT_PROJECT.error ? (
 				<CreateProjectForm

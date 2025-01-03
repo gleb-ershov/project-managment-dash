@@ -12,7 +12,6 @@ export const queryErrorHandler = (
 	error: unknown,
 	consoleMsg = "Error:"
 ): QueryErrorHandlerResponse => {
-	console.error(consoleMsg, error);
 	if (error instanceof ValidationError && error.data?.fieldErrors) {
 		return {
 			data: null,

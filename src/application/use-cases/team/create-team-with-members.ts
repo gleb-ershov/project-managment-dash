@@ -39,28 +39,23 @@ export class CreateTeamWithMembersUseCase {
 
 				await this.teamMemberRepository.create(creatorMember, tx);
 
-				if (data.membersIds?.length === 0) {
+				if (!data.membersIds || data.membersIds?.length === 0) {
 					throw new ValidationError(
 						"Cannot pass an empty ids for members"
 					);
 				}
 
-				const memberPromises = data.membersIds
-					? data.membersIds.map((memberId) => {
-							const teamMember = TeamMemberEntity.create({
-								teamId: createdTeam.id,
-								userId: memberId,
-								role: "MEMBER",
-							});
-							return this.teamMemberRepository.create(
-								teamMember,
-								tx
-							);
-					  })
-					: [];
+				const memberPromises = data.membersIds.map((memberId) => {
+					const teamMember = TeamMemberEntity.create({
+						teamId: createdTeam.id,
+						userId: memberId,
+						role: "MEMBER",
+					});
+					return this.teamMemberRepository.create(teamMember, tx);
+				});
 
-				await Promise.all(memberPromises);
-
+				const r = await Promise.all(memberPromises);
+				console.log(r, "PROMSUS");
 				return new TeamEntity(
 					createdTeam.id,
 					createdTeam.name,
