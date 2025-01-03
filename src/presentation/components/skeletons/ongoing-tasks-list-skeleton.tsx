@@ -1,4 +1,4 @@
-import { OngoingTaskCardSkeleton } from './OngoingTaskCardSkeleton';
+import { OngoingTaskCardSkeleton } from './ongoing-tasks-card-skeleton';
 
 export const OngoingTasksListSkeleton = () => {
     return (

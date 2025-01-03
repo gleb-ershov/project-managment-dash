@@ -3,7 +3,7 @@ import { Badge } from "../ui/badge";
 
 export const OngoingTaskCardSkeleton = () => {
 	return (
-		<div className="group flex flex-col gap-3 rounded-lg border-[1px] border-[#E5E5E5] p-4 duration-300">
+		<div className="group flex flex-col gap-3 rounded-lg border-[1px] border-[#E5E5E5] p-4 duration-300 animate-pulse">
 			<div className="flex items-center gap-1">
 				<Badge className="h-[26px] w-[57px] rounded-lg bg-[#F2F2F1] shadow-none group-hover:text-white" />
 				<Badge className="h-[26px] w-[57px] rounded-lg bg-[#F2F2F1] shadow-none group-hover:text-white" />
