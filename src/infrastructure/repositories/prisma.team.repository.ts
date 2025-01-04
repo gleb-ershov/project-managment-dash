@@ -109,8 +109,10 @@ export class PrismaTeamRepository implements ITeamRepository {
 					updatedAt: team.updatedAt,
 				},
 			});
+			console.log("CREATED TEAM IN DB", created);
 			return PrismaTeamMapper.toDomain(created);
 		} catch (error) {
+			console.log("ERROR IN TEAM CREATE DB", error);
 			throw new DatabaseError("Failed to create new team:", error);
 		}
 	}
@@ -144,6 +146,7 @@ export class PrismaTeamRepository implements ITeamRepository {
 		});
 	}
 	async addMember(teamId: string, membersIds: string[]): Promise<TeamEntity> {
+		console.log("ADD MEMBER REPO", teamId, membersIds);
 		try {
 			const updated = await this.prisma.team.update({
 				where: { id: teamId },
@@ -162,9 +165,10 @@ export class PrismaTeamRepository implements ITeamRepository {
 					},
 				},
 			});
-
+			console.log("UPDATED TEAM ADDMEMMBER IN DB", updated);
 			return PrismaTeamMapper.toDomain(updated);
 		} catch (error) {
+			console.log("ERROR IN TEAM ADDMEMBER DB", error);
 			throw new DatabaseError("Failed to add member to the team:", error);
 		}
 	}

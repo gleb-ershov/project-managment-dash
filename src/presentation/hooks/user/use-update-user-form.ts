@@ -1,4 +1,4 @@
-import { updateUser } from "@/app/actions/user/update-user.action";
+import { updateUserAction } from "@/app/actions/user/update-user.action";
 import { useActionState, useMemo, useReducer } from "react";
 
 interface UserUpdateFormInputsState {
@@ -62,7 +62,7 @@ export const useUpdateUserForm = (userId: string) => {
 	});
 
 	const boundedAction = useMemo(
-		() => updateUser.bind(null, userId),
+		() => updateUserAction.bind(null, userId),
 		[userId]
 	);
 

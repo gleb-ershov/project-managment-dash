@@ -4,33 +4,25 @@ import Image from "next/image";
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 import { Label } from "../../ui/label";
-import { Edit } from "lucide-react";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
 import { cn } from "@/src/presentation/utils/cn";
 import { useUpdateUserForm } from "@/src/presentation/hooks/user/use-update-user-form";
 import { Button } from "../../ui/button";
-import { useEffect } from "react";
 
-interface UpdateUserForm {
+interface UpdateUserFormProps {
 	user: UserViewModel;
 }
 
-export const UpdateUserForm = (props: UpdateUserForm) => {
+export const UpdateUserForm = (props: UpdateUserFormProps) => {
 	const { user } = props;
-	const {
-		inputsState,
-		dispatch,
-		action,
-		isPending,
-		BUTTON_LABEL,
-		updateFormState,
-	} = useUpdateUserForm(user.id);
+	const { inputsState, dispatch, action, isPending, BUTTON_LABEL } =
+		useUpdateUserForm(user.id);
 
 	return (
 		<form action={action} className="flex flex-col gap-6">
 			<Image
 				src={user.imageUrl || "/avatar-placeholder.png"}
-				alt=""
+				alt={`${user.name} ${user.surname} profile picture`}
 				width={72}
 				height={72}
 				className="rounded-full"

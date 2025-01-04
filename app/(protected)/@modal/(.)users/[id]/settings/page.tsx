@@ -19,10 +19,14 @@ const Modal = dynamic(() =>
 export default async function UserSettingsPage() {
 	const CURRENT_USER = await getCurrentUser();
 
+	if (!CURRENT_USER) {
+		return null;
+	}
+
 	return (
 		<Suspense fallback={<ModalLoadingFallback />}>
 			<Modal title="User Settings">
-				<Tabs className="flex flex-col gap-2">
+				<Tabs className="flex flex-col gap-2" defaultValue="overview">
 					<TabsList>
 						<TabsTrigger value="overview" className="w-1/2">
 							Overview
@@ -36,9 +40,7 @@ export default async function UserSettingsPage() {
 						</TabsTrigger>
 					</TabsList>
 					<TabsContent value="overview">
-						{CURRENT_USER ? (
-							<UpdateUserForm user={CURRENT_USER} />
-						) : null}
+						<UpdateUserForm user={CURRENT_USER} />
 					</TabsContent>
 				</Tabs>
 			</Modal>

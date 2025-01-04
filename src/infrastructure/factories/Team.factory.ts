@@ -4,7 +4,7 @@ import { PrismaTeamRepository } from "../repositories/prisma.team.repository";
 import { DeleteTeamUseCase } from "@/src/application/use-cases/team/delete-team.use-case";
 import { UpdateTeamUseCase } from "@/src/application/use-cases/team/update-team.use-case";
 import { FindTeamByIdUseCase } from "@/src/application/use-cases/team/find-team-by-id.use-case";
-import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members";
+import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members.use-case";
 import { GetUserTeamsUseCase } from "@/src/application/use-cases/team/get-user-teams-with-members.use-case";
 import { GetUserTeamsCountUseCase } from "@/src/application/use-cases/team/get-user-teams-count.use-case";
 import { PrismaTeamMemberRepository } from "../repositories/prisma.team-member.repository";

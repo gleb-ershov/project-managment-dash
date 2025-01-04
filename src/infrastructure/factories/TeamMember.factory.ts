@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/db";
 import { PrismaTeamRepository } from "../repositories/prisma.team.repository";
-import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members";
+import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members.use-case";
 import { PrismaTeamMemberRepository } from "../repositories/prisma.team-member.repository";
 import { TeamMemberService } from "@/src/application/services/team-member.service";
 

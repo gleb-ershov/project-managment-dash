@@ -3,6 +3,9 @@ import { getProjectById } from "@/src/application/queries/project/get-project-by
 import { ProjectStatus } from "@prisma/client";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
+import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
+import { Suspense } from "react";
+import { FormLoadingFallback } from "@/src/presentation/components/shared/form-loading-fallback";
 
 const Modal = dynamic(() =>
 	import("@/src/presentation/components/shared/modal").then(
@@ -34,20 +37,24 @@ export default async function EditProjectPage({
 	};
 
 	return (
-		<Suspense fallback={<ModalLoadingFallback />}></Suspense>
-		<Modal title="Update project">
-			{CURRENT_PROJECT.data && !CURRENT_PROJECT.error ? (
-				<CreateProjectForm
-					mode="update"
-					projectId={id}
-					initialState={UPDATE_FORM_INITIAL_STATE}
-				/>
-			) : (
-				<div>
-					<span>{CURRENT_PROJECT.error?.name}</span>
-					<span>{CURRENT_PROJECT.error?.message}</span>
-				</div>
-			)}
-		</Modal>
+		<Suspense fallback={<ModalLoadingFallback />}>
+			<Modal title="Update project" redirectPath={`/projects/${id}`}>
+				{CURRENT_PROJECT.data && !CURRENT_PROJECT.error ? (
+										<Suspense fallback={<FormLoadingFallback/>}>
+					
+					<CreateProjectForm
+						mode="update"
+						projectId={id}
+						initialState={UPDATE_FORM_INITIAL_STATE}
+					/>
+					</Suspense>
+				) : (
+					<div>
+						<span>{CURRENT_PROJECT.error?.name}</span>
+						<span>{CURRENT_PROJECT.error?.message}</span>
+					</div>
+				)}
+			</Modal>
+		</Suspense>
 	);
 }

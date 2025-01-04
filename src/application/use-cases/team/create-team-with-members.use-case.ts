@@ -18,7 +18,7 @@ export class CreateTeamWithMembersUseCase {
 	) {}
 
 	async execute(data: CreateTeamDTO, creatorId: string): Promise<TeamEntity> {
-		return this.prisma.$transaction(async (tx) => {
+		return await this.prisma.$transaction(async (tx) => {
 			try {
 				if (data.name.length === 0) {
 					throw new ValidationError("Team's name can not be empty");
@@ -30,22 +30,27 @@ export class CreateTeamWithMembersUseCase {
 				});
 
 				const createdTeam = await this.teamRepository.create(team, tx);
-
 				const creatorMember = TeamMemberEntity.create({
 					teamId: createdTeam.id,
 					userId: creatorId,
 					role: "ADMIN",
 				});
 
-				await this.teamMemberRepository.create(creatorMember, tx);
-
+				const b = await this.teamMemberRepository.create(
+					creatorMember,
+					tx
+				);
 				if (!data.membersIds || data.membersIds?.length === 0) {
 					throw new ValidationError(
 						"Cannot pass an empty ids for members"
 					);
 				}
 
-				const memberPromises = data.membersIds.map((memberId) => {
+				const membersWithoutCreator = data.membersIds.filter(
+					(id) => id !== creatorId
+				);
+
+				const memberPromises = membersWithoutCreator.map((memberId) => {
 					const teamMember = TeamMemberEntity.create({
 						teamId: createdTeam.id,
 						userId: memberId,
@@ -54,8 +59,7 @@ export class CreateTeamWithMembersUseCase {
 					return this.teamMemberRepository.create(teamMember, tx);
 				});
 
-				const r = await Promise.all(memberPromises);
-				console.log(r, "PROMSUS");
+				await Promise.all(memberPromises);
 				return new TeamEntity(
 					createdTeam.id,
 					createdTeam.name,

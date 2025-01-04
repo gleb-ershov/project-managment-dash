@@ -10,6 +10,7 @@ import { OverviewPageTeamsList } from "@/src/presentation/components/team/lists/
 import { getUserLatestTasks } from "@/src/application/queries/task/get-latest-tasks";
 import Link from "next/link";
 import { toast } from "sonner";
+import { Spinner } from "@/src/presentation/components/shared/spinner";
 
 export default async function OverviewPage(props: {
 	searchParams?: Promise<{
@@ -50,6 +51,7 @@ export default async function OverviewPage(props: {
 					<OverviewPageProjectsListWrapper {...PROJECT_FILTERS} />
 				</main>
 			</div>
+
 			<div className="ml-auto w-[22%] border-l-[1px] border-[#eeeeeeee] dark:border-[#555556a8]">
 				<section className="mx-auto mt-6 flex w-[90%] flex-col gap-4">
 					<h5 className="text-gray-700">Tasks by day</h5>

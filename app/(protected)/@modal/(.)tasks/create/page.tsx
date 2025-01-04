@@ -1,3 +1,4 @@
+import { FormLoadingFallback } from "@/src/presentation/components/shared/form-loading-fallback";
 import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -17,8 +18,11 @@ const CreateTaskForm = dynamic(() =>
 export default function CreateTaskPage() {
 	return (
 		<Suspense fallback={<ModalLoadingFallback />}>
-			<Modal title="Create New Task">
+			<Modal title="Create New Task" redirectPath={`/`}>
+								<Suspense fallback={<FormLoadingFallback />}>
+			
 				<CreateTaskForm />
+			</Suspense>
 			</Modal>
 		</Suspense>
 	);

@@ -16,7 +16,7 @@ interface ShareButtonProps {
 export const ShareButton = memo(
 	({
 		className,
-		url = window.location.href,
+		url = window.location.href || "",
 		title = "Check this out!",
 		disabled = false,
 		size = "md",

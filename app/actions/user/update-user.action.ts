@@ -1,37 +1,37 @@
 "use server";
 
-import { ValidationError } from "@/src/domain/errors/application.error";
-import { ZodError } from "zod";
 import { Container } from "@/src/infrastructure/container/container";
 import { UserViewModel } from "@/src/application/view-models/user.view-model";
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { queryErrorHandler } from "@/src/application/helpers/query-error-handler";
+import { QueryResponse } from "@/src/application/types/query-response";
+import { querySuccessHandler } from "@/src/application/helpers/query-success-handler";
 
-export const updateUser = async (
+export const updateUserAction = async (
 	id: string,
 	currentState: unknown,
 	formState: FormData
-): Promise<UserViewModel> => {
+): Promise<QueryResponse<UserViewModel>> => {
 	try {
 		const userService = Container.getInstance().resolve("UserService");
 
 		const name = formState.get("name") as string;
 		const surname = formState.get("surname") as string;
 		const email = formState.get("email") as string;
-		const password = formState.get("password") as string;
 		const description = formState.get("description") as string;
 
 		const newUserData = {
 			...(name.length > 0 && { name }),
 			...(surname.length > 0 && { surname }),
 			...(email.length > 0 && { email }),
-			...(password.length > 0 && { password }),
 			...(description.length > 0 && { description }),
 		};
 
-		const updatedUser = await userService.updateUser(id, newUserData);
-		revalidatePath(`/users/${id}`);
-		return updatedUser;
+		const user = await userService.updateUser(id, newUserData);
+		return querySuccessHandler(user);
 	} catch (error) {
-		throw error;
+		return queryErrorHandler(error);
+	} finally {
+		redirect(`/users/${id}`);
 	}
 };

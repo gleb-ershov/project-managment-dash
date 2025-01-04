@@ -1,4 +1,4 @@
-import { useAuth } from "@/src/presentation/hooks/auth/use-auth";
+"use client";
 import { cn } from "@/src/presentation/utils/cn";
 import Link, { LinkProps } from "next/link";
 
@@ -10,6 +10,7 @@ interface UserSettingsButtonProps extends Partial<LinkProps> {
 
 export const UserSettingsButton = (props: UserSettingsButtonProps) => {
 	const { userId, className, currentUserId } = props;
+	
 	return (
 		<>
 			{currentUserId === userId ? (

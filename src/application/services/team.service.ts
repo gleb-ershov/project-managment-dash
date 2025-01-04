@@ -1,5 +1,5 @@
 import { UpdateTeamUseCase } from "./../use-cases/team/update-team.use-case";
-import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members";
+import { CreateTeamWithMembersUseCase } from "@/src/application/use-cases/team/create-team-with-members.use-case";
 import { TeamMapper } from "../mappers/team.mapper";
 import { GetUserTeamsCountUseCase } from "../use-cases/team/get-user-teams-count.use-case";
 import { GetUserTeamsUseCase } from "../use-cases/team/get-user-teams-with-members.use-case";

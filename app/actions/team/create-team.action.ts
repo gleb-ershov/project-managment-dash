@@ -18,13 +18,11 @@ export const createTeamAction = async (
 		const teamService = Container.getInstance().resolve("TeamService");
 
 		const members = parseMultipleValues(formData.get("members") as string);
-
 		const payload: CreateTeamDTO = {
 			name: formData.get("name") as string,
 			description: formData.get("description") as string,
 			membersIds: members,
 		};
-
 		const team = await teamService.createTeamWithMembers(payload, userId);
 		revalidatePath("/");
 		return querySuccessHandler(team);

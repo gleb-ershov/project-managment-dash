@@ -1,3 +1,4 @@
+import { FormLoadingFallback } from "@/src/presentation/components/shared/form-loading-fallback";
 import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -23,8 +24,11 @@ export default async function AddTaskMemberPage({
 
 	return (
 		<Suspense fallback={<ModalLoadingFallback />}>
-			<Modal>
+			<Modal title="Add members" redirectPath={`/tasks/${TASK_ID}`}>
+								<Suspense fallback={<FormLoadingFallback />}>
+			
 				<AddMembersForm entity="task" entityId={TASK_ID} />
+				</Suspense>
 			</Modal>
 		</Suspense>
 	);

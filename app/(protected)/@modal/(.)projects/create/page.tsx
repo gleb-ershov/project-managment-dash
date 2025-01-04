@@ -1,4 +1,7 @@
+import { FormLoadingFallback } from "@/src/presentation/components/shared/form-loading-fallback";
+import { ModalLoadingFallback } from "@/src/presentation/components/shared/modal-loading-fallback";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 const Modal = dynamic(() =>
 	import("@/src/presentation/components/shared/modal").then(
@@ -14,9 +17,12 @@ const CreateProjectForm = dynamic(() =>
 
 export default function CreateProjectPage() {
 	return (
-		<Suspense fallback={<ModalLoadingFallback />}></Suspense>
-		<Modal title="Create New Project">
-			<CreateProjectForm />
-		</Modal>
+		<Suspense fallback={<ModalLoadingFallback />}>
+			<Modal title="Create New Project" redirectPath="/projects">
+				<Suspense fallback={<FormLoadingFallback />}>
+					<CreateProjectForm />
+				</Suspense>
+			</Modal>
+		</Suspense>
 	);
 }

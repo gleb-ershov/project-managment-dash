@@ -32,7 +32,7 @@ export const CreateTeamForm = (props: CreateTeamFormProps) => {
 		formError,
 		formAction,
 	} = useTeamForm(mode, teamId, onSuccess);
-	useEffect(() => console.log(formState), [formState]);
+	useEffect(() => console.log("TEAM FORM STATE", formState), [formState]);
 	return (
 		<form action={formAction} className="w-[320px] space-y-4 mx-auto">
 			<Label htmlFor="create_team_form--name">Team name</Label>

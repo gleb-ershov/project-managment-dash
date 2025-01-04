@@ -8,6 +8,17 @@ interface SharedEntityListCardProps {
 	type: "project" | "task" | "team";
 }
 
+export const SharedEntityListCardSkeleton = () => {
+	return (
+		<span
+			className="hover:text-white duration-300 text-sm
+					py-2 px-4 text-center text-gray-200 rounded-lg dark:bg-[#2b2b31] w-[90%] mx-auto"
+		>
+			<span className="animate-pulse">Loading...</span>
+		</span>
+	);
+};
+
 export const SharedEntityListCard = (props: SharedEntityListCardProps) => {
 	const { entity, type } = props;
 	const CARD_TITLE = "name" in entity ? entity.name : entity.title;

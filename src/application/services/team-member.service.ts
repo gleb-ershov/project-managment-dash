@@ -1,8 +1,14 @@
-import { CreateTeamWithMembersUseCase } from "../use-cases/team/create-team-with-members";
+import { CreateTeamWithMembersUseCase } from "../use-cases/team/create-team-with-members.use-case";
 import { CreateTeamDTO } from "../dtos/team.dto";
 import { TeamViewModel } from "../view-models/team.view-model";
 import { TeamMapper } from "../mappers/team.mapper";
-import { DatabaseError, DuplicateError, InternalServerError, NotFoundError, ValidationError } from "@/src/domain/errors/application.error";
+import {
+	DatabaseError,
+	DuplicateError,
+	InternalServerError,
+	NotFoundError,
+	ValidationError,
+} from "@/src/domain/errors/application.error";
 import { BaseError } from "@/src/domain/errors/base.error";
 
 export class TeamMemberService {
