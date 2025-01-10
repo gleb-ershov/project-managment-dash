@@ -3,7 +3,6 @@ import "./globals.css";
 import { getTheme } from "@/lib/utils/theme";
 import { ThemeProvider } from "@/src/presentation/providers/theme-provider";
 import { Poppins } from "next/font/google";
-import { ErrorBoundaryProvider } from "@/src/presentation/providers/error-boundary-provider";
 
 const font = Poppins({
 	weight: ["300", "400", "500", "600", "700"],
@@ -22,12 +21,10 @@ export default async function RootLayout({
 }>) {
 	const theme = await getTheme();
 	return (
-		// <ErrorBoundaryProvider>
 		<html lang="en">
 			<body className={`${font.className} antialiased`}>
 				<ThemeProvider defaultTheme={theme}>{children}</ThemeProvider>
 			</body>
 		</html>
-		// </ErrorBoundaryProvider>
 	);
 }

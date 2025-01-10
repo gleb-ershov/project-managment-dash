@@ -95,7 +95,7 @@ export const UserStatsContainer = memo(
 
 		return (
 			<div
-				className="w-full sm:w-full sm:mx-auto xl:w-1/3 flex flex-col gap-3 sm:gap-4 
+				className="w-full sm:w-full xl:w-1/3 flex flex-col gap-3 sm:gap-4 
                       transition-all duration-300 ease-in-out"
 			>
 				{STAT_CARDS_CONFIG.map((config) => (
